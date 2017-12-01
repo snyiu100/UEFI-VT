@@ -1,7 +1,7 @@
 # UEFI-VT
 A VirusTotal-esque UEFI analysis tool
 
-#Progress
+##Progress
 Weekly Goal:
 - Read up on project background
 - Set up general environment
