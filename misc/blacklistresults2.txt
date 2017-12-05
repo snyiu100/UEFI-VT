@@ -1,0 +1,646 @@
+==> Uses efilist.json
+################################################################
+##                                                            ##
+##  CHIPSEC: Platform Hardware Security Assessment Framework  ##
+##                                                            ##
+################################################################
+[CHIPSEC] Version 1.3.5
+[CHIPSEC] Arguments: -i -m tools.uefi.blacklist -a C:\Users\User\Downloads\sample.ROM,C:\Users\User\Downloads\chipsec-1.3.5\chipsec-1.3.5\efilist.json
+[*] Ignoring unsupported platform warning and continue execution
+
+WARNING: *******************************************************************
+WARNING: Chipsec should only be used on test systems!
+WARNING: It should not be installed/deployed on production end-user systems.
+WARNING: See WARNING.txt
+WARNING: *******************************************************************
+
+[CHIPSEC] API mode: using CHIPSEC kernel module API
+ERROR: Unsupported Platform: VID = 0x8086, DID = 0x7190
+ERROR: Platform is not supported (Unsupported Platform: VID = 0x8086, DID = 0x7190).
+WARNING: Platform dependent functionality is likely to be incorrect
+[CHIPSEC] OS      : Windows 10 10.0.15063 AMD64
+[CHIPSEC] Platform: UnknownPlatform
+[CHIPSEC]      VID: 8086
+[CHIPSEC]      DID: 7190
+ 
+[+] loaded chipsec.modules.tools.uefi.blacklist
+[*] running loaded modules ..
+
+[*] running module: chipsec.modules.tools.uefi.blacklist
+[*] Module arguments (2):
+['C:\\Users\\User\\Downloads\\sample.ROM', 'C:\\Users\\User\\Downloads\\chipsec-1.3.5\\chipsec-1.3.5\\efilist.json']
+[x][ =======================================================================
+[x][ Module: Check for black-listed EFI binaries in UEFI firmware
+[x][ =======================================================================
+
+Usage:
+
+    chipsec_main.py -i -m tools.uefi.blacklist [-a <fw_image>,<blacklist>]
+
+      fw_image  : Full file path to UEFI firmware image
+                  If not specified, the module will dump firmware image directly from ROM
+      blacklist : JSON file with configuration of black-listed EFI binaries (default = blacklist.json)
+                  Config file should be located in the same directory as this module
+    
+Examples:
+
+    chipsec_main.py -m tools.uefi.blacklist 
+
+      Dumps UEFI firmware image from flash memory device, decodes it and
+      checks for black-listed EFI modules defined in the default config 'blacklist.json'
+
+    chipsec_main.py -i --no_driver -m tools.uefi.blacklist -a uefi.rom,blacklist.json
+
+      Decodes 'uefi.rom' binary with UEFI firmware image and
+      checks for black-listed EFI modules defined in 'blacklist.json' config
+
+Important! This module can only detect what it knows about from its config file.
+If a bad or vulnerable binary is not detected then its 'signature' needs to be added to the config.
+
+[*] reading FW image from file: C:\Users\User\Downloads\sample.ROM
+[*] searching for EFI binaries that match criteria from 'C:\Users\User\Downloads\chipsec-1.3.5\chipsec-1.3.5\efilist.json':
+    a46f96b6eaab8afaf9bf5b5fb55a521425919370e7ae173845a280b9ad9404f8 - 
+    a2625ecfe24afc7b3483609d6724676aa0aa1e7065519bdcf9d0bc0d6b2c5f9f - 
+    e3d2096424791666c2a886ce88b827c543ffb3a8e9651d8206cbe41a11b08f6a - 
+    f17a6a2de876f65f92bd1dc0997564d8f4e8638bf2755b27acc1f24a8f94b419 - 
+    7bd0fb426ca05d91586ea8d261a0ac30b3d37c4a57416b7e4e202176180cb295 - 
+    ea5082f64c0be69967a9c05b1266c98dcef67eeb680280c6fb99783f86ef807e - 
+    6d53c734ecca0526fb7287862c35e43d34d1f9ce22c0417acdda21f21332ffc8 - 
+    deb93cb843d12ad9af05809b60a5ae765c2b2f10152ba80e52251cc337a53033 - 
+    7a1954a176a419d494f25776d5f1cfd60716f542afb9b7e486cf9dc257a0e8f0 - 
+    9a7665547395d7cd1561857f2af2d6ca555c11999182a57421be15a273ba780d - 
+    b3feadd10194151373baaa07f475dcc5fff4d1f9e494b9b6d8f12e5c6031253a - 
+    940043dce26a1ac40953035325bfe2d00da34d715ded957c53037971b6c2a7f3 - 
+    edad18be05867ee0d54bf98432c8acd69ef6e9feb37c50d305bb6c0775666e97 - 
+    4cbc47076cd2ea60b2cddbaf6bfd26bdf33ab895ccfabfa28a2ffd6505de1a15 - 
+    aca1e3438807ec3a7fba5edfff57c2184c08dbc2615d5d5b5a8f540694c139bc - 
+    55f72c68f8e64d404ddb9e16752ecc10988cd51b40ca48c37e7a478f94cb5798 - 
+    16a704374905258b6120e903e3d8db38aec4185c4a7fc2c07f2ea225d4a878ec - 
+    3574c5e1d76cc46a318583250e66694fbb13631a16f780511bf6a67f73267211 - 
+    3672f1ab42490e944a03962581d0c4424c5fda5d223b116ce618b7a2bc83077c - 
+    854d5d155d79a26bb3282b7f9f447df112693d9a93f34a228ab486357585e2ad - 
+    f70ebe91617fe9778d3b14158141cf964acd49295f531965640e1dfc4020e305 - 
+    873603894d392af1f0b9a9b0f06ba8d8d461aac792c8cbb505534b522e21020c - 
+    2b6adbda86d4386ed9470ea8a9b1be29cbb1d8287b9f7003c1d16ef84dff5502 - 
+    c4a71ac24b71b80212c0c4056c51cbf8194de6041a6994c16f2db45544b2fd96 - 
+    0e67ccbb667f2bcb575d6b332e5a95b9af9064c14b94bde9387ed284ef36c8a2 - 
+    458c1be272218fa3fc394f0c8d04809aadd0df0ed367e5a377bfa72647791527 - 
+    b9fc9b0f39a79012fbad9ecb1aa69c89eb636f48142e290c50e1da562b164192 - 
+    71f336fb13e946456990f46d76f8b9e930d049007d3d428359bd3738713716a0 - 
+    67f739acf18dc82c7b502a3d65e02ec8ea462f4e7c6bc650d9a16e0f3a10b31a - 
+    a97af1cf0814df2f66b540f889833417fae1485938173b55c16e39e0d91d46f1 - 
+    1b788757db019538b381ac8229dbe248d9174af1422e8e417b5bbecc880c62c2 - 
+    ca39422dc4443d0c33bc096cbabc64d670c2bfa7cdc1fb5209322043774300f3 - 
+    48173e57e6a046a926aec470f06d4b53548001a7adba4c4f43b47c34da25b892 - 
+    e59ee24e9c4f69409466b9db936b389b2f31a4ecec89301695311e3acfba6f3c - 
+    308f6d216a5f2c28853caf2b210280d7d5168f5738489bd99ed1fd9bd9a95053 - 
+    06f4d8f9099274bf6218511b5b55f3303cc792e9b05c3a7d0cdae24f35a99eba - 
+    1849973e1b5784b3e45cff87fc1b15105a2bf64edfda9be4d65c7801e6a6050b - 
+    0d8bb2487c7f6bb67168ff21a3024d8f9f3e0dc87877af087c22ad57198569dd - 
+    976797fa119c2d45401fc43b66bbc542eab870389a81060bad2b79bc86e5d10f - 
+    102f1156e842d1b5d49a50fbc34a7811f789d7e95183ecae66a0e3d4ff869663 - 
+    db31508b2af3294f73989328849263315e3ba26f884245214382b1b68292ec87 - 
+    696310f6d4515a864217c4fc99d6aa9190e635765c5ec91754561713eb9e4117 - 
+    99914d6d15f338a683df73e1b3ad93327119a4c609477d52bc406ff681f269fc - 
+    5aaf8d7e039692e059a6426f6b0b58f5c626950480586b1fe744b51b92e145b9 - 
+    7ddf76f7a57ec85f9afb84601e108b125f9daa8b78c9e5b9a9fb25c58f06ea1b - 
+    0ea240b0bbc42c3e74033241ad3e30464a3080b8633894af0715473c538eab63 - 
+    e481ad9a7b456e136a4b8802d25259efa1fcbf736ab919662bd8ce21d6b9a5f9 - 
+    58768ada44862287510d7995feda6bb8509f44ca8a0159141287d964918d3acc - 
+    599c74e9e11f420d5af0e56f24e4078e86b12223bed6544d95ec955fae21f3e7 - 
+    dd0df55346b2b939f4252ba381400c7fe396d234265326647341914eed8755e4 - 
+    e0afe6701aa756b9e2df78d9478529c12bc3e4d50fe631f3d39ead37936b1fc6 - 
+    f5e47a9942c32c017289519d34f673cbda3d31b8903f197977246fbb7f56f347 - 
+    3534fb22975df63685cca67a6638b641556480a2779d3b86ef0f721e94c55f53 - 
+    f0e579456015f377587f4bbc78743f225a46c642c317e8789623dd6e0b34b34b - 
+    acb3986bb94d2ce0dcb0db531a898607a7d9e42ea79b2441154343e94167036e - 
+    bca42179615e92b2ece8462510e0e67474007122b14f211d9d2ac3e908015195 - 
+    ebc34a98a96624fcc36406ecebf046e163ba40eb3fb91472f41446991be121d4 - 
+    3fc9314d7245a6c44467a31871551fee0d4b893007d2ee858d18effb2bf4ef11 - 
+    6edfa7376eb7cffe4d5df49a9953e967bbcb8a43863d8e7ede2f0a18213c1837 - 
+    c4a3764d765add52fc6c243ea182aa7aa7e4fd34637d0299a2eec27ed505576d - 
+    c4ae6a58bc0a35124c2a8ed05fc7bddf99f250b3d30fdbf4264b4c1b17b9ab56 - 
+    f87539fd92ebd958bdb93304e5cbe0bfceca0083c054f864e0aa07027efb4f3b - 
+    e733779d67cfd08d5758a072a40e8d92e98bfc6376e5fcc87a78da5caf45f1b9 - 
+    dc5fc8b25e49f69de2ae08dea53a5a717c9b600c473b0ebe07884dbe51152bf9 - 
+    0e9693dcdaa704d8a8948e60d148fd910acfd4a7f1af86977e1420e8076979b5 - 
+    5a7a2a8a910b6effb2af97f240faa557cf382f23eb32c393ad30e0f5fef17ebd - 
+    9a5fec552d47f51b89a5dae7ffa7424ab78b20265fff71b7e26324e0faa01d05 - 
+    89693763cf92d31912f63aaea9e1170439e65fdea3f237f295a7125cc420e1b2 - 
+    4f3426f475cf4dcfa081b4cee9850e2e939762cc6ae9f1ef05a676593c2ccaac - 
+    ce6e3cfe481a8f6dc0c58e1da5e819d18bc2907718e980a56c7925cbb0640851 - 
+    bb6c8988b53fa9b50b94f0d394c21b7dda07d9ae1a33ab79c062a756efa09316 - 
+    5e5dc89674c96e46670a4a99459c2cab32d07009f2a2c0fdd0271dcded783a8d - 
+    a61c76a95fd1e7f941c307de1e568388ea3a0e79b56a4ed769c901dcdf47af09 - 
+    ccda4089a1e9e43c663ec83329e70a8697e5f0e3fd0d055a94136798e20e1371 - 
+    1211a1801ef0480b620442de6bed9060b0cc25881ba100b02cf071eb21e83889 - 
+    5cd9e75ae9324844119cab9eecc5eda0877f473576da9b7027b19b7847201f3b - 
+    505bb87bbdfbf318b2e2d24ce449d1d8f92b1b9ac3a189cf1266b1db5e228993 - 
+    7e43cbad18e7faad980590f80762183474e316b949790ad1bffcb19cae34ef59 - 
+    055ba7f1b984a3368b8d84e1deecea6bcefc9400ebb30c3f2dc27df31c0074d1 - 
+    0053d298019735a5d11ec5a2b74e22654c6b33d0674b1f24a2351179c9dbb0a3 - 
+    3da97e3b0c283bab314d5fedf71630abeb486dc38475ac57e195f6b829304161 - 
+    0d9912d03d9ff8c5ab1ab7ce2834838334d2715c5c7650c91c7a293ec886d8f2 - 
+    f6460a0beab6a6205c901b04910eb89c61147c921043cec2925e2180e7aa9f1a - 
+    c9dc5e1ff0c7ac5c59e26c381c617c4e8a34797645302941e07b68ebeaa05fd0 - 
+    fae51cc33c4b185bd4f59077e3ff3f1aaafac389bf6ce800ea9434cd7d73e642 - 
+    98f2e5e5b3ded48a9886e31656f89a986e9579aa2ce5910151ce2ce408fe7422 - 
+    90cf72542a95a246496a525451f847c8b563f6d8724729ee09b272479487e851 - 
+    8505fc8687d98edfc12a0dcfe6d2ae2be37bfd888078c3c8e8983e7475f1da79 - 
+    fdbfa544faaa26835059e92f5053dd71342c78d3b505fa91f4be07113f7930ca - 
+    bf1eb19b89859b6d9b6d499ae037718f619559a6d77783e322c1b3ed62be958a - 
+    59e11ef7a1ad04f1d5fea8715f5878b2f8398fb6d5f2ca46732ef4369f200071 - 
+    9959a37f1c39e5662d3bee3e34e5a94e61958e24c6a08d724ba2dd141a42b12b - 
+    9dd8a984b8cf6efec5292228321f8837065c93cedaf79c47072d218e3530e884 - 
+    dad3a5dd5746fe2bec4433e7628fc4c550d95dd050f14b2320f144fbe6ac64fd - 
+    57e9a76b022d63d3f4460d8bc86bfed498b6e3887eded55a47cee51a0aa602fb - 
+    dfcd73375d3a684f467ad4430ce3e6c8f9e5a1af9a48013b8fb21c5107c103ca - 
+    b332041385d5961822c4df61fa6b7efebfe4a2a48408816e9109cc24cc87a4b6 - 
+    270caea09cb68987bcd0d1248454ac24ab6f0b5ad7af436212d05b7a46c22aa8 - 
+    c5af04d753ae475987085d49512d09845d49d5b47044d39bf5ae4cbbda119d0d - 
+    f40fae0bfc740901853210709afcdf7542b0593bd98cbfb826da4adde18c44c5 - 
+    15db9087a5cc137f2a91d6178936a6ff1659a3abb65c1f006e255658cdf51ab9 - 
+    2937a097b1664cd0a0418042cb12f3c45aaf9500eacc7dc8f6ad87e47c21c845 - 
+    5fc271b47b3d33b68caf1c4d586350cb1d31fe21ad64ed990a0cbc079fbec4f3 - 
+    9dca6130303d382c1254f2c2a86d530743b54971db7b03a4d318a7a412e6441e - 
+    88419158d4c5a2bde1514afb8dcbeb3d91dd92f415af2db99903a843ad373dd5 - 
+    a8919f21e4f58f7e8b9ed6bd838f26588096a96b9e8c58d49f5e18e3836f6cb2 - 
+    b6038a1d58634329adc307402f9f5e9a4c054dddf791c4998d7c45fff280a0bb - 
+    88a8fe0e253491476dc01788fdb7968cb0b726f42a86562862d68505f3610691 - 
+    3b26b6b465b2a13e2f5b123bb12c1aa0f903f29dcbcad4cef0aefba0fa17f8c3 - 
+    12b5553ef50ce3db5459ee1711a622b5f1440662ac3249a85bc28bfa25e07d1a - 
+    d42c5892983c1a8f551529455b10947cb2669010906e6a3d42aebc4814e75b26 - 
+    ef88731b5f37cfdab1aa2fdd29d0b6750a8172fcb018a301c564594d5648a26f - 
+    e8b6fb823eff3b26c3f7cdf8bd01a5776de0d6a74a2bd47cb2bd5e1a3ed6d7fe - 
+    69dcbbb2afd8373bbe45992315a0bb1d73dc4963a049a2dc843ff87500fc3f8c - 
+    4e6e9056c9763f975b67bd61e2e75e9a4014ed250ceed6d27f5274085436e758 - 
+    59ff3091a4b45670384f3a7faa50b143969d01687b2a07ef43294d69590bc6fd - 
+    0f065b098f704b3afdfed866abe5552deeca38706f8709b3fb56e6116b5de16d - 
+    2e521bdbff5ded9de4a98d9fc154da65a7ad1b0ee1a8db22a0ca02f37c796add - 
+    c4205991530c81143e7879b2684b4e85d24c6b5afdc32268e83093452a448368 - 
+    9e18f41bee7c01312bb6387da173bbdefb80c09d25a6ab94ac3ba6dedf538d8a - 
+    35e3f70f2ffe5eeb8cd04b488133909c03edb22d0287c6008ea1003527425b06 - 
+    b425dd736704a1a930dde6e1c99232eb456f73390080456f0a8552d276a8af26 - 
+    a2fedc35a3735f9e52a12147cbada865a9804514d26d0fd72fae24b9b1a3af43 - 
+    40a140a0c3ead93ce4eecaebdc10b9589c46d5182405c494381b7d894f8c3002 - 
+    50f8e57e05d41960426c2486ebe1e9bc57f5f2bff2763b5a1793c6913c305b72 - 
+    4a2dd79b9d1b5658aac756a9cbfb71b46eab7174fe7639112397b1f27f275cfe - 
+    6f848854b9ffc2cbe882dd5cd0a0f1d9d07d8bf48c8a2459064347b686ff0056 - 
+    3aaa6eb8b474c58ef6e4c0b30b8d4b4610ec135ef23928abc4b669e9525131be - 
+    7d38b5af39c82c1357320078fef2b1bf0566153c94cf40dfec68b8dc65747417 - 
+    bfa65e1b7b1ecd6c2e76a8580d9029dd9ebfcf207e0d25a03345eb0eedbcd89b - 
+    9ed7f0bd37fe146e933ebf86435ceae63628f8e4b10e1b598e58b655d7dc9924 - 
+    55550a8c5b5c83f420766fc2682b7a5f4edd8f479dcb96731d8be5ef1716baca - 
+    5a52abc23cbc973250c320652711cc38afe4cc84903b128903ec159a0f13634a - 
+    2dbf67b2b7030101ac9a1a064f3ba44668a001cd6e4f91bdfdfeee5fe9dfda28 - 
+    c57a481b4658eb2145baa230d7e5bcc1a93d983c397420bf6d1653012ceaa9c0 - 
+    e0d5df1664ddaea2b2f98a3dda625c30fe177f930f372bac563682cdfe2af14e - 
+    f2f33bb9709de4622bdf2f859cfaa7ca23c714a107d39a8e963069c7c97a4150 - 
+    deb29b83c74e640188d94fd682254d3cf4f1bed5fe742ca3dc0c0154cb8d23a6 - 
+    ad268ba08678692f083cb0942437de00c8aed3d24bfe8082f623f693aee95054 - 
+    be7431be4a059c19349cd4413e051c0a367e309fe7a6cacfe751c51170000ab6 - 
+    877b144afcef30cf9cbae87d2962b10636de7485fd01be933019f57c1beffb72 - 
+    0a38d4f5cea0dde9031e0b21f96a175d67794c9e545db94865769e7b219d7320 - 
+    ccf45ee684eba6d3175958c6158b0693829a0da3637a8d0af7b2cc546dff1b58 - 
+    026fc50bcd76cab8037427a11fc046aa6dd8828771b59882763de43c469a5904 - 
+    f075ff51f241017847c8137dad3747c71fe2bc3d08bf8b27fafd0f8366d0c639 - 
+    5daee9710161a481e75b92e92095d107ede8a6fc8776cdb0f43fa73e927899b4 - 
+    89d75413906e86b2a7fa95651ca3013d63623822f67eddbe5b735293c128427f - 
+    69779002007b954c9918ec89b35ff388ec1d87ecee3589257d0e32b9dd11a7da - 
+    9b359f37142a2c733293784db09ae6c299c381d32bab13525e0e39c1118daa06 - 
+    a5c779eaf82225bbcebcaa68b5ef23e2339f987486aac13109e5cf780d09702d - 
+    31d19991124c655ca0b6cb87b9103b33bad35f326cde17a0322c0f17ee7514ab - 
+    8baf1bb07c19e6e03f0dcec52c3b50945ff77c71f7864eca3a0665cf438a9c9d - 
+    4b7ee02fd66f726ad5f9865e4040e35d306552a32b4c1535b6eb9f2dd7452d18 - 
+    20428248649cbb02eeb7375ec6eb694c12795a7c38cfedecd5c110590dc38348 - 
+    89d8673ac81fb9de8f7a018eed51ac95f2a1bc76e14970ae1603a72f9962b936 - 
+    a5398a50a02025744442d35e0345b6de4ae5d62536ba566320beed9ef2fb5355 - 
+    00e81b31ad626a5238a0f05d03e92d2a363909c602f0b187e53c0a0bafa06f05 - 
+    c7196f2a21775008bca1cd45e9bb0a2445522b82ce246f95d477ebca59440eea - 
+    07fe2524e100f40927d295988ecb15e682299abc4e9218b51694c0f20a778d35 - 
+    393291bf38d3ea25925a6e43e5b92e5d4941f1d7345b5dbc40d2caac61f08e21 - 
+    83c4e00395a020b15e886b3bf6aea73ecf63766728723827188858b91894da5e - 
+    2ef7f6c120cd7ba762b8dc2134f3b5a4a04f62ee9a9bd6e3e92e6e5b88551237 - 
+    1ab4e9b8859536064dd3a409670c87ecd4db4ff018c01852255bfb1f8274d77d - 
+    433d7597f55abbadd12a00208a2889c17bb47c4402cae984ff4fc83e7e8d526d - 
+    4a0a552722bac547a7a2de8601763c6bbe922c4e0e0cc256b1b675e42d5ee895 - 
+    406e6cb70cf70cc108ed726a9b526690680403461bfb01cb9f678a838d3726da - 
+    c5eafd783b80b9f5c8a20812aefccfb58214a9dbeb4fdd0177cc5d697602b624 - 
+    9fad5fa7e84441324c94fe3ed2c66c09106111b8e45b4ac0c40b1847446ccbb7 - 
+    ff6849d820cd90f1455b6a3ac1c08765ed259504324d2a7eccce031bec17d8ac - 
+    df58f82e64ebc1d9ecb1229167d3b913e5f55756ad48848deae23d3a2eae85b4 - 
+    42d1ea71bc138a27ed2b8742f9d5ee4a9c7cffa93a8cb488859367695f5fb72f - 
+    92b02ee346313b9b7767679c2225b7b28c1c5de2ecbda0de86bc9a91be1c42b8 - 
+    3433c06679eca17e4673e378551bc0f02773e61d35300d3fafbbbd6d8c581fa9 - 
+    f831c50d7f5bd941899c8fdf9b2e9fe53e07209d8b2e2445c25ab9ad6722015b - 
+    3fb850aaa2c91f16f431e6c25d4a3599102e2060c3f8c03bf533c4f261a9755f - 
+    b89baf13036c481caac2c8c14fe3dc2f57d43f719be0b0262eb99e2df80a76fe - 
+    f8129324c763c6c5411f25b75b82013901bc741540b7a60d6cbbfde4244a133b - 
+    34ece54fd3ee3298a700a304c294f3c2686a87a2ff8584a30d56206f97966aeb - 
+    af5ac23168e70033f0b3bab61d719b891e63288b05716b6508f73b188177ecc3 - 
+    168878135eba3faf80ccf8253db19cc0894668ddcd1b7c2dd3d5f9844e46f553 - 
+    e50f8d13125a7b4d0e65fdc9c5a4241708155d2999a0577ed36533a9d2b7f4be - 
+    6495e2fa640933c3a62a2299ca5abda4995a6ff744c1c5c475045b86101c5cdc - 
+    0905691599f9ef39b176e2c6cde2b4cfb01646702c3270b15af5c5f32bf5b4e4 - 
+    9bb4f262a27f73400fbc069910ef7a2ebbe2b5b6ab15bdc09f8a47b4e017e233 - 
+    e4da5faea9b38ac376e41255456d9e6de57925918c71268364276daec43c45e3 - 
+    b215589da989f5902f107d4362a58e7e52ec48cead5d3a54525a407e84267a3c - 
+    dca3ac4b7b122d93d588e6fcf6970c8e9c247513a52deae9867db378a25ccdd6 - 
+    aacd1d9ae3b146baa11b826266514e4ceea82028499a1c2b408fce86d8f60aec - 
+    24d0c38be8fd7da1d2e9795ccf7190d66c032384a493980000eec07906bdd7a5 - 
+    6a11156b1cb6f48fb89a19b7f7a3bb76dd16ebf2fb71cd99f182c843db582354 - 
+    0a1a19a8409b461e6c847f7dc0582bba4e82a0b8cb6ebd47e4e8b4ec867aa9ba - 
+    a5583b0cb7c94e5b3285ae40f8a890cb694aeb0109089f01de3951f7aac080b9 - 
+    710e72b5be1ec6438ecbb681a95bb36b5f5a40bef41483a2a54137edcde5510d - 
+    cdfbc6662bf752dbdbe94ca4de6ec7e8ea05aaa699e460b92d88eb89d2e9a20f - 
+    f127c0bd849ea7ec7d9d8743a33737b948002f16583bbaa342052bd3a5714229 - 
+    6bebccef0662792e919b99394028b03334a666c17d40e237c9d6cee0651f0ef6 - 
+    703348037ac4a00eaceefac5412bdd73236640fc5c817c600a6c7af73690a1af - 
+    27651268d560947a5e1a58a4f44fcd7e14b927f13ab886034f7c641030423f61 - 
+    55784ece8a7053720112c492636ebf77990c1266aed90d7acb2f3dfed4ee9f7c - 
+    cb701e8fd241fa71351b7ed041b929c4ba4bf898bf0f601544c5acd58100777e - 
+    eec212ed3d36eb0def97d2eec4497def9d1ad08a7ac2ed07c5814b7e6a9669ca - 
+    8a46c5577e3204e7adce4b72a5b3861a85c06cdfb767c550f5ac64b1be58d4db - 
+    f85b7ed8c5baa68cdc25ea1daee27514febada169e57ceceb6b25c39959bd870 - 
+    7101320f51d745e754471a50b1c530f60fea085fce2531bc8641909df55d9e30 - 
+    5adba6b9ad607cb603e5f4ec8956aab2998afe4a13ce1c3fb352950275e339e7 - 
+    48d28842bf57a980f405e5fca573fff5204832d3e9100833092cf7ee254775d9 - 
+    b8b641348df2b0b70284b14ebad71faf1e6a6b5488ba01bff9ac07a2b99e95a7 - 
+    291210e873f7fcda08564d65dd8d7d689f29ca67f96a2917e7db9bf1bba755a4 - 
+    86ec161d906d2720366459bfa3e1ccad581696d759dc94b4771dea99931e6b23 - 
+    dd49601f5cb412141f96476e0a6c8d8f331440c16119303ba27f7506c8a74305 - 
+    60591a1b2b57a91e8ee74b961bed77cc4ba996cee18e326b52bb3397a3dd834b - 
+    d2a4efba8a575cd4d21f6469715858feeeb28e2b997948602d1e2c015e10ed09 - 
+    ee584af3723ae507cf07e1627c76ef69857f64d57af38ee10a5060d0d8ee911f - 
+    3c15415b112d349706d395fa32efa766494ff746d16faf4914b92d79e22028ca - 
+    7df3b9f7a9cdfca77c29d02f9d8a670f891654de8d0dd700243b34864768a05e - 
+    3e99be7f9e7bf130986a913a75961ed15ebfb516b7da57337d4167d6c119937f - 
+    ac8d3cf7f5bf838176fbd7f8f0276bc37e6def05175204f610d67d5d85e11036 - 
+    e50c3f987ca29086a02bc35d18e38c2e6f9eadc75deab12562d40216a7063ad2 - 
+    4bb99a9b34545b839659449b29a7da3082aa10ac19895a7d613ad34c0e3b0883 - 
+    7cbfade442066eb58c6a71c6362ac75786aefb4894153018f45f23c54258eda3 - 
+    a384b571d56bf2223fac620d9d7941b4271c35061016d6b1c0c7874bb7bca89e - 
+    090de07fb7fa6d219d89008f4f3862c15ee62fe533d86a1b70a9c19d742121b0 - 
+    08233d53719dea6968d0229077ae61948099cd944ea619fb2642a6a831af847a - 
+    50619edcc5422c8514eb3bf9825122e95ed0aa83a0c1613766d1689484967b74 - 
+    2d66ffabe184f903b2970fb5b0af95ab5781d76f6f731ebeabc9dfce103ddd1a - 
+    443760e6a1ef1e1ee6b51b2056a2457cd8572aca2054ae0d118a0b42df440525 - 
+    ddfcda499f9108d8701cf3929fe2155f60afb461380ed7f04d6dac928e283998 - 
+    3fc92b150a64a55727e2acaf8c5dd531968a049127739a1045c5d4ad61b1eb2b - 
+    87058f2327b47159af8f3529cd32d6847372ec2f2d06d74d6d2aebede6a2044d - 
+    d20fd15255a45d369c0492fc09ab99becf4d6c17ce2455c96ae867e1a20a23a8 - 
+    95b580997082fab18d4dcb9fd73f6f52d0db18f233f57aec45fe08b2d3f27064 - 
+    b342e41a2513093d78144d9967fa58ed296e42a4a01c678c2b1dd6c8a30e46c6 - 
+    0523a9c43d6678ad58333c626b6012a7dfc6f54dbf3ea277e723ea4543ea3996 - 
+    80c93ea01e8ba95988efced751c9a0e339124c5b9c0374701fb0eb0399ce9c82 - 
+    9f30b8f229bfd55d4ee8fe29a2e2c88cb34809feb4ba6371b63c3209467fab2f - 
+    b22ade982b747484e711d41ae25d24d8ee9dff3504c1366d653bb5d411e48d7c - 
+    c5ebbf9b2493f92762c08d23def3d856deac1d38c6f3ce9fa05e5001423250d2 - 
+    0bb42ca1bc92ad40608a468ac977bad4f9e1836531fc557cae6cc9b12c3a3dcc - 
+    7dbab69b2ca1c5fc677e1dabfba341dee08ed4705a38ca1197beb60a4e30b38a - 
+    a26d455becce201cf8b4315ea32f1f8725a054f51933f13a5c503d64666f546e - 
+    1610b4cd6c999cd6d4407ff87a8e4ad770c719208cea6d90340f200f153cc8ee - 
+    730c198ad1b25289de7e7ff70fed0b9e029255f0f2840baff2d53f55b760cd06 - 
+    c1a955cc33205b34fc46481ce71eb711aa3c843eaa8e8c9774e26f00cd5cee00 - 
+    573a17ca7fb9a0c6fbabf0537aa9d7e78bf8deaae0c3be3b20ec65fa3a8de5f0 - 
+    2a0bc32f3359c2cd2d5cd32c1dcb561670e2318a4995eef6469b99e9ae736d76 - 
+    50f58cb25d30a825caed4cfbc4b2ad9f89eb7c8a6ee20e15660df12108bac2f6 - 
+    f34389f78e08ad2839726996b3e2560c8100912f61344030f4b14bee7a97cb4e - 
+    ac894c3e77b8e3a5680b62765c0551d2023d6d35e9ae6634fc8f8070ca879f01 - 
+    845b8a9bb6f76a4d4b3d5f1ba49d3d814301a4752862d77216e7f21aaaf22588 - 
+    51796cd6879c65bf970fed640c14848a58e39de2cb544f04fb41fb4ff1dc1b47 - 
+    6376f3a136d7382d8c8efa9d09ce49377d09b67c92781c296fb8acbf7cb644ea - 
+    7619d5135962d826f87f06f8eb17476daca1bf0d4a9843503c46db4c260dfc66 - 
+    beb25ae3e73156cbbbbd8e6ee049c6c711ff31c7d809fb58badc61aeb7085c18 - 
+    63d06183e2f26d46447f2847894bc06d56e8002e2cfe4f8daf8cc5610306f032 - 
+    a4da5c8699b919ccc24cc6514495bcbdd598c942f6ce7779ab76b30f11a0d800 - 
+    d3c2f25a870ccf4480d93d7745f0b6bc585486a72053012f511ee129449799db - 
+    2c7314c03f7bb94ea386f665dbd9e59e2ce6d2bf3c69109ed1a7414e7521d58e - 
+    f385e85277aae8c9112169ff075c9449f0962352760e3fb8fa5699cc4454858b - 
+    759ee7da400580cff14c9d6957c96b31d0c6ec3a0b0fc87878838e9a864a4724 - 
+    9d1bed325672ddc0a7207810139753bc5c89cbc996cd39e52b4bc667fba00053 - 
+    d6c3cc177c94cb73417e7ee8fb614d47dcd4b622810cfaa18bf75543144298d4 - 
+    d98686295b528c611f743f9b42a17b35ba2d97d3b5ad7f2aef73bb10bf2e4a45 - 
+    5d51da182e34e442d22101b3e010866134d6ec6c8456a9624b74c949e09cb770 - 
+    a663d3bd1e08705b4ae193a2415a969ba8cf1ce63d76125a1af62e4164035293 - 
+    8c72e0a0045403fec5d9858f604f4a128ac590c4465a00b7bca289d7d1a34de4 - 
+    59e3d66eaada3857d7019867b4d7c9e2b8cb5e56846de8decd9b72fbc46c9a0b - 
+    3e9eef0c00b267ede2572069c3c2409f6b57e7442c8ad1e7ab33d2144ee590be - 
+    e5c0b775c52917de7e1d84fc7864e8bdad11354e97e589ae3fcf8db5baecae83 - 
+    3a1e59d973dc5371cb2cf57e850973898e4731004b2811bb7f519ea0056908ad - 
+    efccfe1944e8bf16feecddbec16bf9c88dad76eab0c56869bef4fa8fc9dabe58 - 
+    3b39009be9a14054ab8cf31ba5744b4f088801b12d7db8b1a81bc63a319ac502 - 
+    fee8353c229e7345c6aa7960f4b0fb601bc7bf1a7c9cfff740d23a982ef13b12 - 
+    42f38fbaff11da3de885736672ba6f2148d04879076f049a50678f79839d68c9 - 
+    8b218e73e90f8d253b894d7d9cce328b438599a57502ec4d4695da88eccd37b5 - 
+    5a2d1c1076829ea82c9eac85d8b620ea7a42287d1b2957ba1fa3d6fb2e9a5db4 - 
+    025309c9b01f0473b44a18696959f5b7aa8581403a8d9ad6f244b4662a1846dc - 
+    f03311be6055315f6b92443950889b12d0cbfbfaf7713af50dd25e85f43faff9 - 
+    79864fc9c969424bf582ec0cea4c461d13a68ec1aee7396864519e23e68f0610 - 
+    c759f6b1e1c89788506a85f4e1a10152929e2bd34d700d270f40f3caf20d06ef - 
+    51f2bb8f81cdec8e52b971dea34f6e9636647b8f763c8f0febe66fc70fd7965f - 
+    3f10010dc1b10fd04797abd727e414a744536165c5d437cc846a8d4afc3fe711 - 
+    5ca77b5f99b4d50ba1522ef407e343a868ea151c879d0ea08280928eb351dc1e - 
+    64477c779ba513b8021870dd63bb78d5f939bd63be5bd9e5782d12d0c9bc0f84 - 
+    598d7f303dd91096483a5bf71a7c643e925a5168706a64bd63f77775ede96f70 - 
+    5cbf643cabb12f1e2fd264ab30e74db62ae3163e60f885e16e0440a473c19a86 - 
+    a2af663f272ec2498a60e6765c572bc025a4bdb7e92672bfd9a712f07b58579c - 
+[uefi] checking S_PE32 section of binary {5C266089-E103-4D43-9AB5-12D7095BE2AF} IntelSaGopDriver
+[uefi] checking S_PE32 section of binary {5BBA83E6-F027-4CA7-BFD0-16358CC9E123} IntelGopDriver
+[uefi] checking S_PE32 section of binary {5007A40E-A5E0-44F7-86AE-662F9A91DA26} FvOnFv2Thunk
+[uefi] checking S_PE32 section of binary {BE9BE8AE-EBBB-450F-962C-BE1938E3FEF9} F2AndCorrectPassClear0199
+[uefi] checking S_PE32 section of binary {F906298D-0DDD-4B8C-8575-D052809FBE76} AssetIDInit
+[uefi] checking S_PE32 section of binary {6FF958B1-118A-425A-BD63-4510542DF9B8} LBBRecovery1
+[uefi] checking S_PE32 section of binary {0127B951-E840-480A-A083-087A9AE17353} LNVSmiSetVariableControl
+[uefi] checking S_PE32 section of binary {E03ABADF-E536-4E88-B3A0-B77F78EB34FE} CpuDxe
+[uefi] checking S_PE32 section of binary {87261FD4-81EA-4EFF-9A06-553F4096CCBE} UefiDMBM
+[uefi] checking S_PE32 section of binary {714BC501-2EF3-41C0-ADD7-F18120A9FE7C} AssetIdSecureBoot
+[uefi] checking S_PE32 section of binary {93022F8C-1F09-47EF-BBB2-5814FF609DF5} FileSystem
+[uefi] checking S_PE32 section of binary {5AE3F37E-4EAE-41AE-8240-35465B5E81EB} CORE_DXE
+[uefi] checking S_PE32 section of binary {CBC59C4A-383A-41EB-A8EE-4498AEA567E4} Runtime
+[uefi] checking S_PE32 section of binary {D771275B-07B1-4706-9F4A-D99A2B672A44} PrepareVariableFlag
+[uefi] checking S_PE32 section of binary {52A5421E-B165-426E-858D-D2E18BEA3F7E} SetupChecksum
+[uefi] checking S_PE32 section of binary {62389E4F-5E20-442C-9403-B077ACA81C71} UpdateRomHoleData
+[uefi] checking S_PE32 section of binary {3A18A5AF-F25B-42EE-8606-8D30A974916B} LenovoPassword
+[uefi] checking S_PE32 section of binary {E247DFC7-A8C3-4A5F-96B3-EA29307357D7} LBBRecovery2
+[uefi] checking S_PE32 section of binary {70E1A818-0BE1-4449-BFD4-9EF68C7F02A8} ReFlash
+[uefi] checking S_PE32 section of binary {3C1DE39F-D207-408A-AACC-731CFB7F1DD7} PciBus
+[uefi] checking S_PE32 section of binary {9F3A0016-AE55-4288-829D-D22FD344C347} AmiBoardInfo
+[uefi] checking S_PE32 section of binary {13AC6DD0-73D0-11D4-B06B-00AA00BD6DE7} EBC
+[uefi] checking S_PE32 section of binary {62D171CB-78CD-4480-8678-C6A2A797A8DE} CpuInitDxe
+[uefi] checking S_PE32 section of binary {F7731B4C-58A2-4DF4-8980-5645D39ECE58} PowerMgmtDxe
+[uefi] checking S_PE32 section of binary {8F0B5301-C79B-44F1-8FD3-26D73E316700} PowerMgmtS3
+[uefi] checking S_PE32 section of binary {15B9B6DA-00A9-4DE7-B8E8-ED7AFB88F16E} CpuPolicyDxe
+[uefi] checking S_PE32 section of binary {77A6009E-116E-464D-8EF8-B35201A022DD} DigitalThermalSensorSmm
+[uefi] checking S_PE32 section of binary {FF917E22-A228-448D-BDAA-68EFCCDDA5D3} TxtDxe
+[uefi] checking S_PE32 section of binary {67791E00-0C05-4AE7-A921-FC4057221653} TxtOneTouchDxe
+[uefi] checking S_PE32 section of binary {F3331DE6-4A55-44E4-B767-7453F7A1A021} MicrocodeUpdate
+[uefi] checking S_PE32 section of binary {116E1ACF-2533-4CC2-820A-BBC10A2AB07C} CpuSpSMI
+[uefi] checking S_PE32 section of binary {87D402CD-8B07-4B93-B38B-F8799F28B033} AmiTxtDxe
+[uefi] checking S_PE32 section of binary {B7D19491-E55A-470D-8508-85A5DFA41974} SBDXE
+[uefi] checking S_PE32 section of binary {E23F86E1-056E-4888-B685-CFCD67C179D4} SBRun
+[uefi] checking S_PE32 section of binary {753630C9-FAE5-47A9-BBBF-88D621CD7282} SmmChildDispatcher
+[uefi] checking S_PE32 section of binary {E53734A3-E594-4C25-B1A2-081445650F7F} SmmChildDispatcher2
+[uefi] checking S_PE32 section of binary {750890A6-7ACF-4F4F-81BD-B400C2BEA95A} AcpiModeEnable
+[uefi] checking S_PE32 section of binary {6298FE18-D5EF-42B7-BB0C-2953283F5704} SleepSmi
+[uefi] checking S_PE32 section of binary {7B8DB049-C7C7-4D3B-809F-926DEE47CCA2} SBSMI
+[uefi] checking S_PE32 section of binary {B716A6F8-F3A1-4B8E-8582-5A303F1CDD64} PchSpiWrap
+[uefi] checking S_PE32 section of binary {CE366D33-B057-4C03-8561-CAF17738B66F} WdtAppDxe
+[uefi] checking S_PE32 section of binary {F6A59595-BB9F-415B-A7F3-DC7C09387BE6} SmBusMemoryDown
+[uefi] checking S_PE32 section of binary {91B4D9C1-141C-4824-8D02-3C298E36EB3F} SataDriver
+[uefi] checking S_PE32 section of binary {BFD59D42-FE0F-4251-B772-4B098A1AEC85} ActiveBios
+[uefi] checking S_PE32 section of binary {2374EDDF-F203-4FC0-A20E-61BAD73089D6} IoTrap
+[uefi] checking S_PE32 section of binary {C1C418F9-591D-461C-82A2-B9CD96DFEA86} IntelLegacyInterrupt
+[uefi] checking S_PE32 section of binary {DE23ACEE-CF55-4FB6-AA77-984AB53DE823} PchInitDxe
+[uefi] checking S_PE32 section of binary {B0D6ED53-B844-43F5-BD2F-61095264E77E} PchSmiDispatcher
+[uefi] checking S_PE32 section of binary {ACAEAA7A-C039-4424-88DA-F42212EA0E55} PchPcieSmm
+[uefi] checking S_PE32 section of binary {BB1FBD4F-2E30-4793-9BED-74F672BC8FFE} PchReset
+[uefi] checking S_PE32 section of binary {08F2C63B-08DE-4CCD-8670-ACFE644A1C48} PchS3Support
+[uefi] checking S_PE32 section of binary {BB65942B-521F-4EC3-BAF9-A92540CF60D2} SataController
+[uefi] checking S_PE32 section of binary {FC1B7640-3466-4C06-B1CC-1C935394B5C2} PchSerialGpio
+[uefi] checking S_PE32 section of binary {90CB75DB-71FC-489D-AACF-943477EC7212} SmartTimer
+[uefi] checking S_PE32 section of binary {E052D8A6-224A-4C32-8D37-2E0AE162364D} PchSmbusDxe
+[uefi] checking S_PE32 section of binary {A0BAD9F7-AB78-491B-B583-C52B7F84B9E0} SmmControl
+[uefi] checking S_PE32 section of binary {27F4917B-A707-4AAD-9676-26DF168CBF0D} PchSpiSmm
+[uefi] checking S_PE32 section of binary {C194C6EA-B68C-4981-B64B-9BD271474B20} PchSpiRuntime
+[uefi] checking S_PE32 section of binary {59287178-59B2-49CA-BC63-532B12EA2C53} PchSmbusSmm
+[uefi] checking S_PE32 section of binary {5AAB83E5-F027-4CA7-BFD0-16358CC9E453} WdtDxe
+[uefi] checking S_PE32 section of binary {D7B10D4E-67E6-4C74-83E9-F9AF0ACC33CC} PchLateInitSmm
+[uefi] checking S_PE32 section of binary {BFBEDBD4-1B7E-42F5-A528-4351E860F120} S3SupportSmm
+[uefi] checking S_PE32 section of binary {E4ECD0B2-E277-4F2B-BECB-E4D75C9A812E} NBDXE
+[uefi] checking S_PE32 section of binary {D933DEDE-0260-4E76-A7D9-2F9F2440E5A5} NBSMI
+[uefi] checking S_PE32 section of binary {16271FCA-55D9-4A33-93FC-5A3EB128DE21} MiscSubclassDxe
+[uefi] checking S_PE32 section of binary {24CCD374-3DF6-4181-86F6-E3C66920A145} UpdateMemoryRecord
+[uefi] checking S_PE32 section of binary {FE6F8ACD-55A6-4C6B-B448-64E659DE94B3} LegacyRegion2
+[uefi] checking S_PE32 section of binary {8D6756B9-E55E-4D6A-A3A5-5E4D72DDF772} PciHostBridge
+[uefi] checking S_PE32 section of binary {EDA39402-F375-4496-92D3-83B43CB8A76A} SmBiosMemory
+[uefi] checking S_PE32 section of binary {1323C7F8-DAD5-4126-A54B-7A05FBF41515} SmmAccess
+[uefi] checking S_PE32 section of binary {DE23ACEE-CF55-4FB6-AA77-984AB53DE811} SaInitDxe
+[uefi] checking S_PE32 section of binary {2D1E361C-7B3F-4D15-8B1F-66E551FABDC7} SaLateInitSmm
+[uefi] checking S_PE32 section of binary {6DB9486F-6AF6-4090-984D-238482CE3EA4} BdatAccessHandler
+[uefi] checking S_PE32 section of binary {16D0A23E-C09C-407D-A14A-AD058FDD0CA1} ACPI
+[uefi] checking S_PE32 section of binary {26A2481E-4424-46A2-9943-CC4039EAD8F8} S3Save
+[uefi] checking S_PE32 section of binary {EFD652CC-0E99-40F0-96C0-E08C089070FC} S3Restore
+[uefi] checking S_PE32 section of binary {8F5A2E02-538C-4D59-B920-C4786ACBC552} AHCI
+[uefi] checking S_PE32 section of binary {67820532-7613-4DD3-9ED7-3D9BE3A7DA63} AINT13
+[uefi] checking S_PE32 section of binary {BC3245BD-B982-4F55-9F79-056AD7E987C5} AhciSmm
+[uefi] checking S_PE32 section of binary {70B8BACB-0B26-4048-A6F8-03A6AF2C5029} BootScriptHideSmm
+[uefi] checking S_PE32 section of binary {A570F393-B0F5-44A4-8550-61600597B409} BootScriptHideDxe
+[uefi] checking S_PE32 section of binary {6869C5B3-AC8D-4973-8B37-E354DBF34ADD} CmosManagerSmm
+[uefi] checking S_PE32 section of binary {20D8FFFE-15C3-4EA9-9D28-CFE2745D78F3} CryptoDxe
+[uefi] checking S_PE32 section of binary {9BA52737-7D71-4306-8B8E-60C90426E66A} GenericElog
+[uefi] checking S_PE32 section of binary {6C1962B6-921E-420B-ACFF-D7AEA03A08D0} SmbiosElog
+[uefi] checking S_PE32 section of binary {EE5F9C39-E782-487B-89AF-0DD4068BD4BF} DataHubErrorCollector
+[uefi] checking S_PE32 section of binary {DF4A6A65-3283-4BA5-90D7-EB08D0695C56} EventLogsSetupPage
+[uefi] checking S_PE32 section of binary {B1AED58A-C460-4887-93D7-5895041A075D} SmbiosElogSetupScreen
+[uefi] checking S_PE32 section of binary {32087F49-4202-4880-AF4F-C278B54BDCEF} SmiGpnv
+[uefi] checking S_PE32 section of binary {0365E9E2-A03E-49BE-8B2B-02B7E3AE953C} KeyMonFilter
+[uefi] checking S_PE32 section of binary {B7EE4835-84CE-4B15-BF52-2D11574CE470} HardwareSignatureManagement
+[uefi] checking S_PE32 section of binary {C07A1EB5-5C04-4100-817B-0A11BB5F15DC} CppcDxe
+[uefi] checking S_PE32 section of binary {4839023B-4C12-4EB2-B2B8-C91B42D878A0} IsctAcpi
+[uefi] checking S_PE32 section of binary {DBD5B6BA-6734-4C5D-BF53-2C210D93A012} IsctSmm
+[uefi] checking S_PE32 section of binary {3B24F79D-91A0-46FF-BE29-458AE211FAC5} KbcEmul
+[uefi] checking S_PE32 section of binary {A062CF1F-8473-4AA3-8793-600BC4FFE9A8} CSMCORE
+[uefi] checking S_PE32 section of binary {25ACF158-DD61-4E64-9A49-55851E9A26C7} BIOSBLKIO
+[uefi] checking S_PE32 section of binary {29CF55F8-B675-4F5D-8F2F-B87A3ECFD063} CsmVideo
+[uefi] checking S_PE32 section of binary {55E76644-78A5-4A82-A900-7126A5798892} HeciDxe
+[uefi] checking S_PE32 section of binary {921CD783-3E22-4579-A71F-00D74197FCC8} HeciSmm
+[uefi] checking S_PE32 section of binary {9A9A912B-5F53-4586-8820-704485A29D21} PlatformReset
+[uefi] checking S_PE32 section of binary {DF5CD25A-8E55-46BA-8CDA-BC7DB7BF9C64} MdesStatusCodeDxe
+[uefi] checking S_PE32 section of binary {5820EEB4-C135-4854-9D2A-AA9EFC4475E9} MeFwDowngrade
+[uefi] checking S_PE32 section of binary {C810485E-D0EC-4E98-AAB5-120C7E554428} AtAmDxe
+[uefi] checking S_PE32 section of binary {BA67550C-3628-4137-A53E-42660E081604} MePlatformPolicy
+[uefi] checking S_PE32 section of binary {459C70C3-9344-4484-9F93-7822530D0D11} MePciPlatform
+[uefi] checking S_PE32 section of binary {14257B56-BDA2-4FAF-8E4F-C885DF75583C} IccPlatform
+[uefi] checking S_PE32 section of binary {5BBA83E5-F027-4CA7-BFD0-16358CC9E123} IccOverClocking
+[uefi] checking S_PE32 section of binary {8E68E3C5-FC59-4280-8467-3800D31A8162} IccOverClocking9_5
+[uefi] checking S_PE32 section of binary {2B341C7B-0B32-4A65-9D46-E1B3ABD4C25C} Smbios131
+[uefi] checking S_PE32 section of binary {CA5E3DF0-940A-48F1-8C14-DB2FB5998B36} TdtWrapper
+[uefi] checking S_PE32 section of binary {D2BC3092-92BB-4B21-A26B-CE6F7C3E9857} AtAmUi
+[uefi] checking S_PE32 section of binary {BEA39084-044A-4C88-8763-2BFAFFA8950C} LTEB
+[uefi] checking S_PE32 section of binary {842A454A-75E5-408B-8B1C-36420E4E3F21} NvramSmi
+[uefi] checking S_PE32 section of binary {59AF16B0-661D-4865-A381-38DE68385D8D} OpalSecurity
+[uefi] checking S_PE32 section of binary {8B5FBABD-F51F-4942-BF16-16AAA38AE52B} AcpiPlatform
+[uefi] checking S_PE32 section of binary {1314216C-CB8D-421C-B854-06231386E642} PlatformInfo
+[uefi] checking S_PE32 section of binary {D7E31ECB-0A17-4529-9B84-C529DE8E1C0E} AcpiFvi
+[uefi] checking S_PE32 section of binary {B98999A4-E96F-475A-99FC-762126F50F5A} SMBIOSUpdateData
+[uefi] checking S_PE32 section of binary {2E3AB8B6-AC9D-4D70-A675-54F52FB22D66} AtaPassThru
+[uefi] checking S_PE32 section of binary {98A4CA0B-7FE1-48B0-B68D-23EB0E259C13} ScsiPassThruAtapi
+[uefi] checking S_PE32 section of binary {A95C1D60-CB9F-4BD8-A030-3F1C4A185156} SecureBootMod
+[uefi] checking S_PE32 section of binary {CD23D57B-3563-4007-B81C-B8DDB240FF56} LemSecureBoot
+[uefi] checking S_PE32 section of binary {A0EF80E3-F9AB-4CBA-98FD-704620F4048D} SecFlashUpdDxe
+[uefi] checking S_PE32 section of binary {3BF4AF16-AB7C-4B43-898D-AB26AC5DDC6C} SecSMIFlash
+[uefi] checking S_PE32 section of binary {4A37320B-3FB3-4365-9730-9E89C600395D} SmmDispatcher
+[uefi] checking S_PE32 section of binary {D0632C90-AFD7-4492-B186-257C63143C61} SmmBase
+[uefi] checking S_PE32 section of binary {CEF68C66-06AB-4FB3-A3ED-5FFA885B5725} SMBiosBoard
+[uefi] checking S_PE32 section of binary {B13EDD38-684C-41ED-A305-D7B7E32497DF} SMBios64
+[uefi] checking S_PE32 section of binary {DED7956D-7E20-4F20-91A1-190439B04D5B} SmbiosGetFlashData64
+[uefi] checking S_PE32 section of binary {E2A74738-8934-48F5-8412-99E948C8DC1B} SmbiosDMIEdit
+[uefi] checking S_PE32 section of binary {A02C17EB-76CD-4261-B528-1FA27B3C96B0} SWSMI_MarkerFlag
+[uefi] checking S_PE32 section of binary {BC327DBD-B982-4F55-9F79-056AD7E987C5} SMIFlash
+[uefi] checking S_PE32 section of binary {196CA3D8-9A5A-4735-B328-8FFC1D93D188} TcgPlatformSetupPolicy
+[uefi] checking S_PE32 section of binary {5E9CABA3-F2B1-497A-ADAC-24F575E9CDE9} TcgDxe
+[uefi] checking S_PE32 section of binary {2688B232-9C02-4C12-BE1F-857C0FF2AAE3} TcgDxeplatform
+[uefi] checking S_PE32 section of binary {FD93F9E1-3C73-46E0-B7B8-2BBA3F718F6C} TCGSmm
+[uefi] checking S_PE32 section of binary {858EBE6F-360F-415B-B7DC-463AAEB03412} TcgLegacy
+[uefi] checking S_PE32 section of binary {A29A63E3-E4E7-495F-8A6A-07738300CBB3} AmiTcgPlatformDxe
+[uefi] checking S_PE32 section of binary {50F6096D-7C98-4C78-9A1D-C5A1833B6A88} AmiTcgNvflagSample
+[uefi] checking S_PE32 section of binary {B1DA0ADF-4F77-4070-A88E-BFFE1C60529A} AMITSE
+[uefi] checking S_PE32 section of binary {580DD900-385D-11D7-883A-00500473D4EB} UHCD
+[uefi] checking S_PE32 section of binary {04EAAAA1-29A1-11D7-8838-00500473D4EB} USBRT
+[uefi] checking S_PE32 section of binary {4C006CD9-19BA-4617-8483-609194A1ACFC} USBINT13
+[uefi] checking S_PE32 section of binary {399CF3A7-82C7-4D9B-9123-DB11842986D3} DpcDxe
+[uefi] checking S_PE32 section of binary {8DD91798-EE87-4F0E-8A84-3F998311F930} ArpDxe
+[uefi] checking S_PE32 section of binary {3DD7A87B-D5BD-44AF-986F-2E13DB5D274C} SnpDxe
+[uefi] checking S_PE32 section of binary {C30B94E3-C8F2-4AB0-91AB-FA8DF621B1C9} MnpDxe
+[uefi] checking S_PE32 section of binary {0EF8A3B1-388A-4B62-8BE6-C7877D50AEDF} UefiPxeBcDxe
+[uefi] checking S_PE32 section of binary {0029DE6A-E024-4EB8-A91D-9F23AA1F4E92} NetworkStackSetupScreen
+[uefi] checking S_PE32 section of binary {B1625D3C-9D2D-4E0D-B864-8A763EE4EC50} TcpDxe
+[uefi] checking S_PE32 section of binary {8DD9176E-EE87-4F0E-8A84-3F998311F930} Dhcp4Dxe
+[uefi] checking S_PE32 section of binary {8F9296EF-2880-4659-B857-915A8901BDC8} Ip4ConfigDxe
+[uefi] checking S_PE32 section of binary {8F92960F-2880-4659-B857-915A8901BDC8} Ip4Dxe
+[uefi] checking S_PE32 section of binary {61AFA223-8AC8-4440-9AB5-762B1BF05156} Mtftp4Dxe
+[uefi] checking S_PE32 section of binary {10EE5462-B207-4A4F-ABD8-CB522ECAA3A4} Udp4Dxe
+[uefi] checking S_PE32 section of binary {8DD9176D-EE87-4F0E-8A84-3F998311F930} Dhcp6Dxe
+[uefi] checking S_PE32 section of binary {8F92960E-2880-4659-B857-915A8901BDC8} Ip6Dxe
+[uefi] checking S_PE32 section of binary {61AFA251-8AC8-4440-9AB5-762B1BF05156} Mtftp6Dxe
+[uefi] checking S_PE32 section of binary {10EE54AE-B207-4A4F-ABD8-CB522ECAA3A4} Udp6Dxe
+[uefi] checking S_PE32 section of binary {C7A7030C-C3D8-45EE-BED9-5D9E76762953} MouseDriver
+[uefi] checking S_PE32 section of binary {BFE205C9-5B17-4F8F-9375-89614AF8E199} OEMDXE
+[uefi] checking S_PE32 section of binary {5CC789A5-2C9C-414F-8F07-085FF1308101} HddProtocol
+[uefi] checking S_PE32 section of binary {B30A6285-819B-40C4-9AB7-501EF5E97503} ChangeHDPByMailBox
+[uefi] checking S_PE32 section of binary {532E79C4-82DD-4060-AD8A-4884E468CE2C} HddSec
+[uefi] checking S_PE32 section of binary {899407D7-99FE-43D8-9A21-79EC328CAC21} Setup
+[uefi] checking S_PE32 section of binary {CD84562C-6864-40A3-A081-C8D35E82B920} CspLibDxe
+[uefi] checking S_PE32 section of binary {16271FCA-55D9-4A33-93FC-5A3EB128DEB6} CRBDXE
+[uefi] checking S_PE32 section of binary {221F1D4F-034C-4BEA-B2BB-B7A9672B06D7} CRBSMI
+[uefi] checking S_PE32 section of binary {4E237F16-A68B-4F88-8940-FCF0C27BDABE} CMPCommonService
+[uefi] checking S_PE32 section of binary {34327CBD-1282-4F55-9F79-056AD7E987C5} LenovoServiceInSmm
+[uefi] checking S_PE32 section of binary {5E31BFD2-EA55-41E7-971E-E3336885D3A9} ImageForAssertID
+[uefi] checking S_PE32 section of binary {5AA4988B-561C-49B6-88CD-2B5516C66B14} LenovoBiosSwSmi
+[uefi] checking S_PE32 section of binary {6EA18CFF-4852-4205-A284-677802FA7863} LenovoServiceSwSmi
+[uefi] checking S_PE32 section of binary {CE181FF6-38D8-4442-81A2-F63F60E51C72} LenovoSpecialSwSmi
+[uefi] checking S_PE32 section of binary {B859281E-11FA-45A8-9109-1C3830A973BD} SWSMI_mfgdone
+[uefi] checking S_PE32 section of binary {F6C5CE3D-2668-402A-952E-270786150DFB} SWSMI_LRomHoleDataUpdate
+[uefi] checking S_PE32 section of binary {ACB58462-1693-4510-815A-DCB14E815446} OemBadgingSupport
+[uefi] checking S_PE32 section of binary {D364B7F5-1EB0-4D42-AF20-5E291F093568} SmbiosMFG
+[uefi] checking S_PE32 section of binary {23C03ADC-2315-4FED-8002-774906AFBBF6} SmbiosType24
+[uefi] checking S_PE32 section of binary {5F92B64B-5C94-405A-B33B-F69BB64BC574} SmbiosType3
+[uefi] checking S_PE32 section of binary {5F12344B-5C94-405A-B33B-F69BB64BC574} SmbiosType1
+[uefi] checking S_PE32 section of binary {EB742231-AA20-4A04-A879-89D80854B266} SmbiosType11
+[uefi] checking S_PE32 section of binary {82A82FC4-8F58-4927-BA3B-700EDC0AFFC5} PostScreenInfo
+[uefi] checking S_PE32 section of binary {94D02FCF-045C-45D3-B023-1A8B5CA5C70A} BIOSVer
+[uefi] checking S_PE32 section of binary {1BA0ADA4-526B-4F11-A9BD-3F83EE17EA30} CopyRight
+[uefi] checking S_PE32 section of binary {CEC0D748-7232-413B-BDC6-2ED84F5338BC} ErrorMessage
+[uefi] checking S_PE32 section of binary {E954B448-D428-49E3-81B6-4D37F5F02F62} ACPIUpdate
+[uefi] checking S_PE32 section of binary {DA97681C-A9E3-4209-A9D5-F9E98152F39A} ChassisIntrusion
+[uefi] checking S_PE32 section of binary {893732C3-EC16-4F7C-BE78-09308437D09B} HddS5HandlePart
+[uefi] checking S_PE32 section of binary {57589AD1-FFCB-41AA-AE77-A84F7C4BE421} HdpEraseApp
+[uefi] checking S_PE32 section of binary {536C9BEB-049B-1234-A064-A6E72870FE66} HdpSetupScreen
+[uefi] checking S_PE32 section of binary {37822773-0916-4003-B775-0299E1EAC785} ClearErrorLogSwSmi
+[uefi] checking S_PE32 section of binary {7DA31B9F-7C53-4877-88BD-8260E5774E0C} PostErrorCollect
+[uefi] checking S_PE32 section of binary {533AC901-A115-4806-9C4E-BD6D72C7ABDE} UpdateErrorInfo
+[uefi] checking S_PE32 section of binary {4C494E55-5849-5342-4554-544552212121} SlpSupport
+[uefi] checking S_PE32 section of binary {38C03ADC-2115-4FED-8002-714906AFBBF6} DMBM
+[uefi] checking S_PE32 section of binary {57E56594-CE95-46AD-9531-3C49310CA7CE} OFBD
+[uefi] checking S_PE32 section of binary {F9B1D2B2-1E92-4B53-9F36-25515B839B8B} StorePOP
+[uefi] checking S_PE32 section of binary {C348ED82-6EB9-4FFA-815E-3C49FA6939B6} WarmResetFlag
+[uefi] checking S_PE32 section of binary {8DCF10F1-7222-43D1-A82C-2545C8258D88} WarmResetFlagOS
+[uefi] checking S_PE32 section of binary {352BA017-285D-4570-A9B6-C849303C60F1} WakeUpInDXE
+[uefi] checking S_PE32 section of binary {C45FCBC2-EA27-4FB6-A24F-A4B4E0995435} HDDPreDelay
+[uefi] checking S_PE32 section of binary {F193C257-3CB5-4D90-A694-2E371082E116} UpdateSerial_NUM
+[uefi] checking S_PE32 section of binary {421B90F4-526A-40D1-A4E9-09678FCF0D6C} FloppyAutoDisable
+[uefi] checking S_PE32 section of binary {63AC070C-3738-4B59-9C22-D59FABC6ED21} VirDevice
+[uefi] checking S_PE32 section of binary {B1EE7CB1-5D00-467F-9E60-24CD8341937A} SetupLoadDefaultDXE
+[uefi] checking S_PE32 section of binary {47F229F9-C316-41A3-9F39-69EE22A4E8A8} LENEDU
+[uefi] checking S_PE32 section of binary {B0FC49FA-4F5F-4542-81C4-E54DB9592022} LNVRNR
+[uefi] checking S_PE32 section of binary {D65594F8-16C0-4BA7-97FB-A64516BE2589} OemExEntry
+[uefi] checking S_PE32 section of binary {DC2AA475-F939-48BB-9D74-7F2D629C1111} Computrace
+[uefi] checking S_PE32 section of binary {75189FA6-7BCF-4F4F-81BD-A4F1C3BEA95A} SmmComputrace
+[uefi] checking S_PE32 section of binary {E53485A0-3BF3-40D2-934B-3DB0FF405737} BdsComputrace
+[uefi] checking S_PE32 section of binary {5D1C5BFF-3B25-4983-9A33-D4691BB3E9A3} LuftSwSmi
+[uefi] checking S_PE32 section of binary {EB098808-8FC1-4FB1-AB66-26784633B745} LuftSys
+[uefi] checking S_PE32 section of binary {A25615E0-5EDC-4E49-A20A-4C26A7945ED8} MSDMTABLE
+[uefi] checking S_PE32 section of binary {10E88749-28D1-49A0-AC9E-0324E40211A8} WMISwSmi
+[uefi] checking S_PE32 section of binary {E0A3E7F7-5004-4FBA-94B8-CB3148EA298C} WMIPasswordSetting
+[uefi] checking S_PE32 section of binary {A9B700CF-019E-4D8B-A3A7-88E1EA01699E} IdeSecurity
+[uefi] checking S_PE32 section of binary {316B1230-0500-4592-8C09-EABA0FB6B07F} IDESMM
+[uefi] checking S_PE32 section of binary {F230002D-D310-4D55-8221-16E46BE4272D} LSecureFlash
+[uefi] checking S_PE32 section of binary {C3A8BCE3-EA66-4184-9D36-A27D3558033F} UPEK_FP
+[uefi] checking S_PE32 section of binary {9FAA80EE-21D1-4331-93F5-D6485689C53D} UPEK_FPSwSmi
+[uefi] checking S_PE32 section of binary {31AD1E44-9D60-4B15-B60E-8E70BE156323} UpekDrv
+[uefi] checking S_PE32 section of binary {8D4AB7ED-99B0-4389-84D4-557C449610DC} UsbVfs
+[uefi] checking S_PE32 section of binary {45D56AF0-A58F-4006-A715-D2B0D28AB8A3} EDUSmiInterface
+[uefi] checking S_PE32 section of binary {9B87A2DB-B0C6-4AD9-A79D-48DF7006BB37} UefiDMBMHooKInt13
+[uefi] checking S_PE32 section of binary {CAE6BBF4-7ECC-42E3-A839-F8D18704C91E} MutualAuthentication
+[uefi] checking S_PE32 section of binary {2ADDC097-5C4B-46C1-A404-CF62FBAED5F0} NetworkOffLineLocker
+[uefi] checking S_PE32 section of binary {7777375B-03AD-45E3-8B51-A23B59AE9772} NetworkOfflineLockerSmi
+[uefi] checking S_PE32 section of binary {D3EF85AB-DC87-4E82-9047-32F513E87871} Udp4CommunicationX64
+[uefi] checking S_PE32 section of binary {A24FEE8C-AB1D-4B84-8E74-5DB474D8FEA8} UefiDiagnostic
+[uefi] checking S_PE32 section of binary {019C52FD-9FA2-4FC8-B71E-57030C32608B} AssetIDRecoveryModeDxe
+[uefi] checking S_PE32 section of binary {4DDA8138-47CD-4019-9178-115003431B21} SWSMI_Shadow
+[uefi] checking S_PE32 section of binary {58C03ADC-2115-4FED-8002-714906AFBEF6} CmpBiosPost
+[uefi] checking S_PE32 section of binary {7AA4988B-561C-49B6-88CD-2B5516C66B24} CmpSwSmi
+[uefi] checking S_PE32 section of binary {4953F720-006D-41F5-990D-0AC7742ABB60} RtkUndiDxe
+[uefi] checking S_PE32 section of binary {2066554F-E100-4B33-9366-F6414584A00F} SMISmartFan
+[uefi] checking S_PE32 section of binary {EFD652CC-0E99-40F0-96C0-E08C089070FC} S3Restore
+[uefi] checking S_PE32 section of binary {CA9D8617-D652-403B-B6C5-BA47570116AD} TxtPei
+[uefi] checking S_PE32 section of binary {3B42EF57-16D3-44CB-8632-9FDB06B41451} MemoryInit
+[uefi] checking S_PE32 section of binary {8401A046-6F70-4505-8471-7015B40355E3} UsbBotPeim
+[uefi] checking S_PE32 section of binary {E008B434-0E73-440C-8612-A143F6A07BCB} Recovery
+[uefi] checking S_PE32 section of binary {0D1ED2F7-E92B-4562-92DD-5C82EC917EAE} CRBPEI
+[uefi] checking S_PE32 section of binary {1D88C542-9DF7-424A-AA90-02B61F286938} WdtPei
+[uefi] checking S_PE32 section of binary {92685943-D810-47FF-A112-CC8490776A1F} CORE_PEI
+[uefi] checking S_PE32 section of binary {01359D99-9446-456D-ADA4-50A711C03ADA} CpuInitPei
+[uefi] checking S_PE32 section of binary {C866BD71-7C79-4BF1-A93B-066B830D8F9A} CpuS3Peim
+[uefi] checking S_PE32 section of binary {0AC2D35D-1C77-1033-A6F8-7CA55DF7D0AA} CpuPolicyPei
+[uefi] checking S_PE32 section of binary {1555ACF3-BD07-4685-B668-A86945A4124D} CpuPeiBeforeMem
+[uefi] checking S_PE32 section of binary {2BB5AFA9-FF33-417B-8497-CB773C2B93BF} CpuPei
+[uefi] checking S_PE32 section of binary {C7D4BBCF-EB0A-4C91-BD8B-FCA99F28B011} AmiTxtPei
+[uefi] checking S_PE32 section of binary {F7D22BCA-1BCA-5591-CC8B-1CA98F2890FE} AmiCpuS3Pei
+[uefi] checking S_PE32 section of binary {C1FBD624-27EA-40D1-AA48-94C3DC5C7E0D} SBPEI
+[uefi] checking S_PE32 section of binary {83104BA3-FDC2-4577-9C42-4147666A3F59} ChassisIntrusionS3
+[uefi] checking S_PE32 section of binary {9EA28D33-0175-4788-BEA8-6950516030A5} SmBusPei
+[uefi] checking S_PE32 section of binary {0F69F6D7-0E4B-43A6-BFC2-6871694369B0} WdtAppPei
+[uefi] checking S_PE32 section of binary {FD236AE7-0791-48C4-B29E-29BDEEE1A838} PchInitPeim
+[uefi] checking S_PE32 section of binary {FF259F16-18D1-4298-8DD2-BD87FF2894A9} PchResetPeim
+[uefi] checking S_PE32 section of binary {271DD6F2-54CB-45E6-8585-8C923C1AC706} PchS3Peim
+[uefi] checking S_PE32 section of binary {643DF777-F312-42ED-81CC-1B1F57E18AD6} PchSmbusArpDisabled
+[uefi] checking S_PE32 section of binary {FF456B9C-0DC7-4682-9E92-0DE84B6E4067} PeiSmmControl
+[uefi] checking S_PE32 section of binary {AA652CB9-2D52-4624-9FAE-D4E58B67CA46} PchSpiPeim
+[uefi] checking S_PE32 section of binary {6B4FDBD2-47E1-4A09-BA8E-8E041F208B95} PchUsb
+[uefi] checking S_PE32 section of binary {79AA6086-035A-4AD9-A89A-A6D5AA27F0E2} NBPEI
+[uefi] checking S_PE32 section of binary {6ECFCE51-5724-450C-A38A-58553E954422} SmmAccessPeim
+[uefi] checking S_PE32 section of binary {FD236AE7-0791-48C4-B29E-29BDEEE1A811} SaInitPeim
+[uefi] checking S_PE32 section of binary {9B8A0C3A-5186-4B55-89F4-CAFDE613DAB1} BootScriptHidePei
+[uefi] checking S_PE32 section of binary {D6D2FBA6-EF60-4C38-A83E-6769814D23B0} CryptoPei
+[uefi] checking S_PE32 section of binary {0C3B7B59-28E5-4C99-85E5-D0116DBFAAF2} IsctWakeReason
+[uefi] checking S_PE32 section of binary {9CF30325-DC5C-4556-A8B0-74215C5F7FC4} HeciPei
+[uefi] checking S_PE32 section of binary {8C376010-2400-4D7D-B47B-9D851DF3C9D1} PchMeUma
+[uefi] checking S_PE32 section of binary {12C67BE1-AD2E-4F13-A95F-6EDC2C4392DE} MePeiPolicyInit
+[uefi] checking S_PE32 section of binary {08EFD15D-EC55-4023-B648-7BA40DF7D05D} PeiRamBoot
+[uefi] checking S_PE32 section of binary {83FA5AED-5171-4949-BDC9-0CBC9E123663} FwCapsuleRecoveryPPI
+[uefi] checking S_PE32 section of binary {0FE9DA53-043D-4265-A94D-FD77FEDE2EB4} TcgPlatformSetupPeiPolicy
+[uefi] checking S_PE32 section of binary {34989D8E-930A-4A95-AB04-2E6CFDFF6631} TcgPei
+[uefi] checking S_PE32 section of binary {12345678-930A-4A95-AB04-2E6CFDFF6631} TcgPeiAfterMem
+[uefi] checking S_PE32 section of binary {6B844C5B-6B75-42CA-8E8E-1CB94412B59B} TcgPeiplatform
+[uefi] checking S_PE32 section of binary {9B3F28D5-10A6-46C8-BA72-BD40B847A71A} AmiTcgPlatformPeiAfterMem
+[uefi] checking S_PE32 section of binary {E9312938-E56B-4614-A252-CF7D2F377E26} AmiTcgPlatformPeiBeforeMem
+[uefi] checking S_PE32 section of binary {9961153D-EF53-4945-B58B-CC32489717F1} CheckWakeUp
+[uefi] checking S_PE32 section of binary {547F9634-4929-4F0F-8F15-F1F626E5F3A9} AssetIdEEPROMDetect
+[uefi] checking S_PE32 section of binary {05524C26-1E5A-430C-9308-34861D44F59D} AssetIDRecoveryModePei
+[uefi] checking S_PE32 section of binary {FF2CE814-941F-45B5-86AC-DD015948A55E} AssetIdS3Lock
+[uefi] checking S_PE32 section of binary {1BA0062E-C779-4582-8566-336AE8F78F09} 
+
+[+] PASSED: Didn't find any black-listed EFI binary
+
+[CHIPSEC] ***************************  SUMMARY  ***************************
+[CHIPSEC] Time elapsed          6.031
+[CHIPSEC] Modules total         1
+[CHIPSEC] Modules failed to run 0:
+[CHIPSEC] Modules passed        1:
+[+] PASSED: chipsec.modules.tools.uefi.blacklist
+[CHIPSEC] Modules failed        0:
+[CHIPSEC] Modules with warnings 0:
+[CHIPSEC] Modules skipped 0:
+[CHIPSEC] *****************************************************************

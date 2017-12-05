@@ -11,6 +11,7 @@
     "debug": "~2.6.9",
     "express": "~4.15.5",
     "formidable": "^1.1.1",
+    "fs": "0.0.1-security",
     "hbs": "~4.0.1",
     "mongodb": "^2.2.33",
     "morgan": "~1.9.0",
