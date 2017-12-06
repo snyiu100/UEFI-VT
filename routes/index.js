@@ -1,13 +1,24 @@
 var express = require('express');
 var router = express.Router();
+var titleText;
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+  titleText = 'Home - UEFI-VT';
+  res.render('index', { title: titleText });
+  console.log(" ** Redirecting: " +titleText +" ** ");
+});
+
+router.get('/index', function(req, res, next) {
+  titleText = 'Home - UEFI-VT';
+  res.render('index', { title: titleText });
+  console.log(" ** Redirecting: " +titleText +" ** ");
 });
 
 router.get('/demo', function(req, res, next) {
-  res.render('demo', { title: 'Demo Page' });
+  titleText = 'Demo - UEFI-VT';
+  res.render('demo', { title: titleText });
+  console.log(" ** Redirecting: " +titleText +" ** ");  
 });
 
 module.exports = router;
