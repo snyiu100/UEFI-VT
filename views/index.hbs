@@ -1,74 +1,43 @@
 <div id="header">
     <h1>UEFI - VT</h1>
     <h2>A VirusTotal-esque UEFI analyser</h2>
+    <p>Upload a UEFI (.rom) file:</p>
 </div>
 
 <br><br>
 
 <div id="main">
-    <p>Upload a UEFI (.rom) file:</p>
+    <!--
+        http://shiya.io/simple-file-upload-with-express-js-and-formidable-in-node-js/
+        https://coligo.io/building-ajax-file-uploader-with-node/ 
+    -->
 
-
-    http://shiya.io/simple-file-upload-with-express-js-and-formidable-in-node-js/
     <form action="/" enctype="multipart/form-data" method="post">
-        <input type="file" name="upload" multiple>
-        <input type="submit" value="Upload">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <span class="glyphicon glyphicon-cloud-upload"></span>
+                            <h2>File Uploader</h2>
+                            <div class="progress">
+                            <div class="progress-bar" role="progressbar"></div>
+                            </div>
+                            <input class="btn btn-lg upload-btn" type="button" value="Upload File">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <input id="upload-input" type="file" name="upload">
     </form>
-
-
-<!-- 
-https://coligo.io/building-ajax-file-uploader-with-node/ 
-    <div class="container">
-        <div class="row">
-            <div class="col-xs-12">
-                <div class="panel panel-default">
-                    <div class="panel-body">
-                        <span class="glyphicon glyphicon-cloud-upload"></span>
-                        <h2>File Uploader</h2>
-                        <h4>coligo.io</h4>
-                        <div class="progress">
-                        <div class="progress-bar" role="progressbar"></div>
-                        </div>
-                        <button class="btn btn-lg upload-btn" type="button">Upload File</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-  <input id="upload-input" type="file" name="uploads[]" multiple="multiple"></br>
-  //multiple attribute allows the user to select multiple files from the file picker dialog at once. You can change it to allow only one file at a time by removing that attribute
--->
-
-
-
-<!-- combi of above
-<form action="/" enctype="multipart/form-data" method="post">
- <div class="container">
-        <div class="row">
-            <div class="col-xs-12">
-                <div class="panel panel-default">
-                    <div class="panel-body">
-                        <span class="glyphicon glyphicon-cloud-upload"></span>
-                        <h2>File Uploader</h2>
-                        <h4>coligo.io</h4>
-                        <div class="progress">
-                        <div class="progress-bar" role="progressbar"></div>
-                        </div>
-                        <input class="btn btn-lg upload-btn" type="submit" value="Upload File">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-        
-    <input id="upload-input" type="file" name="upload" multiple>
-</form>
--->
-
 
 </div>
 
+<div id = "fileResults"></div>
+
 <script src="js/upload.js"></script>
+<script src="js/index.js"></script>
 
 
 
