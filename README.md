@@ -11,10 +11,14 @@ Tasks Done (last updated 8/12/17):
 - Tested chipsec [W1,2]
 - General DB structure (https://tinyurl.com/uefivtdb) [W2]
 - General upload function [W2]
-- Completed upload function, works well [W2]
-    - Able to upload files (tested with .txt files)
-    - Able to read the uploaded file
-    - WIP: CSS Styling of page
+- Completion of UI [W2]
+    - Able to upload files
+    - Able to read & print the uploaded file
+        - Tested only with .txt files
+    - Future work:
+        - Add download file function
+        - Ensure newlines are detected and printed
+        - Change logic to upload .rom file and print .txt analysis file
 
 Future Tasks:
 - analyse chipsec results (found in /misc)
