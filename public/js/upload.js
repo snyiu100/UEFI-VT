@@ -1,9 +1,12 @@
-  //https://coligo.io/building-ajax-file-uploader-with-node/ 
-  
+//https://coligo.io/building-ajax-file-uploader-with-node/ 
+
+var fileName = "";
+
 $('.upload-btn').on('click', function (){
     $('#upload-input').click();
     $('.progress-bar').text('0%');
     $('.progress-bar').width('0%');
+    $('#fileResults').text('');    
     console.log(" ** AA **");
   });
 
@@ -20,7 +23,8 @@ $('#upload-input').on('change', function(){
     // loop through all the selected files and add them to the formData object
     for (var i = 0; i < files.length; i++) {
       var file = files[i];
-      
+      fileName = file.name;
+
       // add the files to formData object for the data payload
       formData.append('uploads[]', file, file.name);
       console.log(" ** 2 **");
@@ -33,7 +37,7 @@ $('#upload-input').on('change', function(){
       processData: false,
       contentType: false,
       success: function(data){
-          console.log('upload successful!\n' + data);
+          console.log('upload successful! ' + data);
       },
       xhr: function() {
         // create an XMLHttpRequest
@@ -59,6 +63,7 @@ $('#upload-input').on('change', function(){
             if (percentComplete === 100) {
               $('.progress-bar').html('Success!');
               console.log(" ** 7 **");
+              printResults();
             }
             console.log(" ** 8 **");
     
@@ -69,9 +74,37 @@ $('#upload-input').on('change', function(){
         return xhr;
       }
     });
-/*
-    
-*/
   }
 });
 
+function printResults(){
+  console.log("enter printResults");
+  var fileUrl = "/uploads/" + fileName;
+
+  var fileContent ="";
+
+  $.ajax({
+    url: fileUrl,
+    type: 'POST',
+    async: false,
+    xhr: function(){
+      
+      //https://stackoverflow.com/questions/3567369/reading-server-side-file-with-javascript
+      fetch(fileUrl).then(function(response) {
+        if (response.status !== 200) {
+          throw response.status;
+        }
+        return response.text();
+      }).then(function(file_content) {
+        fileContent = String(file_content);
+
+        $('#fileResults').text(fileContent);
+        console.log("reutrning file content");
+
+      }).catch(function(status) {
+        console.log('Error ' + status);
+      });
+    }
+});
+
+}

@@ -47,6 +47,7 @@ app.use('/users', users);
 */
 
 var filePath = "";
+var fileName = "";
 
 //http://shiya.io/simple-file-upload-with-express-js-and-formidable-in-node-js/
 //https://coligo.io/building-ajax-file-uploader-with-node/ 
@@ -56,17 +57,10 @@ app.post('/upload', function (req, res){
   form.parse(req);
   
   form.on('fileBegin', function (name, file){
-      file.path = __dirname + '/uploads/' + file.name;
-      filePath = String((file.path).replace(/\\/g, "/"));
-      console.log("step3 " +filePath);
-
-      fs.readFile(filePath, function(err,data){
-        console.log("enter");
-        if (err) throw err;
-        //data will contain file content
-        console.log("data is: "+data);
-        getDemo();
-      });  
+    fileName = file.name;
+    file.path = __dirname + '/public/uploads/' + fileName;
+    filePath = String((file.path).replace(/\\/g, "/"));
+    console.log("step3 " +filePath);
   });
 
   form.on('error', function(err) {
@@ -74,28 +68,23 @@ app.post('/upload', function (req, res){
   });
 
   form.on('file', function (name, file){
-      console.log('Uploaded ' + file.name);
-      console.log("step4");
+    console.log('Uploaded ' + fileName);
+    console.log("step4");
+
+    fs.readFile(filePath, function(err,data){
+      console.log("enter readFile");
+      if (err) 
+        throw err;
+      //data will contain file content
+      console.log("data is: "+data);
+    }); 
   });
 
-  console.log("file path is: "+filePath);
-
-  
-  function getDemo(){
-    app.get("/demo", function(req, res){
-      console.log("enter1");
-
-      
-      
-      console.log("enter2");
-      var fileContent = data;
-      res.send(fileContent);
-      
-    })
-  }
-
+  form.on('end', function() {
+    res.end('success');
+    console.log("form end");
+  });
 });
-
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
