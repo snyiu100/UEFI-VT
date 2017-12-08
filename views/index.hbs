@@ -1,41 +1,46 @@
 <div id="header">
     <h1>UEFI - VT</h1>
     <h2>A VirusTotal-esque UEFI analyser</h2>
-    <p>Upload a UEFI (.rom) file:</p>
 </div>
 
 <br><br>
-
 <div id="main">
-    <!--
-        http://shiya.io/simple-file-upload-with-express-js-and-formidable-in-node-js/
-        https://coligo.io/building-ajax-file-uploader-with-node/ 
-    -->
+    <div id="uploadArea">
+        <!--
+            http://shiya.io/simple-file-upload-with-express-js-and-formidable-in-node-js/
+            https://coligo.io/building-ajax-file-uploader-with-node/ 
+        -->
 
-    <form action="/" enctype="multipart/form-data" method="post">
-        <div class="container">
-            <div class="row">
-                <div class="col-xs-12">
-                    <div class="panel panel-default">
-                        <div class="panel-body">
-                            <span class="glyphicon glyphicon-cloud-upload"></span>
-                            <h2>File Uploader</h2>
-                            <div class="progress">
-                            <div class="progress-bar" role="progressbar"></div>
+        <form action="/" enctype="multipart/form-data" method="post">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <span class="glyphicon glyphicon-cloud-upload"></span>
+                                <h2>Upload a UEFI (.rom) File</h2>
+                                <div class="progress">
+                                    <div class="progress-bar" role="progressbar"></div>
+                                </div>
+                                <input class="btn btn-lg upload-btn" type="button" value="Upload File">
                             </div>
-                            <input class="btn btn-lg upload-btn" type="button" value="Upload File">
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <input id="upload-input" type="file" name="upload">
-    </form>
+            <input id="upload-input" type="file" name="upload">
+        </form>
 
+    </div>
+
+    <div id = "resultsDiv" hidden>
+        <h3 style="text-align: left">Analysis Report</h3>
+        <hr>
+        <div id="fileResults"></div>
+    </div>
 </div>
 
-<div id = "fileResults"></div>
-
+<!-- SCRIPTS -->
 <script src="js/upload.js"></script>
 <script src="js/index.js"></script>
 

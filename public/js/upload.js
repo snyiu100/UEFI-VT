@@ -1,12 +1,15 @@
 //https://coligo.io/building-ajax-file-uploader-with-node/ 
 
 var fileName = "";
+var $fileResults = $('#fileResults');
+var $resultsDiv = $('#resultsDiv');
 
 $('.upload-btn').on('click', function (){
     $('#upload-input').click();
     $('.progress-bar').text('0%');
     $('.progress-bar').width('0%');
-    $('#fileResults').text('');    
+    $fileResults.text('');    
+    $resultsDiv.hide('slow');
     console.log(" ** AA **");
   });
 
@@ -80,9 +83,9 @@ $('#upload-input').on('change', function(){
 function printResults(){
   console.log("enter printResults");
   var fileUrl = "/uploads/" + fileName;
-
   var fileContent ="";
-
+  
+  
   $.ajax({
     url: fileUrl,
     type: 'POST',
@@ -98,7 +101,32 @@ function printResults(){
       }).then(function(file_content) {
         fileContent = String(file_content);
 
-        $('#fileResults').text(fileContent);
+        $fileResults.text(fileContent);
+        $fileResults.css({
+          "text-align" : "left"
+        }); 
+
+        $resultsDiv.show('slow');
+        /* 
+        $fileResults.css({
+          "background-color": "white",
+          "font-size": "12px",
+          "padding": "5px",
+          "width" : "50%",
+          "height" : "20%"
+        }); 
+        
+        var $preload = $('#preload'); // loading symbol
+        var $main = $('.main'); // header-footer, option menu info
+        var $contentContainer = $('#content-container'); // page content
+        
+        displayDateTime();
+        
+        $preload.hide().remove();
+        $main.show('slow');
+        $contentContainer.show('slow');
+        */
+        //$('#fileResults').text(fileContent);
         console.log("reutrning file content");
 
       }).catch(function(status) {
