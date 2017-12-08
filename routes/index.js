@@ -15,10 +15,4 @@ router.get('/index', function(req, res, next) {
   console.log(" ** Redirecting: " +titleText +" ** ");
 });
 
-router.get('/demo', function(req, res, next) {
-  titleText = 'Demo - UEFI-VT';
-  res.render('demo', { title: titleText });
-  console.log(" ** Redirecting: " +titleText +" ** ");  
-});
-
 module.exports = router;
