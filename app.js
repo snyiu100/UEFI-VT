@@ -7,6 +7,7 @@ var bodyParser = require('body-parser');
 
 var fs = require('fs');
 var formidable = require('formidable');
+var mysql      = require('mysql');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
@@ -27,6 +28,23 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
 app.use('/users', users);
+
+var connection = mysql.createConnection({
+  host     : 'localhost',
+  user     : 'root',
+  password : 'p@ssw0rd',
+  database : 'uefivt',
+  port     : 3306
+});
+
+connection.connect(function(err) {
+  if (err) {
+    console.error(' ** error connecting to database: ' + err.stack +' **');
+    return;
+  }
+
+  console.log(' ** database connected as id ' + connection.threadId +' **');
+});
 
 /* Read/Delete File
   //https://stackoverflow.com/questions/27950066/how-to-upload-a-file-and-then-display-its-contents-in-node-js-express-app
