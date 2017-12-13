@@ -1,0 +1,17 @@
+
+
+IA64_OBJECTS=\
+ $(OBJ_PATH)\$O\driver.obj \
+
+
+_RES_FILE=$(OBJ_PATH)\$O\chipsec_hlpr.res
+
+
+
+# lowercased
+BASEDIR=c:\winddk\7600.16385.1
+OBJECT_ROOT=c:\winddk\7600.16385.1
+MAKEDIR_LOWERCASE=c:\users\user\downloads\chipsec-1.3.5\chipsec-1.3.5\drivers\win7
+OBJ_PATH=c:\users\user\downloads\chipsec-1.3.5\chipsec-1.3.5\drivers\win7
+CONCURRENT_MIDL=0
+CONCURRENT_MANIFEST_BUILD=0
