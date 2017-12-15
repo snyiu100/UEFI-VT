@@ -6,7 +6,7 @@ Weekly Goal (last updated 7/12/17):
 - Research on UEFI blacklist & whitelist and how to retrieve them
 - Development of web interface
 
-Tasks Done (last updated 8/12/17):
+Tasks Done (last updated 15/12/17):
 - Bare bones of environment [W1,2]
 - Tested chipsec [W1,2]
 - General DB structure (https://tinyurl.com/uefivtdb) [W2]
@@ -19,6 +19,9 @@ Tasks Done (last updated 8/12/17):
         - Add download file function
         - Ensure newlines are detected and printed
         - Change logic to upload .rom file and print .txt analysis file
+- Upload function tested and working [W3]
+    - Future work:
+        - Reworking of printing function, newlines not registering
 
 Future Tasks:
 - analyse chipsec results (found in /misc)
@@ -27,10 +30,13 @@ Future Tasks:
 - print analysed results
 - download results
 
-# Notes
--  Analysis results to show:
+# Notes 
+Last updated 15/12/17
+- Analysis results to show:
     - Blacklisted (if any)
     - Unidentified (if any)
-- MongoDB to be used
+- MySQL to be used
+- Analysis results are located in /misc
+- Progress on analysis will be updated in the analysisProgress file in /misc
 
 Last updated: 8/12/17

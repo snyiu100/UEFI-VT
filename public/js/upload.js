@@ -1,5 +1,3 @@
-//https://coligo.io/building-ajax-file-uploader-with-node/ 
-
 var fileName = "";
 var $fileResults = $('#fileResults');
 var $resultsDiv = $('#resultsDiv');
@@ -24,14 +22,22 @@ $('#upload-input').on('change', function(){
     console.log(" ** 1 **");
 
     // loop through all the selected files and add them to the formData object
-    for (var i = 0; i < files.length; i++) {
-      var file = files[i];
-      fileName = file.name;
+    var file = files[0];
+    fileName = file.name;
+    // add the files to formData object for the data payload
+    formData.append('uploads[]', file, file.name);
+    console.log(" ** 2 **");
+    
+    /* for multiple files
+        for (var i = 0; i < files.length; i++) {
+          var file = files[i];
+          fileName = file.name;
 
-      // add the files to formData object for the data payload
-      formData.append('uploads[]', file, file.name);
-      console.log(" ** 2 **");
-    }
+          // add the files to formData object for the data payload
+          formData.append('uploads[]', file, file.name);
+          console.log(" ** 2 **");
+        }
+    */
 
     $.ajax({
       url: '/upload',
@@ -133,6 +139,8 @@ function printResults(){
         console.log('Error ' + status);
       });
     }
-});
-
+  });
 }
+
+
+//https://coligo.io/building-ajax-file-uploader-with-node/

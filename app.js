@@ -37,6 +37,7 @@ var connection = mysql.createConnection({
   port     : 3306
 });
 
+
 connection.connect(function(err) {
   if (err) {
     console.error(' ** error connecting to database: ' + err.stack +' **');
@@ -66,6 +67,8 @@ connection.connect(function(err) {
 
 var filePath = "";
 var fileName = "";
+var fileData ;
+var fileProgress;
 
 //http://shiya.io/simple-file-upload-with-express-js-and-formidable-in-node-js/
 //https://coligo.io/building-ajax-file-uploader-with-node/ 
@@ -95,12 +98,28 @@ app.post('/upload', function (req, res){
         throw err;
       //data will contain file content
       console.log("data is: "+data);
+      fileData = data;
+      uploadToDatabase();
     }); 
+  });
+
+  form.on('progress', function (bytesReceived, bytesExpected) {
+    var progress = {
+        type: 'progress',
+        bytesReceived: bytesReceived,
+        bytesExpected: bytesExpected
+    };
+    console.log(progress);
+    fileProgress = progress;
+    //Logging the progress on console.
+    //Depending on your application you can either send the progress to client
+    //for some visual feedback or perform some other operation.
   });
 
   form.on('end', function() {
     res.end('success');
     console.log("form end");
+
   });
 });
 
@@ -123,3 +142,21 @@ app.use(function(err, req, res, next) {
 });
 
 module.exports = app;
+
+function uploadToDatabase(){
+  var date = new Date();
+  console.log(fileProgress);
+  const update = {uploadName: fileName, uploadDate:  date};
+
+  connection.query('INSERT INTO upload SET ?', update, (err, res) => {
+    if(err) throw err;
+    console.log('Last upload insert ID:', res.insertId);
+  });
+
+  const updateTest ={testContent: fileData};
+  connection.query('INSERT INTO test SET ?', updateTest, (err, res) => {
+    if(err) throw err;
+    console.log('Last test insert ID:', res.insertId);
+  });
+}
+
