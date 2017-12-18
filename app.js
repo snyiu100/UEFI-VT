@@ -7,7 +7,9 @@ var bodyParser = require('body-parser');
 
 var fs = require('fs');
 var formidable = require('formidable');
-var mysql      = require('mysql');
+var mysql = require('mysql');
+var cmd = require('node-cmd');
+var PythonShell = require('python-shell');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
@@ -122,6 +124,18 @@ app.post('/upload', function (req, res){
 
   });
 });
+
+/* 
+var pyProcess = cmd.get('python chipsec/chipsec_main.py -i -m tools.uefi.blacklist -a C:/Users/User/Downloads/samples/sample.ROM',
+function(data, err, stderr) {
+  if (!err) {
+    console.log("data from python script " + data)
+  } else {
+    console.log("python script cmd error: " + err)
+    }
+  }
+);
+ */
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

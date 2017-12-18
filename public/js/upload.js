@@ -105,39 +105,19 @@ function printResults(){
         }
         return response.text();
       }).then(function(file_content) {
-        fileContent = String(file_content);
-
+        fileContent = file_content;
+        
+        $fileResults.css({
+          "white-space" : "pre-wrap"
+        }); 
         $fileResults.text(fileContent);
-        $fileResults.css({
-          "text-align" : "left"
-        }); 
-
+ 
         $resultsDiv.show('slow');
-        /* 
-        $fileResults.css({
-          "background-color": "white",
-          "font-size": "12px",
-          "padding": "5px",
-          "width" : "50%",
-          "height" : "20%"
-        }); 
         
-        var $preload = $('#preload'); // loading symbol
-        var $main = $('.main'); // header-footer, option menu info
-        var $contentContainer = $('#content-container'); // page content
-        
-        displayDateTime();
-        
-        $preload.hide().remove();
-        $main.show('slow');
-        $contentContainer.show('slow');
-        */
-        //$('#fileResults').text(fileContent);
         console.log("reutrning file content");
 
       }).catch(function(status) {
         console.log('Error ' + status);
-        console.log("fix commit");
       });
     }
   });
