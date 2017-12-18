@@ -137,6 +137,7 @@ function printResults(){
 
       }).catch(function(status) {
         console.log('Error ' + status);
+        console.log("fix commit");
       });
     }
   });
