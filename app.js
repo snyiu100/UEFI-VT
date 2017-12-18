@@ -31,6 +31,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', index);
 app.use('/users', users);
 
+/*
+  DB START
+*/
 var connection = mysql.createConnection({
   host     : 'localhost',
   user     : 'root',
@@ -38,7 +41,6 @@ var connection = mysql.createConnection({
   database : 'uefivt',
   port     : 3306
 });
-
 
 connection.connect(function(err) {
   if (err) {
@@ -49,24 +51,9 @@ connection.connect(function(err) {
   console.log(' ** database connected as id ' + connection.threadId +' **');
 });
 
-/* Read/Delete File
-  //https://stackoverflow.com/questions/27950066/how-to-upload-a-file-and-then-display-its-contents-in-node-js-express-app
-  var tempPath = 'C:/Users/User/Desktop/UEFI-VT/UEFI-VT/public/vendor/tmp/test.txt';
-  console.log(tempPath);
-
-  fs.readFile(tempPath, function(err,data){
-    if (err) throw err;
-    //data will contain file content
-    console.log("data is: "+data);
-
-    //delete file
-    fs.unlink(tempPath,function(err){
-      if (err) throw err;
-      console.log('successfully deleted ' +tempPath);
-    });
-  });
+/*
+  FILE UPLOAD
 */
-
 var filePath = "";
 var fileName = "";
 var fileData ;
@@ -84,6 +71,7 @@ app.post('/upload', function (req, res){
     file.path = __dirname + '/public/uploads/' + fileName;
     filePath = String((file.path).replace(/\\/g, "/"));
     console.log("step3 " +filePath);
+    uploadToDatabase();
   });
 
   form.on('error', function(err) {
@@ -101,7 +89,6 @@ app.post('/upload', function (req, res){
       //data will contain file content
       console.log("data is: "+data);
       fileData = data;
-      uploadToDatabase();
     }); 
   });
 
@@ -120,22 +107,73 @@ app.post('/upload', function (req, res){
 
   form.on('end', function() {
     res.end('success');
-    console.log("form end");
-
+    console.log(" ** form end");
   });
 });
 
-/* 
-var pyProcess = cmd.get('python chipsec/chipsec_main.py -i -m tools.uefi.blacklist -a C:/Users/User/Downloads/samples/sample.ROM',
-function(data, err, stderr) {
-  if (!err) {
-    console.log("data from python script " + data)
-  } else {
-    console.log("python script cmd error: " + err)
+/*
+  UPLOAD PROCESS
+*/
+var analysisID;
+function uploadToDatabase(){
+  var date = new Date();
+  console.log(fileProgress);
+
+  const update = {uploadName: fileName, uploadDate:  date};
+  connection.query('INSERT INTO upload SET ?', update, (err, res) => {
+    if(err) throw err;
+    console.log('Last upload insert ID:', res.insertId);
+  });
+
+  const updateTest ={testContent: fileData};
+  connection.query('INSERT INTO test SET ?', updateTest, (err, res) => {
+    if(err) throw err;
+    console.log('Last test insert ID:', res.insertId);
+    analysisID = res.insertId;
+    console.log(" ** analysisID: "+analysisID);
+    runChipsec();
+  });
+  
+}
+
+/*
+  PYTHON PROCESS
+*/
+function runChipsec(){
+  var newFilePath = "";
+  console.log(" ** entered chipsec");
+  newFilePath = String((__dirname + '/public/analysis/results' + analysisID +'.txt').replace(/\\/g, "/"));
+  console.log("** filename "+newFilePath);
+
+  var pyProcess = cmd.get('python chipsec/chipsec_main.py -i -m tools.uefi.blacklist -a C:/Users/User/Downloads/samples/sample3.ROM',
+  function(data, err, stderr) {
+    if (!err) {
+      console.log("data from python script " + data)
+      fs.writeFile(newFilePath, data, function(err) {
+        if(err) {
+            return console.log(err);
+        }
+        
+        console.log("The file was saved!");
+      }); 
     }
+    else {
+      console.log("python script cmd error: " + err)
+      fs.writeFile(newFilePath, err, function(err) {
+        if(err) {
+          return console.log(err);
+        }
+        console.log("The file was saved!");        
+      }); 
+    }
+    const updateTest ={test2Report: err};
+    connection.query('INSERT INTO test2 SET ?', updateTest, (err, res) => {
+      if(err) throw err;
+      console.log('Last test2 insert ID:', res.insertId);
+    });
   }
-);
- */
+  );
+}
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -156,21 +194,3 @@ app.use(function(err, req, res, next) {
 });
 
 module.exports = app;
-
-function uploadToDatabase(){
-  var date = new Date();
-  console.log(fileProgress);
-  const update = {uploadName: fileName, uploadDate:  date};
-
-  connection.query('INSERT INTO upload SET ?', update, (err, res) => {
-    if(err) throw err;
-    console.log('Last upload insert ID:', res.insertId);
-  });
-
-  const updateTest ={testContent: fileData};
-  connection.query('INSERT INTO test SET ?', updateTest, (err, res) => {
-    if(err) throw err;
-    console.log('Last test insert ID:', res.insertId);
-  });
-}
-

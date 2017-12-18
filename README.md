@@ -23,6 +23,7 @@ Tasks Done (last updated 18/12/17):
     - Future work:
         - Reworking of printing function, newlines not registering
 - Created App flow document (https://tinyurl.com/uefivtappflow) [W4]
+- Created Documentation (preliminary) (https://tinyurl.com/uefivtdoc) [W4]
 
 Future Tasks:
 - analyse chipsec results (found in /misc)
