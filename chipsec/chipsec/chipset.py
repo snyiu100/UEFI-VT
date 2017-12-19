@@ -319,7 +319,7 @@ class Chipset:
 
         _unknown_platform = False
         self.helper.start(start_driver, driver_exists)
-        logger().log( '[CHIPSEC] API mode: %s' % ('using OS native API (not using CHIPSEC kernel module)' if self.use_native_api() else 'using CHIPSEC kernel module API') )
+        #logger().log( '[CHIPSEC] API mode: %s' % ('using OS native API (not using CHIPSEC kernel module)' if self.use_native_api() else 'using CHIPSEC kernel module API') )
 
         if platform_code is None:
             self.vid, self.did = self.detect_platform()
@@ -347,8 +347,8 @@ class Chipset:
         self.init_cfg()
         if _unknown_platform and start_driver:
             msg = 'Unsupported Platform: VID = 0x%04X, DID = 0x%04X' % (self.vid,self.did)
-            logger().error( msg )
-            raise UnknownChipsetError, msg
+            #logger().error( msg )
+            #raise UnknownChipsetError, msg
 
 
     def destroy( self, start_driver ):

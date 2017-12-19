@@ -9,7 +9,6 @@ var fs = require('fs');
 var formidable = require('formidable');
 var mysql = require('mysql');
 var cmd = require('node-cmd');
-var PythonShell = require('python-shell');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
@@ -145,7 +144,7 @@ function runChipsec(){
   newFilePath = String((__dirname + '/public/analysis/results' + analysisID +'.txt').replace(/\\/g, "/"));
   console.log("** filename "+newFilePath);
 
-  var pyProcess = cmd.get('python chipsec/chipsec_main.py -i -m tools.uefi.blacklist -a C:/Users/User/Downloads/samples/sample3.ROM',
+  var pyProcess = cmd.get('python chipsec/chipsec_main.py -i -m tools.uefi.blacklist -a C:/Users/User/Desktop/UEFI-VT/UEFI-VT/samples/sample2.ROM',
   function(data, err, stderr) {
     if (!err) {
       console.log("data from python script " + data)

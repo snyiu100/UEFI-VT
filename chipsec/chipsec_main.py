@@ -163,17 +163,17 @@ class ChipsecMain:
         self.argv = argv
         self._cs = chipset.cs()
 
-    def print_banner(self):
-        """
-        Prints chipsec banner
-        """
-        logger().log( "################################################################\n"
-                      "##                                                            ##\n"
-                      "##  CHIPSEC: Platform Hardware Security Assessment Framework  ##\n"
-                      "##                                                            ##\n"
-                      "################################################################" )
-        logger().log( "[CHIPSEC] Version %s" % self.version )
-        logger().log( "[CHIPSEC] Arguments: %s"% " ".join(self.argv) )
+    # def print_banner(self):
+        # """
+        # Prints chipsec banner
+        # """
+        # logger().log( "################################################################\n"
+                      # "##                                                            ##\n"
+                      # "##  CHIPSEC: Platform Hardware Security Assessment Framework  ##\n"
+                      # "##                                                            ##\n"
+                      # "################################################################" )
+        # logger().log( "[CHIPSEC] Version %s" % self.version )
+        # logger().log( "[CHIPSEC] Arguments: %s"% " ".join(self.argv) )
 
     ##################################################################################
     # Module API
@@ -270,7 +270,7 @@ class ChipsecMain:
 
         if module not in self.Loaded_Modules:
             self.Loaded_Modules.append( (module,module_argv) )
-            if not self._list_tags: logger().log( "[+] loaded %s" % module.get_name() )
+            #if not self._list_tags: logger().log( "[+] loaded %s" % module.get_name() )
         return True
 
     def load_modules_from_path( self, from_path, recursive = True ):
@@ -304,7 +304,7 @@ class ChipsecMain:
         #
         # Step 3.
         # Enumerate all modules from the root module directory
-        logger().log( "[*] loading modules from \"%s\" .." % self.Modules_Path.replace(os.getcwd(),'.') )
+        # logger().log( "[*] loading modules from \"%s\" .." % self.Modules_Path.replace(os.getcwd(),'.') )
         self.load_modules_from_path( self.Modules_Path, False )
 
 
@@ -336,7 +336,7 @@ class ChipsecMain:
         exit_code  = ExitCode()
         results    = {}
 
-        if not self._list_tags: logger().log( "[*] running loaded modules .." )
+        #if not self._list_tags: logger().log( "[*] running loaded modules .." )
 
         t = time.time()
         for (modx,modx_argv) in self.Loaded_Modules:
@@ -512,7 +512,7 @@ class ChipsecMain:
             elif o in ("-a", "--module_args"):
                 self._module_argv = a.split(',')
             elif o in ("-i", "--ignore_platform"):
-                logger().log( "[*] Ignoring unsupported platform warning and continue execution" )
+                #logger().log( "[*] Ignoring unsupported platform warning and continue execution" )
                 self._unkownPlatform = False
             elif o in ("-l", "--log"):
                 #logger().log( "[*] Output to log file '%s' (--log option or chipsec_main.logger().set_log_file in Python console)" % a )
@@ -544,7 +544,7 @@ class ChipsecMain:
     ##################################################################################
 
     def main ( self ):
-        self.print_banner()
+        #self.print_banner()
 
         (cont, exit_code) = self.parse_args()
         if not cont:
@@ -560,13 +560,13 @@ class ChipsecMain:
         try:
             self._cs.init( self._platform, (not self._no_driver), self._driver_exists )
         except chipset.UnknownChipsetError , msg:
-            logger().error( "Platform is not supported (%s)." % str(msg) )
+            #logger().error( "Platform is not supported (%s)." % str(msg) )
             if self._unkownPlatform:
                 logger().error( 'To run anyways please use -i command-line option\n\n' )
                 if logger().DEBUG: logger().log_bad(traceback.format_exc())
                 if self.failfast: raise msg
                 return  ExitCode.EXCEPTION
-            logger().warn("Platform dependent functionality is likely to be incorrect")
+            #logger().warn("Platform dependent functionality is likely to be incorrect")
         except oshelper.OsHelperError as os_helper_error:
             logger().error(str(os_helper_error))
             if logger().DEBUG: logger().log_bad(traceback.format_exc())
@@ -578,13 +578,13 @@ class ChipsecMain:
             return ExitCode.EXCEPTION
 
 
-        logger().log( "[CHIPSEC] OS      : %s %s %s %s" % (self._cs.helper.os_system, self._cs.helper.os_release, self._cs.helper.os_version, self._cs.helper.os_machine) )
-        logger().log( "[CHIPSEC] Platform: %s\n[CHIPSEC]      VID: %04X\n[CHIPSEC]      DID: %04X" % (self._cs.longname, self._cs.vid, self._cs.did))
+        #logger().log( "[CHIPSEC] OS      : %s %s %s %s" % (self._cs.helper.os_system, self._cs.helper.os_release, self._cs.helper.os_version, self._cs.helper.os_machine) )
+        #logger().log( "[CHIPSEC] Platform: %s\n[CHIPSEC]      VID: %04X\n[CHIPSEC]      DID: %04X" % (self._cs.longname, self._cs.vid, self._cs.did))
         #logger().log( "[CHIPSEC] CPU affinity: 0x%X" % self._cs.helper.get_affinity() )
 
-        logger().xmlAux.add_test_suite_property( "OS", "%s %s %s %s" % (self._cs.helper.os_system, self._cs.helper.os_release, self._cs.helper.os_version, self._cs.helper.os_machine) )
-        logger().xmlAux.add_test_suite_property( "Platform", "%s, VID: %04X, DID: %04X" % (self._cs.longname, self._cs.vid, self._cs.did) )
-        logger().xmlAux.add_test_suite_property( "CHIPSEC", "%s" % self.version )
+        #logger().xmlAux.add_test_suite_property( "OS", "%s %s %s %s" % (self._cs.helper.os_system, self._cs.helper.os_release, self._cs.helper.os_version, self._cs.helper.os_machine) )
+        #logger().xmlAux.add_test_suite_property( "Platform", "%s, VID: %04X, DID: %04X" % (self._cs.longname, self._cs.vid, self._cs.did) )
+        #logger().xmlAux.add_test_suite_property( "CHIPSEC", "%s" % self.version )
         logger().log( " " )
 
         if logger().VERBOSE: logger().log("[*] Running from %s" % os.getcwd())

@@ -19,32 +19,32 @@
 #
 
 
-"""
-This module checks current contents of UEFI firmware ROM or specified firmware image for black-listed EFI binaries
-which can be EFI firmware volumes, EFI executable binaries (PEI modules, DXE drivers..) or EFI sections.
-The module can find EFI binaries by their UI names, EFI GUIDs, MD5/SHA-1/SHA-256 hashes
-or contents matching specified regular expressions.
+# """
+# This module checks current contents of UEFI firmware ROM or specified firmware image for black-listed EFI binaries
+# which can be EFI firmware volumes, EFI executable binaries (PEI modules, DXE drivers..) or EFI sections.
+# The module can find EFI binaries by their UI names, EFI GUIDs, MD5/SHA-1/SHA-256 hashes
+# or contents matching specified regular expressions.
 
-Important! This module can only detect what it knows about from its config file.
-If a bad or vulnerable binary is not detected then its 'signature' needs to be added to the config.
+# Important! This module can only detect what it knows about from its config file.
+# If a bad or vulnerable binary is not detected then its 'signature' needs to be added to the config.
 
-Usage:
-  ``chipsec_main.py -i -m tools.uefi.blacklist [-a <fw_image>,<blacklist>]``
-    - ``fw_image``	Full file path to UEFI firmware image. If not specified, the module will dump firmware image directly from ROM
-    - ``blacklist``	JSON file with configuration of black-listed EFI binaries (default = ``blacklist.json``). Config file should be located in the same directory as this module
+# Usage:
+  # ``chipsec_main.py -i -m tools.uefi.blacklist [-a <fw_image>,<blacklist>]``
+    # - ``fw_image``	Full file path to UEFI firmware image. If not specified, the module will dump firmware image directly from ROM
+    # - ``blacklist``	JSON file with configuration of black-listed EFI binaries (default = ``blacklist.json``). Config file should be located in the same directory as this module
     
-Examples:
+# Examples:
 
->>> chipsec_main.py -m tools.uefi.blacklist 
+# >>> chipsec_main.py -m tools.uefi.blacklist 
 
-Dumps UEFI firmware image from flash memory device, decodes it and checks for black-listed EFI modules defined in the default config ``blacklist.json``
+# Dumps UEFI firmware image from flash memory device, decodes it and checks for black-listed EFI modules defined in the default config ``blacklist.json``
 
->>> chipsec_main.py -i --no_driver -m tools.uefi.blacklist -a uefi.rom,blacklist.json
+# >>> chipsec_main.py -i --no_driver -m tools.uefi.blacklist -a uefi.rom,blacklist.json
 
-Decodes ``uefi.rom`` binary with UEFI firmware image and checks for black-listed EFI modules defined in ``blacklist.json`` config
+# Decodes ``uefi.rom`` binary with UEFI firmware image and checks for black-listed EFI modules defined in ``blacklist.json`` config
 
-Note: ``-i`` and ``--no_driver`` arguments can be used in this case because the test does not depend on the platform and no kernel driver is required when firmware image is specified
-"""
+# Note: ``-i`` and ``--no_driver`` arguments can be used in this case because the test does not depend on the platform and no kernel driver is required when firmware image is specified
+# """
 import json
 
 from chipsec.module_common import *
@@ -58,31 +58,7 @@ TAGS = [MTAG_BIOS]
 
 DEF_FWIMAGE_FILE = 'fw.bin'
 
-USAGE_TEXT = '''
-Usage:
-
-    chipsec_main.py -i -m tools.uefi.blacklist [-a <fw_image>,<blacklist>]
-
-      fw_image  : Full file path to UEFI firmware image
-                  If not specified, the module will dump firmware image directly from ROM
-      blacklist : JSON file with configuration of black-listed EFI binaries (default = blacklist.json)
-                  Config file should be located in the same directory as this module
-    
-Examples:
-
-    chipsec_main.py -m tools.uefi.blacklist 
-
-      Dumps UEFI firmware image from flash memory device, decodes it and
-      checks for black-listed EFI modules defined in the default config 'blacklist.json'
-
-    chipsec_main.py -i --no_driver -m tools.uefi.blacklist -a uefi.rom,blacklist.json
-
-      Decodes 'uefi.rom' binary with UEFI firmware image and
-      checks for black-listed EFI modules defined in 'blacklist.json' config
-
-Important! This module can only detect what it knows about from its config file.
-If a bad or vulnerable binary is not detected then its 'signature' needs to be added to the config.
-'''
+#USAGE_TEXT = ''''''
 
 class blacklist(BaseModule):
 
@@ -102,23 +78,23 @@ class blacklist(BaseModule):
     def check_blacklist( self ):
         res = ModuleResult.PASSED
 
-        self.logger.log( "[*] searching for EFI binaries that match criteria from '%s':" % self.cfg_name )
+        #self.logger.log( "[*] searching for EFI binaries that match criteria from '%s':" % self.cfg_name )
         for k in self.efi_blacklist.keys():
             entry = self.efi_blacklist[k]
-            self.logger.log( "    %-16s - %s" % (k,entry['description'] if 'description' in entry else '') )
+            #self.logger.log( "    %-16s - %s" % (k,entry['description'] if 'description' in entry else '') )
             #if 'match' in entry:
             #    for c in entry['match'].keys(): self.logger.log( "[*]   %s" % entry['match'][c] )
             #if 'exclude' in entry:
             #    self.logger.log( "[*]   excluding binaries:" )
             #    for c in entry['exclude']: self.logger.log( "[*]   %s" % entry['exclude'][c] )
 
-        # parse the UEFI firmware image and look for EFI modules matching the balck-list
+        # parse the UEFI firmware image and look for EFI modules matching the black-list
         efi_tree = spi_uefi.build_efi_model(self.uefi, self.image, None)
         #match_types = (spi_uefi.EFIModuleType.SECTION_EXE|spi_uefi.EFIModuleType.FILE)
         match_types = spi_uefi.EFIModuleType.SECTION_EXE
         matching_modules = spi_uefi.search_efi_tree(efi_tree, self.blacklist_callback, match_types)
         found = len(matching_modules) > 0
-        self.logger.log( '' )
+        #self.logger.log( '' )
         if found:
             res = ModuleResult.WARNING
             self.logger.log_warn_check("Black-listed EFI binary found in the UEFI firmware image")
@@ -126,8 +102,8 @@ class blacklist(BaseModule):
             self.logger.log_passed_check("Didn't find any black-listed EFI binary")
         return res
 
-    def usage(self):
-        self.logger.log( USAGE_TEXT )
+    # def usage(self):
+    #     self.logger.log( USAGE_TEXT )
 
 
     # --------------------------------------------------------------------------
@@ -135,9 +111,9 @@ class blacklist(BaseModule):
     # Required function: run here all tests from this module
     # --------------------------------------------------------------------------
     def run( self, module_argv ):
-        self.logger.start_test( "Check for black-listed EFI binaries in UEFI firmware" )
+        # self.logger.start_test( "Check for black-listed EFI binaries in UEFI firmware" )
 
-        self.usage()
+        #self.usage()
 
         image_file = DEF_FWIMAGE_FILE
         if len(module_argv) == 0:
@@ -151,7 +127,7 @@ class blacklist(BaseModule):
         elif len(module_argv) > 0:
             # Use provided firmware image 
             image_file = module_argv[0]
-            self.logger.log( "[*] reading FW image from file: %s" % image_file )
+            #self.logger.log( "[*] reading FW image from file: %s" % image_file )
 
         self.image = chipsec.file.read_file( image_file )
 

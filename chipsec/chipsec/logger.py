@@ -369,7 +369,7 @@ class Logger:
         text =        "[x][ =======================================================================\n"
         text = text + "[x][ Module: " + test_name + "\n"
         text = text + "[x][ ======================================================================="
-        self._log(text, BLUE, True)
+        #self._log(text, BLUE, True)
         self.xmlAux.start_test( test_name )
 
 
@@ -377,7 +377,7 @@ class Logger:
         """Displays a banner for the module name provided."""
         #text = "\n[*] start module: %s" % module_name
         #self._log(text, WHITE, None)
-        self.log( "\n[*] running module: %s" % module_name )
+        #self.log( "\n[*] running module: %s" % module_name )
         self.xmlAux.start_module( module_name )
 
     def end_module( self, module_name ):

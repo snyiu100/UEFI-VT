@@ -66,8 +66,9 @@ class Module():
 
         if self.mod_obj != None and result == ModuleResult.PASSED:
             if module_argv is not None:
-                self.logger.log( "[*] Module arguments (%d):" % len(module_argv) )
-                self.logger.log( module_argv )
+                #self.logger.log( "[*] Module arguments (%d):" % len(module_argv) )
+                #self.logger.log( module_argv )
+                self.logger.log('')
             else:
                 module_argv = []
 

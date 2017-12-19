@@ -357,7 +357,7 @@ class RweHelper(Helper):
     def create(self, start_driver):
 
         if not start_driver: return True
-        self.show_warning()
+        #self.show_warning()
 
         try:
             hscm = win32service.OpenSCManager( None, None, win32service.SC_MANAGER_ALL_ACCESS ) # SC_MANAGER_CREATE_SERVICE
