@@ -144,7 +144,7 @@ def check_rules( efi, rules, entry_name, _log, bLog=True ):
 def check_match_criteria(efi, criteria, _log):
     bfound = False
     if _log is None: _log = logger()
-    _log.log("[uefi] checking %s" % efi.name())
+    ##_log.log("[uefi] checking %s" % efi.name())
     for k in criteria.keys():
         entry = criteria[k]
         # Check if the EFI binary is a match

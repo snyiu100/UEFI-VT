@@ -387,24 +387,24 @@ class ChipsecMain:
 
         if not self._list_tags:
             logger().log( "" )
-            logger().log( "[CHIPSEC] ***************************  SUMMARY  ***************************" )
-            if not self.no_time:
-                logger().log( "[CHIPSEC] Time elapsed          %.3f" % (time.time()-t) )
-            logger().log( "[CHIPSEC] Modules total         %d" % executed )
-            logger().log( "[CHIPSEC] Modules failed to run %d:" % len(errors) )
-            for mod in errors: logger().error( str(mod) )
-            logger().log( "[CHIPSEC] Modules passed        %d:" % len(passed) )
-            for fmod in passed: logger().log_passed( str(fmod) )
-            logger().log( "[CHIPSEC] Modules failed        %d:" % len(failed) )
-            for fmod in failed: logger().log_failed( str(fmod) )
-            logger().log( "[CHIPSEC] Modules with warnings %d:" % len(warnings) )
-            for fmod in warnings: logger().log_warning( str(fmod) )
-            logger().log( "[CHIPSEC] Modules skipped %d:" % len(skipped) )
-            for fmod in skipped: logger().log_skipped( str(fmod) )
-            if len(exceptions) > 0:
-                logger().log( "[CHIPSEC] Modules with Exceptions %d:" % len(exceptions) )
-                for fmod in exceptions: logger().error( str(fmod) )
-            logger().log( "[CHIPSEC] *****************************************************************" )
+            # logger().log( "[CHIPSEC] ***************************  SUMMARY  ***************************" )
+            # if not self.no_time:
+            #     logger().log( "[CHIPSEC] Time elapsed          %.3f" % (time.time()-t) )
+            # logger().log( "[CHIPSEC] Modules total         %d" % executed )
+            # logger().log( "[CHIPSEC] Modules failed to run %d:" % len(errors) )
+            # for mod in errors: logger().error( str(mod) )
+            # logger().log( "[CHIPSEC] Modules passed        %d:" % len(passed) )
+            # for fmod in passed: logger().log_passed( str(fmod) )
+            # logger().log( "[CHIPSEC] Modules failed        %d:" % len(failed) )
+            # for fmod in failed: logger().log_failed( str(fmod) )
+            # logger().log( "[CHIPSEC] Modules with warnings %d:" % len(warnings) )
+            # for fmod in warnings: logger().log_warning( str(fmod) )
+            # logger().log( "[CHIPSEC] Modules skipped %d:" % len(skipped) )
+            # for fmod in skipped: logger().log_skipped( str(fmod) )
+            # if len(exceptions) > 0:
+            #     logger().log( "[CHIPSEC] Modules with Exceptions %d:" % len(exceptions) )
+            #     for fmod in exceptions: logger().error( str(fmod) )
+            # logger().log( "[CHIPSEC] *****************************************************************" )
             #logger().log( "[CHIPSEC] Version:   %s"% self.version )
         else:
             logger().log( "[*] Available tags are:" )

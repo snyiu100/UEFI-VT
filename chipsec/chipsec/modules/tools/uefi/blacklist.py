@@ -73,6 +73,7 @@ class blacklist(BaseModule):
         return True
 
     def blacklist_callback(self, efi_module):
+
         return chipsec.hal.uefi_search.check_match_criteria(efi_module, self.efi_blacklist, self.logger)
 
     def check_blacklist( self ):
@@ -92,6 +93,7 @@ class blacklist(BaseModule):
         efi_tree = spi_uefi.build_efi_model(self.uefi, self.image, None)
         #match_types = (spi_uefi.EFIModuleType.SECTION_EXE|spi_uefi.EFIModuleType.FILE)
         match_types = spi_uefi.EFIModuleType.SECTION_EXE
+        self.logger.log("Checking EFI binaries...")
         matching_modules = spi_uefi.search_efi_tree(efi_tree, self.blacklist_callback, match_types)
         found = len(matching_modules) > 0
         #self.logger.log( '' )

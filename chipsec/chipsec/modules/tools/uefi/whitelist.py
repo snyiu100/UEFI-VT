@@ -15,42 +15,42 @@
 #   Alex Bazhaniuk
 #
 
-"""
-The module can generate a list of EFI executables from (U)EFI firmware file or
-extracted from flash ROM, and then later check firmware image in flash ROM or
-file against this list of [expected/whitelisted] executables
+# """
+# The module can generate a list of EFI executables from (U)EFI firmware file or
+# extracted from flash ROM, and then later check firmware image in flash ROM or
+# file against this list of [expected/whitelisted] executables
 
-Usage:
-  ``chipsec_main -m tools.uefi.whitelist [-a generate|check,<json>,<fw_image>]``
-    - ``generate``	Generates a list of EFI executable binaries from the UEFI
-                        firmware image (default)
-    - ``check``		Decodes UEFI firmware image and checks all EFI executable
-                        binaries against a specified list
-    - ``json``		JSON file with configuration of white-listed EFI
-                        executables (default = ``efilist.json``)
-    - ``fw_image``	Full file path to UEFI firmware image. If not specified,
-                        the module will dump firmware image directly from ROM
+# Usage:
+#   ``chipsec_main -m tools.uefi.whitelist [-a generate|check,<json>,<fw_image>]``
+#     - ``generate``	Generates a list of EFI executable binaries from the UEFI
+#                         firmware image (default)
+#     - ``check``		Decodes UEFI firmware image and checks all EFI executable
+#                         binaries against a specified list
+#     - ``json``		JSON file with configuration of white-listed EFI
+#                         executables (default = ``efilist.json``)
+#     - ``fw_image``	Full file path to UEFI firmware image. If not specified,
+#                         the module will dump firmware image directly from ROM
     
-Examples:
+# Examples:
 
->>> chipsec_main -m tools.uefi.whitelist
+# >>> chipsec_main -m tools.uefi.whitelist
 
-Creates a list of EFI executable binaries in ``efilist.json`` from the firmware
-image extracted from ROM
+# Creates a list of EFI executable binaries in ``efilist.json`` from the firmware
+# image extracted from ROM
 
->>> chipsec_main -i -n -m tools.uefi.whitelist -a generate,efilist.json,uefi.rom
+# >>> chipsec_main -i -n -m tools.uefi.whitelist -a generate,efilist.json,uefi.rom
 
-Creates a list of EFI executable binaries in ``efilist.json`` from ``uefi.rom``
-firmware binary 
+# Creates a list of EFI executable binaries in ``efilist.json`` from ``uefi.rom``
+# firmware binary 
 
->>> chipsec_main -i -n -m tools.uefi.whitelist -a check,efilist.json,uefi.rom
+# >>> chipsec_main -i -n -m tools.uefi.whitelist -a check,efilist.json,uefi.rom
 
-Decodes ``uefi.rom`` UEFI firmware image binary and checks all EFI executables
-in it against a list defined in ``efilist.json``
+# Decodes ``uefi.rom`` UEFI firmware image binary and checks all EFI executables
+# in it against a list defined in ``efilist.json``
 
-Note: ``-i`` and ``-n`` arguments can be used when specifying firmware file
-because the module doesn't depend on the platform and doesn't need kernel driver
-"""
+# Note: ``-i`` and ``-n`` arguments can be used when specifying firmware file
+# because the module doesn't depend on the platform and doesn't need kernel driver
+# """
 import json
 
 from chipsec.module_common import *
@@ -66,40 +66,40 @@ TAGS = [MTAG_BIOS]
 DEF_FWIMAGE_FILE = 'fw.bin'
 DEF_EFILIST_FILE = 'efilist.json'
 
-USAGE_TEXT = '''
-The module can generate a list of EFI executables from (U)EFI firmware file or
-extracted from flash ROM, and then later check firmware image in flash ROM or
-file against this list of [expected/whitelisted] executables
+# USAGE_TEXT = '''
+# The module can generate a list of EFI executables from (U)EFI firmware file or
+# extracted from flash ROM, and then later check firmware image in flash ROM or
+# file against this list of [expected/whitelisted] executables
 
-Usage:
+# Usage:
 
-  chipsec_main -m tools.uefi.whitelist [-a generate|check,<json>,<fw_image>]
-    - generate    Generates a list of EFI executable binaries from the UEFI
-                  firmware image (default)
-    - check       Decodes UEFI firmware image and checks all EFI executable
-                  binaries against a specified list
-    - <json>      JSON file with configuration of white-listed EFI executables
-                  (default = efilist.json)
-    - <fw_image>  Full file path to UEFI firmware image. If not specified, the
-                  module will dump firmware image directly from ROM
+#   chipsec_main -m tools.uefi.whitelist [-a generate|check,<json>,<fw_image>]
+#     - generate    Generates a list of EFI executable binaries from the UEFI
+#                   firmware image (default)
+#     - check       Decodes UEFI firmware image and checks all EFI executable
+#                   binaries against a specified list
+#     - <json>      JSON file with configuration of white-listed EFI executables
+#                   (default = efilist.json)
+#     - <fw_image>  Full file path to UEFI firmware image. If not specified, the
+#                   module will dump firmware image directly from ROM
    
-Examples:
+# Examples:
 
-  chipsec_main -m tools.uefi.whitelist
-    Creates a list of EFI executable binaries in efilist.json from the firmware
-    image extracted from ROM
+#   chipsec_main -m tools.uefi.whitelist
+#     Creates a list of EFI executable binaries in efilist.json from the firmware
+#     image extracted from ROM
 
-  chipsec_main -i -n -m tools.uefi.whitelist -a generate,efilist.json,uefi.rom
-    Creates a list of EFI executable binaries in efilist.json from uefi.rom
-    firmware binary 
+#   chipsec_main -i -n -m tools.uefi.whitelist -a generate,efilist.json,uefi.rom
+#     Creates a list of EFI executable binaries in efilist.json from uefi.rom
+#     firmware binary 
 
-  chipsec_main -i -n -m tools.uefi.whitelist -a check,efilist.json,uefi.rom
-    Decodes uefi.rom UEFI firmware image binary and checks all EFI executables
-    in it against a list defined in whitelist.json
+#   chipsec_main -i -n -m tools.uefi.whitelist -a check,efilist.json,uefi.rom
+#     Decodes uefi.rom UEFI firmware image binary and checks all EFI executables
+#     in it against a list defined in whitelist.json
 
-Note: -i and -n arguments can be used when specifying firmware file because the
-module doesn't depend on the platform and doesn't need kernel driver
-'''
+# Note: -i and -n arguments can be used when specifying firmware file because the
+# module doesn't depend on the platform and doesn't need kernel driver
+# '''
 
 class whitelist(BaseModule):
 
@@ -116,16 +116,24 @@ class whitelist(BaseModule):
     #
     # callbacks to uefi_search.check_match_criteria
     #
+    
     def genlist_callback(self, efi_module):
         md = {}
         if type(efi_module) == spi_uefi.EFI_SECTION:
-            #if efi_module.MD5:        md["md5"]     = efi_module.MD5
-            if efi_module.SHA256:     md["sha1"]    = efi_module.SHA1
+            if efi_module.MD5:        md["md5"]     = efi_module.MD5
+            if efi_module.SHA1:     md["sha1"]    = efi_module.SHA1
             if efi_module.parentGuid: md["guid"]    = efi_module.parentGuid
-            if efi_module.ui_string:  md["name"]    = efi_module.ui_string
+            if efi_module.SHA256:  md["sha256"]    = efi_module.SHA256
+            # if efi_module.ui_string:  md["name"]    = efi_module.ui_string
             if efi_module.Name and efi_module.Name != uefi_common.SECTION_NAMES[uefi_common.EFI_SECTION_PE32]:
                 md["type"]   = efi_module.Name
-            self.efi_list[efi_module.SHA256] = md
+            if efi_module.ui_string == None:   efi_module.ui_string = "<no_name>"
+            # below is the identifier
+            self.efi_list["name: %s" % efi_module.ui_string] = md
+
+            h = open('abc.txt','w')
+            h.write('%s \n\n' % md)
+            h.close()
         else: pass
 
     #
@@ -133,12 +141,22 @@ class whitelist(BaseModule):
     #
     def generate_efilist( self, json_pth ):
         self.efi_list = {}
-        self.logger.log( "[*] generating a list of EFI executables from firmware image..." )
+        #self.logger.log( "[*] generating a list of EFI executables from firmware image..." )
         efi_tree = spi_uefi.build_efi_model(self.uefi, self.image, None)
         matching_modules = spi_uefi.search_efi_tree(efi_tree, self.genlist_callback, spi_uefi.EFIModuleType.SECTION_EXE, True)
-        self.logger.log( "[*] found %d EFI executables in UEFI firmware image '%s'" % (len(self.efi_list),self.image_file) )
-        self.logger.log( "[*] creating JSON file '%s'..." % json_pth )
-        chipsec.file.write_file( "%s" % json_pth, json.dumps(self.efi_list, indent=2, separators=(',', ': ')) )
+        #self.logger.log( "[*] creating JSON file '%s'..." % json_pth )
+        # chipsec.file.write_file( "%s" % json_pth, json.dumps(self.efi_list, indent=2, sort_keys=True,separators=(',', ': ')) )
+        
+        ## for printing results; either direct to file or as cmd output
+        self.logger.log( "Found %d EFI executables" % len(self.efi_list) )
+        self.logger.log( "%s" %  json.dumps(self.efi_list, indent=2, sort_keys=True, separators=(',', ': ')))
+        
+        #f = open('../public/analysis/temp.txt','w')
+        f = open('C:/Users/User/Desktop/UEFI-VT/UEFI-VT/public/analysis/temp.txt','w')
+        f.write( "Found %d EFI executables \n" % len(self.efi_list) )
+        f.write('%s' % json.dumps(self.efi_list, indent=2, sort_keys=True, separators=(',', ': ') ))
+        f.close()
+
         return ModuleResult.PASSED
 
     #
@@ -149,7 +167,7 @@ class whitelist(BaseModule):
         with open(json_pth) as data_file:    
             self.efi_whitelist = json.load(data_file)
 
-        self.logger.log( "[*] checking EFI executables against the list '%s'" % json_pth )
+        #self.logger.log( "[*] checking EFI executables against the list '%s'" % json_pth )
 
         # parse the UEFI firmware image and look for EFI modules matching white-list
         # - match only executable EFI sections (PE/COFF, TE)
@@ -174,8 +192,8 @@ class whitelist(BaseModule):
             return ModuleResult.PASSED
 
 
-    def usage(self):
-        self.logger.log( USAGE_TEXT )
+    # def usage(self):
+    #     self.logger.log( USAGE_TEXT )
 
 
     # --------------------------------------------------------------------------
@@ -183,7 +201,7 @@ class whitelist(BaseModule):
     # Required function: run here all tests from this module
     # --------------------------------------------------------------------------
     def run( self, module_argv ):
-        self.logger.start_test("simple white-list generation/checking for (U)EFI firmware")
+        #self.logger.start_test("simple white-list generation/checking for (U)EFI firmware")
 
         self.res = ModuleResult.SKIPPED
 
@@ -194,7 +212,7 @@ class whitelist(BaseModule):
             if len(module_argv) > 1:
                 json_file  = module_argv[1]
                 image_file = module_argv[2]
-                self.logger.log("[*] reading firmware from '%s'..." % image_file)
+                #self.logger.log("[*] reading firmware from '%s'..." % image_file)
             else:
                 image_file = DEF_FWIMAGE_FILE
                 json_file  = DEF_EFILIST_FILE
@@ -222,9 +240,10 @@ class whitelist(BaseModule):
                     self.res = self.check_whitelist(json_pth)
 
         elif op == 'help':
-            self.usage()
+            self.logger.log('')
+            #self.usage()
         else:
             self.logger.error("unrecognized command-line argument to the module")
-            self.usage()
+            #self.usage()
 
         return self.res

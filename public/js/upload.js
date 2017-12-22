@@ -89,6 +89,7 @@ $('#upload-input').on('change', function(){
 function printResults(){
   console.log("enter printResults");
   var fileUrl = "/uploads/" + fileName;
+  var fileUrl2 = "/analysis/temp.txt";
   var fileContent ="";
   
   
