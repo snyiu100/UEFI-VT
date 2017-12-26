@@ -59,18 +59,27 @@ var fileData ;
 var fileProgress;
 var newFilePath = "";
 
+var whitelistData;
+var analysisData;
+var tempPath = __dirname + '/public/analysis/temp.txt';
+var tempWhitePath = __dirname + '/public/analysis/tempWhite.txt';
+var analysisID;
+
 //http://shiya.io/simple-file-upload-with-express-js-and-formidable-in-node-js/
 //https://coligo.io/building-ajax-file-uploader-with-node/ 
 app.post('/upload', function (req, res){
   var form = new formidable.IncomingForm();
-  console.log("step2");
   form.parse(req);
+
+  fs.unlink(tempPath,function(err){
+    if (err) {console.log("do nothign")};
+    console.log(' ** successfully deleted ' +tempPath);
+  });
   
   form.on('fileBegin', function (name, file){
     fileName = file.name;
     file.path = __dirname + '/public/uploads/' + fileName;
     filePath = String((file.path).replace(/\\/g, "/"));
-    console.log("step3 " +filePath);
     uploadToDatabase();
   });
 
@@ -79,30 +88,14 @@ app.post('/upload', function (req, res){
   });
 
   form.on('file', function (name, file){
-    console.log('Uploaded ' + fileName);
-    console.log("step4");
+    console.log(' ** Uploaded ' + fileName);
 
-    fs.readFile(filePath, function(err,data){
-      console.log("enter readFile");
+    /* fs.readFile(filePath, function(err,data){
       if (err) 
         throw err;
       //data will contain file content
-      console.log("data is: "+data);
       fileData = data;
-    }); 
-  });
-
-  form.on('progress', function (bytesReceived, bytesExpected) {
-    var progress = {
-        type: 'progress',
-        bytesReceived: bytesReceived,
-        bytesExpected: bytesExpected
-    };
-    console.log(progress);
-    fileProgress = progress;
-    //Logging the progress on console.
-    //Depending on your application you can either send the progress to client
-    //for some visual feedback or perform some other operation.
+    });  */
   });
 
   form.on('end', function() {
@@ -114,7 +107,6 @@ app.post('/upload', function (req, res){
 /*
   UPLOAD PROCESS
 */
-var analysisID;
 function uploadToDatabase(){
   var date = new Date();
   console.log(fileProgress);
@@ -122,13 +114,13 @@ function uploadToDatabase(){
   const update = {uploadName: fileName, uploadDate:  date};
   connection.query('INSERT INTO upload SET ?', update, (err, res) => {
     if(err) throw err;
-    console.log('Last upload insert ID:', res.insertId);
+    console.log(' ** Last upload insert ID:', res.insertId);
   });
 
   const updateTest ={testContent: fileData};
   connection.query('INSERT INTO test SET ?', updateTest, (err, res) => {
     if(err) throw err;
-    console.log('Last test insert ID:', res.insertId);
+    console.log(' ** Last test insert ID:', res.insertId);
     analysisID = res.insertId;
     console.log(" ** analysisID: "+analysisID);
     runChipsec();
@@ -142,85 +134,30 @@ function uploadToDatabase(){
 function runChipsec(){
   console.log(" ** entered chipsec");
   newFilePath = String((__dirname + '/public/analysis/results' + analysisID +'.txt').replace(/\\/g, "/"));
-  console.log("** filename "+newFilePath);
+  console.log(" ** filename "+newFilePath);
 
-  chipsecWhitelist();
+  chipsecBlacklist();
 }
-
-
-var whitelistData;
-var analysisData;
-//parsing whitelist results
-/* function chipsecWhitelist(){
-  whitelistData = "******************** Retrieving module information ********************\n";
-  var pyProcess2 = cmd.get('python chipsec/chipsec_main.py -i -m tools.uefi.whitelist -a generate,efilist.json,C:/Users/User/Desktop/UEFI-VT/UEFI-VT/samples/sample.ROM'
-  ,
-      //to save whitelist cmd output to file
-      function(data, err, stderr) {
-        console.log("enter whitelist");
-        if (err) {
-          whitelistData += err;
-          analysisData = whitelistData;
-
-          fs.writeFile(newFilePath, whitelistData, function(err) {
-            if(err) {
-                return console.log("write error\n"+err);
-            }
-            
-            console.log("The file was saved!");
-          });
-        }
-
-        chipsecBlacklist();
-    }
-  );
-}  */
-
-var tempPath;
-//parsing whitelist results
-function chipsecWhitelist(){
-  whitelistData = "******************** Retrieving module information ********************";
-  var pyProcess2 = cmd.get('python chipsec/chipsec_main.py -i -m tools.uefi.whitelist -a generate,efilist.json,C:/Users/User/Desktop/UEFI-VT/UEFI-VT/samples/sample.ROM'
-  ,
-      //to save whitelist cmd output to file
-      function() {
-        console.log("enter whitelist2");
-        tempPath = __dirname + '/public/analysis/temp.txt';
-        fs.readFile(tempPath, function(err,data){
-          if (err) throw err;
-          //data will contain file content
-          whitelistData += data;
-          console.log("*** whitelist data retrieved");
-
-          fs.writeFile(newFilePath, whitelistData, function(err) {
-            if(err) {
-                return console.log("write error\n"+err);
-            }
-            
-            console.log("*** The initial file was saved!");
-          });
-
-        });
-
-        chipsecBlacklist();
-    }
-  );
-} 
 
 var blacklistData;
 //parsing blacklist results
 function chipsecBlacklist(){
   blacklistData = "******************** Analysing modules ********************";
-  var pyProcess = cmd.get('python chipsec/chipsec_main.py -i -m tools.uefi.blacklist -a C:/Users/User/Desktop/UEFI-VT/UEFI-VT/samples/sample2.ROM',
+  var pyProcess = cmd.get('python chipsec/chipsec_main.py -i -m tools.uefi.blacklist -a C:/Users/User/Desktop/UEFI-VT/UEFI-VT/samples/sample4.ROM',
   //to save blacklist output to file
     function(data, err, stderr) {
-      console.log("enter blacklist");
+      console.log(" ** enter blacklist");
         if (err) {
           blacklistData += err;
           analysisData += blacklistData;
         }
 
-        fs.appendFile(newFilePath, blacklistData, (err) => {
+        fs.writeFile(newFilePath, blacklistData, (err) => {
+          if (err) throw err;
+          console.log(' ** Black data written to analysis file!');
+        });
+
+        /* fs.appendFile(newFilePath, blacklistData, (err) => {
           if (err) throw err;
           console.log('*** data appended to analysis file!');
         });
@@ -228,18 +165,67 @@ function chipsecBlacklist(){
         fs.appendFile(tempPath, blacklistData, (err) => {
           if (err) throw err;
           console.log('*** data appended to temp!');
-        });
+        }); */
 
         const updateTest ={test2Report: analysisData};
         connection.query('INSERT INTO test2 SET ?', updateTest, (err, res) => {
           if(err) throw err;
-          console.log('Last test2 insert ID:', res.insertId);
+          console.log(' ** Last test2 insert ID:', res.insertId);
         });
+
+        chipsecWhitelist();        
+
     }
   );
 
 }
 
+
+//parsing whitelist results
+function chipsecWhitelist(){
+  var allData;
+  whitelistData = "******************** Retrieving module information ********************\r\n\r\n";
+
+  fs.appendFile(newFilePath, whitelistData, (err) => {
+    if (err) throw err;
+    console.log(' ** white header written to analysis file!');
+  });
+
+  var pyProcess2 = cmd.get('python chipsec/chipsec_main.py -i -m tools.uefi.whitelist -a generate,efilist.json,C:/Users/User/Desktop/UEFI-VT/UEFI-VT/samples/sample4.ROM'
+  ,
+      //to save whitelist cmd output to file
+      function() {
+        console.log(" ** enter whitelist");
+
+        fs.readFile(tempWhitePath, function(err,data){
+          if (err) throw err;
+          //data will contain file content
+          whitelistData = data;
+          console.log(" **  data retrieved");
+
+          fs.appendFile(newFilePath, whitelistData, (err) => {
+            if (err) throw err;
+            console.log(' ** All data written to analysis file!');
+
+            fs.readFile(newFilePath, function(err,data){
+              if (err) throw err;
+              //data will contain file content
+              allData = data;
+
+              fs.writeFile(tempPath, allData, (err) =>{
+                if (err) throw err;
+                console.log(' ** All data written to temp file!');
+              });
+            
+            });
+
+          });
+
+        });
+
+    }
+  );
+} 
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

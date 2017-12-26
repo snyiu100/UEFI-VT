@@ -130,10 +130,6 @@ class whitelist(BaseModule):
             if efi_module.ui_string == None:   efi_module.ui_string = "<no_name>"
             # below is the identifier
             self.efi_list["name: %s" % efi_module.ui_string] = md
-
-            h = open('abc.txt','w')
-            h.write('%s \n\n' % md)
-            h.close()
         else: pass
 
     #
@@ -152,7 +148,7 @@ class whitelist(BaseModule):
         self.logger.log( "%s" %  json.dumps(self.efi_list, indent=2, sort_keys=True, separators=(',', ': ')))
         
         #f = open('../public/analysis/temp.txt','w')
-        f = open('C:/Users/User/Desktop/UEFI-VT/UEFI-VT/public/analysis/temp.txt','w')
+        f = open('C:/Users/User/Desktop/UEFI-VT/UEFI-VT/public/analysis/tempWhite.txt','w')
         f.write( "Found %d EFI executables \n" % len(self.efi_list) )
         f.write('%s' % json.dumps(self.efi_list, indent=2, sort_keys=True, separators=(',', ': ') ))
         f.close()
