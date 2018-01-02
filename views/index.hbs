@@ -23,10 +23,12 @@
                     </div>
                 </div>
             </div>
-            <input id="upload-input" type="file" name="upload">
+            <input id="upload-input" type="file" name="upload" accept=".rom">
         </form>
 
     </div>
+
+    <button onClick="sendJSON()">Send</button>
 
     <div id="preload" hidden>
 			<div class="loader-frame">
@@ -40,11 +42,26 @@
 		</div>
 
     <div id = "resultsDiv" hidden>
-        <h3>Analysis Report</h3>
+        <div id = "resultsHeader">
+            <div id = "resultsTitle">
+                <h3>Analysis Report</h3>
+            </div>
+            <form action="/down" method="post">
+            
+            <div id="downloadBtnDiv">
+                <button type="submit" id="downloadLink" class="btn btn-info btn-sm" formaction="/download">
+                    <span id="downloadSpan" class="glyphicon glyphicon-download-alt"></span>
+                    <p id="downloadText">Download</p>
+                </button>
+            </div>
+            </form>
+        </div>
+
+        
+        
         <hr>
         <div id="fileResults"></div>
     </div>
 </div>
 
-<!-- SCRIPTS  <h3 style="text-align: left">Analysis Report</h3> -->
 <script src="js/upload.js"></script>

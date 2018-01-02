@@ -42,6 +42,7 @@ hr {
   border: none;
   height: 2px;
   background-color: #68757E; 
+  clear: both;
 }
 
 a {
@@ -84,6 +85,10 @@ h4 {
 h2 {
   margin-top: 15px;
   color: #68757E;
+}
+
+h1 {
+  color: #333333;
 }
 
 .panel {
@@ -212,5 +217,44 @@ h2 {
   }
 
 /* End Preload */
+
+#downloadBtnDiv {
+  float: right;
+  width: 50%;
+  text-align: right;
+  margin: 10px 0px 0px 0px;
+  
+}
+
+#resultsTitle {
+  float: left;
+  width: 50%;
+}
+
+#downloadSpan{
+  font-size: 2em;
+  color: white;
+  float: left;
+}
+
+#downloadText{
+  float: right;
+  margin: 5px 0px 0px 15px;
+}
+
+#downloadLink{
+  padding: 10px;
+  
+}
+
+#resultsHeader{
+  margin: 0 auto;
+  padding: 0px 0px 50px 0px;
+}
+
+#headerLink{
+  color: none;
+  text-decoration:none;
+}
 
 /* General Uploader layout: https://coligo.io/building-ajax-file-uploader-with-node/ */

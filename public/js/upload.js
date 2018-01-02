@@ -79,10 +79,15 @@ $('#upload-input').on('change', function(){
 });
 
 
+function sendJSON(){
+  
+  console.log("test");
+  
+  }
+
 function printResults(){
   var fileUrl = "/analysis/temp.txt";
   var fileContent ="";
-  
   
   $.ajax({
     url: fileUrl,
@@ -91,14 +96,16 @@ function printResults(){
     xhr: function(){
       
       //https://stackoverflow.com/questions/3567369/reading-server-side-file-with-javascript
-      fetch(fileUrl).then(function(response) {
+      fetch(fileUrl)
+      .then(function(response) {
         if (response.status !== 200) {
           $preload.show('slow');
-          setTimeout(printResults, 7500);
+          setTimeout(printResults, 5000);
           throw response.status;
         }
         return response.text();
-      }).then(function(file_content) {
+      })
+      .then(function(file_content) {
         fileContent = file_content;
         
         $fileResults.css({
@@ -109,12 +116,12 @@ function printResults(){
         $preload.hide();
         $resultsDiv.show('slow');
         
-      }).catch(function(status) {
+      })
+      .catch(function(status) {
         //console.log('Error ' + status);
       });
     }
   });
 }
-
 
 //https://coligo.io/building-ajax-file-uploader-with-node/
