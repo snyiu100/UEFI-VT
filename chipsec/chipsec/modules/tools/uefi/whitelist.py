@@ -143,10 +143,9 @@ class whitelist(BaseModule):
 
     
     def save_to_database(self, moduleGUID, moduleMD5, moduleName, moduleSHA1, moduleSHA256, foreignKey):
-        db = MySQLdb.connect("localhost","root","p@ssw0rd","uefivt")
-        cursor=db.cursor()
 
-        cursor.execute("""INSERT INTO module(moduleName,moduleGUID,moduleMD5,moduleSHA1,moduleSHA256,moduleUploadID) VALUES(%s, %s, %s, %s, %s, %s)""",(moduleName,moduleGUID,moduleMD5,moduleSHA1,moduleSHA256,foreignKey))
+        #cursor.execute("""INSERT INTO module(moduleName,moduleGUID,moduleMD5,moduleSHA1,moduleSHA256,moduleUploadID) VALUES(%s, %s, %s, %s, %s, %s)""",(moduleName,moduleGUID,moduleMD5,moduleSHA1,moduleSHA256,foreignKey))
+        cursor.execute("""INSERT IGNORE INTO module SET moduleName = %s,moduleGUID = %s,moduleMD5 = %s,moduleSHA1 = %s,moduleSHA256 = %s,moduleUploadID = %s""",(moduleName,moduleGUID,moduleMD5,moduleSHA1,moduleSHA256,foreignKey))
         db.commit()
 
         return None
@@ -218,6 +217,12 @@ class whitelist(BaseModule):
         #self.logger.start_test("simple white-list generation/checking for (U)EFI firmware")
 
         self.res = ModuleResult.SKIPPED
+
+        global db
+        global cursor
+
+        db = MySQLdb.connect("localhost","root","p@ssw0rd","uefivt")
+        cursor=db.cursor()
 
         op = module_argv[0] if len(module_argv) > 0 else 'generate'
 

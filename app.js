@@ -30,8 +30,20 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', index);
 app.use('/users', users);
 
+var uploadFilePath = "";
+var fileName = "";
+var fileData ;
+var analysisFilePath = "";
+
+var whitelistData;
+var tempPath = __dirname + '/public/analysis/temp.txt';
+var tempWhitePath = __dirname + '/public/analysis/tempWhite.txt';
+var analysisID;
+var cmdStatement;
+var blacklistData;
+
 /*
-  DB START
+  DB CONNECTION
 */
 var connection = mysql.createConnection({
   host     : 'localhost',
@@ -52,19 +64,6 @@ connection.connect(function(err) {
 /*
   FILE UPLOAD
 */
-var uploadFilePath = "";
-var fileName = "";
-var fileData ;
-var analysisFilePath = "";
-
-var whitelistData;
-var tempPath = __dirname + '/public/analysis/temp.txt';
-var tempWhitePath = __dirname + '/public/analysis/tempWhite.txt';
-var analysisID;
-var cmdStatement;
-
-//http://shiya.io/simple-file-upload-with-express-js-and-formidable-in-node-js/
-//https://coligo.io/building-ajax-file-uploader-with-node/ 
 app.post('/upload', function (req, res){
   var form = new formidable.IncomingForm();
   form.parse(req);
@@ -124,7 +123,6 @@ function runChipsec(){
   chipsecBlacklist();
 }
 
-var blacklistData;
 //parsing blacklist results
 function chipsecBlacklist(){
   blacklistData = "******************** Analysing modules ********************";
@@ -200,6 +198,14 @@ function chipsecWhitelist(){
                   if(err) throw err;
                   console.log(' ** Last test2 insert ID:', res.insertId);
                 });
+
+                const insertIntoAnalysis ={
+                  'analysisReport': allData, 'analysisUploadID': foreignKey
+                };
+                connection.query('INSERT INTO analysis SET ?', insertIntoAnalysis, (err, res) => {
+                  if(err) throw err;
+                  console.log(' ** Last analysis insert ID:', res.insertId);
+                });
               
               });
 
@@ -218,6 +224,30 @@ app.post('/download',function (req, res){
   console.log(" ** Downloading file...");
   res.download(analysisFilePath);
 });
+
+/*
+  DB DATA RETRIEVAL
+*/
+app.post('/print',function (req, res){
+  console.log(" ** Getting from DB...");
+  
+  connection.query('SELECT COUNT(moduleName) AS moduleCount FROM module WHERE moduleUploadID=3', (err,rows,result)=>{
+    if (err) throw err;
+    
+    console.log("rows:", rows);
+    console.log("print:", rows[0].moduleCount);
+    //data+= rows[0].moduleCount +"\r\n";
+  })
+
+  connection.query('SELECT moduleName, moduleGUID, moduleMD5, moduleSHA1, moduleSHA256 FROM module WHERE moduleUploadID = 3 ORDER BY moduleName' , (err, rows, result)=> {
+    if (err) throw err;
+
+    res.writeHead(200, {'Content-Type': 'application/json'});
+    res.end(JSON.stringify(rows));
+
+  });
+
+}); 
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -238,3 +268,6 @@ app.use(function(err, req, res, next) {
 });
 
 module.exports = app;
+
+//http://shiya.io/simple-file-upload-with-express-js-and-formidable-in-node-js/
+//https://coligo.io/building-ajax-file-uploader-with-node/ 

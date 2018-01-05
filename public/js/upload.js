@@ -1,6 +1,8 @@
 var fileName = "";
 var $fileResults = $('#fileResults');
 var $resultsDiv = $('#resultsDiv');
+var $dbDiv = $('#dbDiv');
+var $printBtn = $('#printBtn');
 
 var $preload = $('#preload'); // loading symbol
 
@@ -46,7 +48,8 @@ $('#upload-input').on('change', function(){
       processData: false,
       contentType: false,
       success: function(data){
-          console.log('upload successful! ' + data);
+        //print to web console 
+        console.log('upload successful! ' + data);
       },
       xhr: function() {
         // create an XMLHttpRequest
@@ -82,8 +85,10 @@ $('#upload-input').on('change', function(){
 function sendJSON(){
   
   console.log("test");
+  $('#demoTableDiv').show('slow');
+
   
-  }
+}
 
 function printResults(){
   var fileUrl = "/analysis/temp.txt";
@@ -124,4 +129,89 @@ function printResults(){
   });
 }
 
+
+$('#printBtn').on('click', function (){
+  console.log("client");
+  $.ajax({                                      
+    url: '/print',
+    type: 'POST',   
+    success: function(data)
+    {
+
+      var printRow='';
+      var counter='';
+
+      var rows = data;
+      
+      /* for (i=0; i<rows.length; i++){
+        var row = rows[i];
+        console.log(row.moduleName, row.moduleGUID);
+        printRow+=row.moduleName+ row.moduleGUID +"\r\n\r\n";
+        counter++;
+      } */
+
+      for (i=0; i<rows.length; i++){
+        var row = rows[i];
+        console.log(row.moduleName, row.moduleGUID);
+        printRow+=row.moduleName+ row.moduleGUID +"\r\n\r\n";
+
+        if (row.moduleName.includes("<") || row.moduleName.includes(">")) {
+          row.moduleName = row.moduleName.replace(/\</g, "&lt;");
+          row.moduleName = row.moduleName.replace(/\>/g, "&gt;");
+        }
+
+        var output = '';
+        output += '<tr>';
+        output += '<td><a href="#" style="text-decoration:none">' + row.moduleName + '</a></td>';
+        output += '<td>' + row.moduleGUID + '</td>';
+        output += '<td>' + row.moduleMD5 + '</td>';
+        output += '<td>' + row.moduleSHA1 + '</td>';
+        output += '<td>' + row.moduleSHA256 + '</td>';
+        output += '</tr>';
+
+        $('#dbTable tbody').append(output)
+
+        
+        
+        
+        counter++;
+      }
+
+      $('#dbTotalDiv').append("Total Modules: "+counter);
+
+      /* $(result).each(function(index, item) {
+        var output = '';
+        output += '<tr>';
+        output += '<td>' + item.file_no + '</td>';
+        output += '<td>' + item.file_name + '</td>';
+        output += '<td>' + item.file_content + '</td>';
+        output += '<td>' + item.file_model + '</td>';
+        output += '</tr>';
+        $('#output').append(output);
+
+        $('#dbTable tbody').append(
+          '<tr><td><a href="#">' + row.moduleName +
+          '</a></td><td>' + row.moduleGUID +
+          '</td><td>' + row.moduleMD5 +
+          '</td><td>' + row.moduleSHA1 +
+          '</td><td>' + row.moduleSHA256 +
+          '</td></tr>'
+        );
+
+      } */
+
+
+      /* $dbDiv.css({
+        "white-space" : "pre-wrap"
+      }); 
+      $dbDiv.text(counter+printRow); */
+
+    } 
+    
+  });
+  $dbDiv.show('slow');      
+  
+});
+
+// https://stackoverflow.com/questions/40258816/js-nodejs-read-table-from-db-with-ajax-and-display-in-table
 //https://coligo.io/building-ajax-file-uploader-with-node/

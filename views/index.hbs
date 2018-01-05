@@ -28,25 +28,168 @@
 
     </div>
 
-    <button onClick="sendJSON()">Send</button>
+    <button onClick="sendJSON()">Table format 2</button>
 
     <div id="preload" hidden>
-			<div class="loader-frame">
-				<div class="loader1"></div>
-				<div class="loader2"></div>
-				<div class="loader3"></div>
-			</div>
-            <h3>
-				Analysing...
-			</h3>
+		<div class="loader-frame">
+			<div class="loader1"></div>
+			<div class="loader2"></div>
+			<div class="loader3"></div>
 		</div>
+        <h3>
+			Analysing...
+		</h3>
+	</div>
+
+    <div id="printBtnDiv">
+        <button type="submit" id="printBtn" class="btn btn-info btn-sm">
+            <p>table format 1</p>
+        </button>
+    </div>
+
+
+
+    <div id="demoTableDiv" hidden>
+        <table id="demoTable" class="table table-condensed table-hover" style="border-collapse:collapse;">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Date</th>
+                    <th>Description</th>
+                    <th>Credit</th>
+                    <th>Debit</th>
+                    <th>Balance</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr data-toggle="collapse" data-target=".demo1" class="accordion-toggle clickable modName">
+                    <td>1</td>
+                    <td>05 May 2013</td>
+                    <td>Credit Account</td>
+                    <td class="text-success">$150.00</td>
+                    <td class="text-error">blah</td>
+                    <td class="text-success">$150.00</td>
+                </tr>
+
+                <tr>
+                    <td class="hiddenRow">
+                        <div class="accordian-body collapse demo1"> Demo1 </div>
+                    </td>
+                    <td class="hiddenRow">
+                        <div class="accordian-body collapse demo1"> Demo1 </div>
+                    </td>
+                    <td class="hiddenRow">
+                        <div class="accordian-body collapse demo1"> Demo1 </div>
+                    </td>
+                    <td class="hiddenRow">
+                        <div class="accordian-body collapse demo1"> Demo1 </div>
+                    </td>
+                    <td class="hiddenRow">
+                        <div class="accordian-body collapse demo1"> Demo1 </div>
+                    </td>
+                    <td class="hiddenRow">
+                        <div class="accordian-body collapse demo1"> Demo1 </div>
+                    </td>
+                </tr>
+            <!-- =============================================================================-->
+                
+                <tr data-toggle="collapse" data-target=".demo2" class="accordion-toggle clickable">
+                    <td>1</td>
+                    <td>05 May 2013</td>
+                    <td>Credit Account</td>
+                    <td class="text-success">$150.00</td>
+                    <td class="text-error"></td>
+                    <td class="text-success">$150.00</td>
+                </tr>
+
+                <tr>
+                    <td class="hiddenRow">
+                        <div class="accordian-body collapse demo2"> Demo1 </div>
+                    </td>
+                    <td class="hiddenRow">
+                        <div class="accordian-body collapse demo2"> Demo1 </div>
+                    </td>
+                    <td class="hiddenRow">
+                        <div class="accordian-body collapse demo2"> Demo1 </div>
+                    </td>
+                    <td class="hiddenRow">
+                        <div class="accordian-body collapse demo2"> Demo1 </div>
+                    </td>
+                    <td class="hiddenRow">
+                        <div class="accordian-body collapse demo2"> Demo1 </div>
+                    </td>
+                    <td class="hiddenRow">
+                        <div class="accordian-body collapse demo2"> Demo1 </div>
+                    </td>
+                </tr>
+            <!-- =============================================================================-->
+            <tr data-toggle="collapse" data-target=".demo3" class="accordion-toggle clickable">
+                    <td>1</td>
+                    <td>05 May 2013</td>
+                    <td>Credit Account</td>
+                    <td class="text-success">$150.00</td>
+                    <td class="text-error"></td>
+                    <td class="text-success">$150.00</td>
+                </tr>
+
+                <tr>
+                    <td class="hiddenRow">
+                        <div class="accordian-body collapse demo3"> Demo1 </div>
+                    </td>
+                    <td class="hiddenRow">
+                        <div class="accordian-body collapse demo3"> Demo1 </div>
+                    </td>
+                    <td class="hiddenRow">
+                        <div class="accordian-body collapse demo3"> Demo1 </div>
+                    </td>
+                    <td class="hiddenRow">
+                        <div class="accordian-body collapse demo3"> Demo1 </div>
+                    </td>
+                    <td class="hiddenRow">
+                        <div class="accordian-body collapse demo3"> Demo1 </div>
+                    </td>
+                    <td class="hiddenRow">
+                        <div class="accordian-body collapse demo3"> Demo1 </div>
+                    </td>
+                </tr>
+            <!-- =============================================================================-->
+            </tbody>
+            </table>
+
+    </div>
+
+    <br><br>
+
+    <div id = "dbDiv" hidden>
+        <h3 id="dbTotalDiv"></h3>
+        <hr>
+        <table class="table" id = "dbTable">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>GUID</th>
+                    <th>MD5</th>
+                    <th>SHA1</th>
+                    <th>SHA256</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                
+            </tbody>
+
+        </table>
+
+    </div>
+
+    <br><br>
 
     <div id = "resultsDiv" hidden>
         <div id = "resultsHeader">
             <div id = "resultsTitle">
                 <h3>Analysis Report</h3>
             </div>
-            <form action="/down" method="post">
+            <form method="post">
             
             <div id="downloadBtnDiv">
                 <button type="submit" id="downloadLink" class="btn btn-info btn-sm" formaction="/download">
@@ -56,12 +199,11 @@
             </div>
             </form>
         </div>
-
-        
         
         <hr>
         <div id="fileResults"></div>
     </div>
+
 </div>
 
 <script src="js/upload.js"></script>
