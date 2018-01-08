@@ -85,6 +85,97 @@ $('#upload-input').on('change', function(){
 function sendJSON(){
   
   console.log("test");
+
+  $.ajax({                                      
+    url: '/print',
+    type: 'POST',   
+    success: function(data)
+    {
+
+      var printRow='';
+      var counter=1;
+
+      var rows = data;
+
+      for (i=0; i<rows.length; i++){
+        var row = rows[i];
+        console.log(row.moduleName, row.moduleGUID);
+        printRow+=row.moduleName+ row.moduleGUID +"\r\n\r\n";
+
+        if (row.moduleName.includes("<") || row.moduleName.includes(">")) {
+          row.moduleName = row.moduleName.replace(/\</g, "&lt;");
+          row.moduleName = row.moduleName.replace(/\>/g, "&gt;");
+        }
+
+        var output = '';
+
+        output += '<tr data-toggle="collapse" data-target=".mod' +counter +'" class="accordion-toggle clickable modName">';
+          output += '<td class="col1">Name</td>';
+          output += '<td class="col2"><a href="#" style="text-decoration:none">' + row.moduleName + '</a></td>';
+        output += '</tr>';
+
+        output += '<tr>';
+          output += '<td class="hiddenRow col1">';
+            output += '<div class="accordion-body collapse mod' +counter +'"> GUID</div>';
+          output += '</td>';
+
+          output += '<td class="hiddenRow col2">';
+            output += '<div class="accordion-body collapse mod' +counter +'">' +row.moduleGUID +'</div>';
+          output += '</td>';
+        output += '</tr>';
+
+        output += '<tr>';
+          output += '<td class="hiddenRow col1">';
+            output += '<div class="accordion-body collapse mod' +counter +'"> MD5</div>';
+          output += '</td>';
+
+          output += '<td class="hiddenRow col2">';
+            output += '<div class="accordion-body collapse mod' +counter +'">' +row.moduleMD5 +'</div>';
+          output += '</td>';
+        output += '</tr>';
+
+        output += '<tr>';
+          output += '<td class="hiddenRow col1">';
+            output += '<div class="accordion-body collapse mod' +counter +'"> SHA1</div>';
+          output += '</td>';
+
+          output += '<td class="hiddenRow col2">';
+            output += '<div class="accordion-body collapse mod' +counter +'">' +row.moduleSHA1 +'</div>';
+          output += '</td>';
+        output += '</tr>';
+
+        output += '<tr>';
+          output += '<td class="hiddenRow col1">';
+            output += '<div class="accordion-body collapse mod' +counter +'"> SHA256</div>';
+          output += '</td>';
+
+          output += '<td class="hiddenRow col2">';
+            output += '<div class="accordion-body collapse mod' +counter +'">' +row.moduleSHA256 +'</div>';
+          output += '</td>';
+        output += '</tr>';
+
+        output += '<tr>';
+          output += '<td colspan="2" class="hiddenRow">'
+            output += '<div class="accordion-body collapse mod' +counter +'"> Exists in xxx other uploads:</div>';
+          output += '</td>';
+        output += '</tr>';
+        
+          
+
+        $('#demoTable').append(output)
+
+        console.log("checkoutput:\n"+output);
+        
+        
+        counter++;
+      }
+
+      $('#demoTableDiv h3').append("Total Modules: "+counter);
+
+    } 
+    
+  });
+
   $('#demoTableDiv').show('slow');
 
   

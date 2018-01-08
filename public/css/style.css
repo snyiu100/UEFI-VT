@@ -59,9 +59,16 @@ body {
   text-align: left;
 }
 
-#demoTable td, th {
-  width: 10%;
+#demoTable td {
   word-break:break-all;
+}
+
+.col1 {
+  width:20%;
+}
+
+.col2 {
+  width:80%;
 }
 
 #demoTable{
