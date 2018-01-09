@@ -63,12 +63,32 @@ body {
   word-break:break-all;
 }
 
+#printUploadDiv {
+  background-color: white;
+  margin: 0 auto;
+  border-radius: 5px;
+  padding: 10px 20px 20px 20px;
+  text-align: left;
+}
+
+#uploadTable td {
+  word-break:break-all;
+}
+
 .col1 {
   width:20%;
 }
 
 .col2 {
   width:80%;
+}
+
+.ucol1 {
+  width:30%;
+}
+
+.ucol2 {
+  width:70%;
 }
 
 #demoTable{

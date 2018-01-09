@@ -93,7 +93,7 @@ function sendJSON(){
     {
 
       var printRow='';
-      var counter=1;
+      var counter=0;
 
       var rows = data;
 
@@ -101,6 +101,7 @@ function sendJSON(){
         var row = rows[i];
         console.log(row.moduleName, row.moduleGUID);
         printRow+=row.moduleName+ row.moduleGUID +"\r\n\r\n";
+        counter++;
 
         if (row.moduleName.includes("<") || row.moduleName.includes(">")) {
           row.moduleName = row.moduleName.replace(/\</g, "&lt;");
@@ -111,7 +112,7 @@ function sendJSON(){
 
         output += '<tr data-toggle="collapse" data-target=".mod' +counter +'" class="accordion-toggle clickable modName">';
           output += '<td class="col1">Name</td>';
-          output += '<td class="col2"><a href="#" style="text-decoration:none">' + row.moduleName + '</a></td>';
+          output += '<td class="col2">' + row.moduleName + '</td>';
         output += '</tr>';
 
         output += '<tr>';
@@ -156,7 +157,7 @@ function sendJSON(){
 
         output += '<tr>';
           output += '<td colspan="2" class="hiddenRow">'
-            output += '<div class="accordion-body collapse mod' +counter +'"> Exists in xxx other uploads:</div>';
+            output += '<div class="accordion-body collapse mod' +counter +'"> Exists in <a href="#" style="text-decoration:none; font-weight: bold;" data-toggle="modal" onClick="sendPrint2()" data-target="#myModal">xxx</a> other uploads:</div>';
           output += '</td>';
         output += '</tr>';
         
@@ -165,9 +166,6 @@ function sendJSON(){
         $('#demoTable').append(output)
 
         console.log("checkoutput:\n"+output);
-        
-        
-        counter++;
       }
 
       $('#demoTableDiv h3').append("Total Modules: "+counter);
@@ -180,6 +178,8 @@ function sendJSON(){
 
   
 }
+
+
 
 function printResults(){
   var fileUrl = "/analysis/temp.txt";
@@ -303,6 +303,45 @@ $('#printBtn').on('click', function (){
   $dbDiv.show('slow');      
   
 });
+
+function sendPrint2(){
+  
+  console.log("test2");
+
+  $.ajax({                                      
+    url: '/print2',
+    type: 'POST',  
+    async:false, 
+    success: function(data)
+    {
+      var rows = data;
+
+      console.log("checkoutput:\n"+data);
+
+      for (i=0; i<rows.length; i++){
+        console.log(rows[i].uploadName, rows[i].uploadDate);
+        var print ='';
+
+        print += '<tr>';
+          print += '<td class="ucol1">';
+          print += rows[i].uploadName;
+          print += '</td>';
+          print += '<td class="ucol2" style="word-wrap: break-word;">';
+          print += new Date(rows[i].uploadDate);
+          print += '</td>';
+        print += '</tr>';
+
+        $('#uploadTable tbody').append(print);
+
+      }
+
+    } 
+    
+  });
+
+  $('#printUploadDiv').show('slow');
+
+}
 
 // https://stackoverflow.com/questions/40258816/js-nodejs-read-table-from-db-with-ajax-and-display-in-table
 //https://coligo.io/building-ajax-file-uploader-with-node/

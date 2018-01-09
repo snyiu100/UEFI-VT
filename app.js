@@ -249,6 +249,74 @@ app.post('/print',function (req, res){
 
 }); 
 
+app.post('/print2', function (req, res){
+
+  // get MD5/name/etc of selected module
+  retrievedModuleName = "ACPIRAM";
+
+  console.log('SELECT moduleUploadID FROM module WHERE moduleName =\''+retrievedModuleName +'\'');
+
+  connection.query('SELECT moduleUploadID FROM module WHERE moduleName =\'' +retrievedModuleName +'\'', (err, rows, result)=> {
+    console.log(" ++ enter");
+    if (err) throw err;
+
+    sql="SELECT uploadName, uploadDate FROM upload WHERE uploadID =";
+
+    console.log(" ++ length:"+rows.length);
+
+    console.log(" ++ check json:" +JSON.stringify(rows));
+
+    console.log(" ++ name:"+rows[2].moduleUploadID);
+
+    console.log(" ++ typw:"+typeof(rows[2].moduleUploadID));
+
+    doDBCall();
+
+    function doDBCall(){
+      if (rows.length > 1){
+        console.log(" ++ enter2");
+        for (i=0; i<rows.length; i++){
+          console.log(" ++ enter3");
+          if (i==0){
+            sql += rows[i].moduleUploadID;
+          }
+          else if (i== (rows.length-1)){
+            console.log("++ check i : "+i);
+            sql += ' or uploadID=' +rows[i].moduleUploadID +' ORDER BY uploadID';
+          }
+          else{
+            sql += ' or uploadID=' +rows[i].moduleUploadID; 
+          }
+        }
+      }
+      else {
+        sql += rows[0].moduleUploadID +' ORDER BY uploadID';
+      }
+
+      console.log(" ++ check sttment: "+sql);
+      
+      doDBCall2();
+    }
+
+    function doDBCall2(){
+      console.log("do2");
+
+      connection.query(sql , (err, rows, result)=> {
+        console.log("sql statement2: "+sql);
+        if (err) throw err;
+        
+        console.log(" ++ check json2:" +JSON.stringify(rows));
+        
+        res.writeHead(200, {'Content-Type': 'application/json'});
+        res.end(JSON.stringify(rows));
+    
+      });
+    }
+  });
+
+  
+});
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
