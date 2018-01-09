@@ -249,13 +249,13 @@ app.post('/print',function (req, res){
 
 }); 
 
-app.post('/print2', function (req, res){
+app.post('/print3', function (req, res){
 
-  // get MD5/name/etc of selected module
-  retrievedModuleName = "ACPIRAM";
+  var retrievedModuleName = req.body.modStr;
+  console.log(" ~~~get name: "+retrievedModuleName);
 
   console.log('SELECT moduleUploadID FROM module WHERE moduleName =\''+retrievedModuleName +'\'');
-
+  
   connection.query('SELECT moduleUploadID FROM module WHERE moduleName =\'' +retrievedModuleName +'\'', (err, rows, result)=> {
     console.log(" ++ enter");
     if (err) throw err;

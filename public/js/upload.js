@@ -6,15 +6,16 @@ var $printBtn = $('#printBtn');
 
 var $preload = $('#preload'); // loading symbol
 
-
+//Display toggle function
 $('.upload-btn').on('click', function (){
     $('#upload-input').click();
     $('.progress-bar').text('0%');
     $('.progress-bar').width('0%');
     $fileResults.text('');    
     $resultsDiv.hide('slow');
-  });
+});
 
+//Upload file function
 $('#upload-input').on('change', function(){
 
   var files = $(this).get(0).files;
@@ -81,7 +82,11 @@ $('#upload-input').on('change', function(){
   }
 });
 
+function checkClick(dataStr){
+  console.log("++ DS: "+dataStr);
+}
 
+//Accordion table function
 function sendJSON(){
   
   console.log("test");
@@ -98,21 +103,20 @@ function sendJSON(){
       var rows = data;
 
       for (i=0; i<rows.length; i++){
-        var row = rows[i];
-        console.log(row.moduleName, row.moduleGUID);
-        printRow+=row.moduleName+ row.moduleGUID +"\r\n\r\n";
+        console.log(rows[i].moduleName, rows[i].moduleGUID);
+        printRow+=rows[i].moduleName+ rows[i].moduleGUID +"\r\n\r\n";
         counter++;
 
-        if (row.moduleName.includes("<") || row.moduleName.includes(">")) {
-          row.moduleName = row.moduleName.replace(/\</g, "&lt;");
-          row.moduleName = row.moduleName.replace(/\>/g, "&gt;");
+        if (rows[i].moduleName.includes("<") || rows[i].moduleName.includes(">")) {
+          rows[i].moduleName = rows[i].moduleName.replace(/\</g, "&lt;");
+          rows[i].moduleName = rows[i].moduleName.replace(/\>/g, "&gt;");
         }
 
         var output = '';
 
         output += '<tr data-toggle="collapse" data-target=".mod' +counter +'" class="accordion-toggle clickable modName">';
           output += '<td class="col1">Name</td>';
-          output += '<td class="col2">' + row.moduleName + '</td>';
+          output += '<td class="col2">' + rows[i].moduleName + '</td>';
         output += '</tr>';
 
         output += '<tr>';
@@ -121,7 +125,7 @@ function sendJSON(){
           output += '</td>';
 
           output += '<td class="hiddenRow col2">';
-            output += '<div class="accordion-body collapse mod' +counter +'">' +row.moduleGUID +'</div>';
+            output += '<div class="accordion-body collapse mod' +counter +'">' +rows[i].moduleGUID +'</div>';
           output += '</td>';
         output += '</tr>';
 
@@ -131,7 +135,7 @@ function sendJSON(){
           output += '</td>';
 
           output += '<td class="hiddenRow col2">';
-            output += '<div class="accordion-body collapse mod' +counter +'">' +row.moduleMD5 +'</div>';
+            output += '<div class="accordion-body collapse mod' +counter +'">' +rows[i].moduleMD5 +'</div>';
           output += '</td>';
         output += '</tr>';
 
@@ -141,7 +145,7 @@ function sendJSON(){
           output += '</td>';
 
           output += '<td class="hiddenRow col2">';
-            output += '<div class="accordion-body collapse mod' +counter +'">' +row.moduleSHA1 +'</div>';
+            output += '<div class="accordion-body collapse mod' +counter +'">' +rows[i].moduleSHA1 +'</div>';
           output += '</td>';
         output += '</tr>';
 
@@ -151,15 +155,16 @@ function sendJSON(){
           output += '</td>';
 
           output += '<td class="hiddenRow col2">';
-            output += '<div class="accordion-body collapse mod' +counter +'">' +row.moduleSHA256 +'</div>';
+            output += '<div class="accordion-body collapse mod' +counter +'">' +rows[i].moduleSHA256 +'</div>';
           output += '</td>';
         output += '</tr>';
 
         output += '<tr>';
           output += '<td colspan="2" class="hiddenRow">'
-            output += '<div class="accordion-body collapse mod' +counter +'"> Exists in <a href="#" style="text-decoration:none; font-weight: bold;" data-toggle="modal" onClick="sendPrint2()" data-target="#myModal">xxx</a> other uploads:</div>';
+            output += '<div class="accordion-body collapse mod' +counter +'"> Exists in <a href="#" style="text-decoration:none; font-weight: bold;" data-toggle="modal" onClick="sendPrint3(\''+rows[i].moduleName+'\')" data-target="#myModal">xxx</a> other uploads:</div>';
           output += '</td>';
         output += '</tr>';
+        output += '<input type="text" id="demo" name="'+rows[i].moduleName+'">';
         
           
 
@@ -167,20 +172,13 @@ function sendJSON(){
 
         console.log("checkoutput:\n"+output);
       }
-
       $('#demoTableDiv h3').append("Total Modules: "+counter);
-
     } 
-    
   });
-
   $('#demoTableDiv').show('slow');
-
-  
 }
 
-
-
+// Printing temp.txt function
 function printResults(){
   var fileUrl = "/analysis/temp.txt";
   var fileContent ="";
@@ -220,7 +218,7 @@ function printResults(){
   });
 }
 
-
+// initial table function
 $('#printBtn').on('click', function (){
   console.log("client");
   $.ajax({                                      
@@ -228,7 +226,6 @@ $('#printBtn').on('click', function (){
     type: 'POST',   
     success: function(data)
     {
-
       var printRow='';
       var counter='';
 
@@ -236,34 +233,30 @@ $('#printBtn').on('click', function (){
       
       /* for (i=0; i<rows.length; i++){
         var row = rows[i];
-        console.log(row.moduleName, row.moduleGUID);
-        printRow+=row.moduleName+ row.moduleGUID +"\r\n\r\n";
+        console.log(rows[i].moduleName, rows[i].moduleGUID);
+        printRow+=rows[i].moduleName+ rows[i].moduleGUID +"\r\n\r\n";
         counter++;
       } */
 
       for (i=0; i<rows.length; i++){
-        var row = rows[i];
-        console.log(row.moduleName, row.moduleGUID);
-        printRow+=row.moduleName+ row.moduleGUID +"\r\n\r\n";
+        console.log(rows[i].moduleName, rows[i].moduleGUID);
+        printRow+=rows[i].moduleName+ rows[i].moduleGUID +"\r\n\r\n";
 
-        if (row.moduleName.includes("<") || row.moduleName.includes(">")) {
-          row.moduleName = row.moduleName.replace(/\</g, "&lt;");
-          row.moduleName = row.moduleName.replace(/\>/g, "&gt;");
+        if (rows[i].moduleName.includes("<") || rows[i].moduleName.includes(">")) {
+          rows[i].moduleName = rows[i].moduleName.replace(/\</g, "&lt;");
+          rows[i].moduleName = rows[i].moduleName.replace(/\>/g, "&gt;");
         }
 
         var output = '';
         output += '<tr>';
-        output += '<td><a href="#" style="text-decoration:none">' + row.moduleName + '</a></td>';
-        output += '<td>' + row.moduleGUID + '</td>';
-        output += '<td>' + row.moduleMD5 + '</td>';
-        output += '<td>' + row.moduleSHA1 + '</td>';
-        output += '<td>' + row.moduleSHA256 + '</td>';
+        output += '<td><a href="#" style="text-decoration:none">' + rows[i].moduleName + '</a></td>';
+        output += '<td>' + rows[i].moduleGUID + '</td>';
+        output += '<td>' + rows[i].moduleMD5 + '</td>';
+        output += '<td>' + rows[i].moduleSHA1 + '</td>';
+        output += '<td>' + rows[i].moduleSHA256 + '</td>';
         output += '</tr>';
 
         $('#dbTable tbody').append(output)
-
-        
-        
         
         counter++;
       }
@@ -281,11 +274,11 @@ $('#printBtn').on('click', function (){
         $('#output').append(output);
 
         $('#dbTable tbody').append(
-          '<tr><td><a href="#">' + row.moduleName +
-          '</a></td><td>' + row.moduleGUID +
-          '</td><td>' + row.moduleMD5 +
-          '</td><td>' + row.moduleSHA1 +
-          '</td><td>' + row.moduleSHA256 +
+          '<tr><td><a href="#">' + rows[i].moduleName +
+          '</a></td><td>' + rows[i].moduleGUID +
+          '</td><td>' + rows[i].moduleMD5 +
+          '</td><td>' + rows[i].moduleSHA1 +
+          '</td><td>' + rows[i].moduleSHA256 +
           '</td></tr>'
         );
 
@@ -304,19 +297,26 @@ $('#printBtn').on('click', function (){
   
 });
 
-function sendPrint2(){
+//dynamic modulename modal fn => anchorclick
+function sendPrint3(modNameStr){
   
-  console.log("test2");
+  console.log("test3");
+
+  var sendData = JSON.stringify({modStr: modNameStr});
+  $('.modal-title').text('');    
 
   $.ajax({                                      
-    url: '/print2',
-    type: 'POST',  
-    async:false, 
+    url: '/print3',
+    type: 'POST', 
+    dataType: 'json',
+    contentType: "application/json; charset=UTF-8",
+    data: sendData ,
     success: function(data)
     {
+      console.log("checking string: "+modNameStr);
       var rows = data;
 
-      console.log("checkoutput:\n"+data);
+      $('.modal-title').append(modNameStr +" also exists in:");      
 
       for (i=0; i<rows.length; i++){
         console.log(rows[i].uploadName, rows[i].uploadDate);
@@ -334,13 +334,9 @@ function sendPrint2(){
         $('#uploadTable tbody').append(print);
 
       }
-
     } 
-    
   });
-
   $('#printUploadDiv').show('slow');
-
 }
 
 // https://stackoverflow.com/questions/40258816/js-nodejs-read-table-from-db-with-ajax-and-display-in-table
