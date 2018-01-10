@@ -1,3 +1,8 @@
+******************** Analysing modules ******************** 
+
+Checking EFI binaries...
+[+] PASSED: Didn't find any black-listed EFI binary
+
 Found 174 EFI executables 
 
 {
@@ -1045,4 +1050,5 @@ Found 174 EFI executables
     "sha1": "944a88d9a24449880353ff6934b052fd7d6db955",
     "sha256": "75875fbcee14f20e3274725c6f4a3b50a2f0bea72c26adddc068f5839651b078"
   }
-}
+}******************** Retrieving module information ********************
+

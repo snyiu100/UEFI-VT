@@ -6,6 +6,9 @@ var $printBtn = $('#printBtn');
 
 var $preload = $('#preload'); // loading symbol
 
+var analysisFP = '';
+var fileUrl ='';
+
 //Display toggle function
 $('.upload-btn').on('click', function (){
     $('#upload-input').click();
@@ -51,6 +54,10 @@ $('#upload-input').on('change', function(){
       success: function(data){
         //print to web console 
         console.log('upload successful! ' + data);
+        analysisFP = data;
+        fileUrl = analysisFP.substring(analysisFP.indexOf("/analysis"), analysisFP.length);
+        
+        printResults();
       },
       xhr: function() {
         // create an XMLHttpRequest
@@ -71,7 +78,6 @@ $('#upload-input').on('change', function(){
             // once the upload reaches 100%, set the progress bar text to done
             if (percentComplete === 100) {
               $('.progress-bar').html('Success!');
-              printResults();
             }
     
           }
@@ -180,15 +186,15 @@ function sendJSON(){
 
 // Printing temp.txt function
 function printResults(){
-  var fileUrl = "/analysis/temp.txt";
+  //var fileUrl = "/analysis/temp.txt";
   var fileContent ="";
-  
+
   $.ajax({
     url: fileUrl,
     type: 'POST',
     async: false,
     xhr: function(){
-      
+
       //https://stackoverflow.com/questions/3567369/reading-server-side-file-with-javascript
       fetch(fileUrl)
       .then(function(response) {

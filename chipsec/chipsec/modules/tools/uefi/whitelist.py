@@ -165,7 +165,7 @@ class whitelist(BaseModule):
         # self.logger.log( "Found %d EFI executables" % len(self.efi_list) )
         # self.logger.log( "%s" %  json.dumps(self.efi_list, indent=2, sort_keys=True, separators=(',', ': ')))
         
-        f = open('C:\Users\User\Desktop\UEFI-VT\UEFI-VT\public\\analysis\\tempWhite.txt','w')
+        f = open('C:\Users\User\Desktop\UEFI-VT\UEFI-VT\public\\analysis\\temp.txt','a')
         f.write( "Found %d EFI executables \n\n" % len(self.efi_list) )
         f.write('%s' % json.dumps(self.efi_list, indent=2, sort_keys=True, separators=(',', ': ') ))
         f.close()

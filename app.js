@@ -35,7 +35,8 @@ var fileName = "";
 var fileData ;
 var analysisFilePath = "";
 
-var whitelistData;
+var allData;
+var whitelistHeader;
 var tempPath = __dirname + '/public/analysis/temp.txt';
 var tempWhitePath = __dirname + '/public/analysis/tempWhite.txt';
 var analysisID;
@@ -68,16 +69,11 @@ app.post('/upload', function (req, res){
   var form = new formidable.IncomingForm();
   form.parse(req);
 
-  fs.unlink(tempPath,function(err){
-    if (err) {console.log("do nothign")};
-    console.log(' ** successfully deleted ' +tempPath);
-  });
-  
   form.on('fileBegin', function (name, file){
     fileName = file.name;
     file.path = __dirname + '/public/uploads/' + fileName;
     uploadFilePath = String((file.path).replace(/\\/g, "/"));
-    console.log("chekc path: "+uploadFilePath);
+    console.log("check path: "+uploadFilePath);
     uploadToDatabase();
   });
 
@@ -90,7 +86,7 @@ app.post('/upload', function (req, res){
   });
 
   form.on('end', function() {
-    res.end('success');
+    res.end(analysisFilePath);
     console.log(" ** form end");
   });
 });
@@ -128,8 +124,6 @@ function chipsecBlacklist(){
   blacklistData = "******************** Analysing modules ********************";
   cmdStatement = 'python chipsec/chipsec_main.py -i -m tools.uefi.blacklist -a ' + uploadFilePath;
 
-  console.log(" ** check stattemtn 1: "+cmdStatement);
-
   var pyProcess = cmd.get(cmdStatement,
   //to save blacklist output to file
     function(data, err, stderr) {
@@ -138,9 +132,9 @@ function chipsecBlacklist(){
           blacklistData += err;
         }
 
-        fs.writeFile(analysisFilePath, blacklistData, (err) => {
+        fs.writeFile(tempPath, blacklistData, (err) => {
           if (err) throw err;
-          console.log(' ** Black data written to analysis file!');
+          console.log(' ** Black data written to temp file!');
         });
 
         chipsecWhitelist();        
@@ -153,68 +147,54 @@ function chipsecBlacklist(){
 function chipsecWhitelist(){
   var allData;
   var foreignKey = analysisID;
-  whitelistData = "******************** Retrieving module information ********************\r\n\r\n";
+  whitelistHeader = "******************** Retrieving module information ********************\r\n\r\n";
   cmdStatement = 'python chipsec/chipsec_main.py -i -m tools.uefi.whitelist -a generate,efilist.json,' + uploadFilePath +','+foreignKey;
-  
-  console.log(" ** check stattemtn 2: "+cmdStatement);
 
-  var pyProcess2 = cmd.get(cmdStatement,
+  fs.appendFile(tempPath, whitelistHeader, (err) => {
+    if (err) throw err;
+    console.log(' ** white header written to temp file!');
+
+    var pyProcess2 = cmd.get(cmdStatement,
       //to save whitelist cmd output to file
       function(data, err, stderr) {
         console.log(" ** enter whitelist");
 
-        fs.appendFile(analysisFilePath, whitelistData, (err) => {
+        //read tempWhite
+        fs.readFile(tempPath, function(err,data){
           if (err) throw err;
-          console.log(' ** white header written to analysis file!');
+          //data will contain file content
+          allData = data;
+          console.log(" **  data retrieved");
 
-          //read tempWhite
-          fs.readFile(tempWhitePath, function(err,data){
+          // append to analysisX
+          fs.writeFile(analysisFilePath, allData, (err) => {
             if (err) throw err;
-            //data will contain file content
-            whitelistData = data;
-            console.log(" **  data retrieved");
-
-            // append to analysisX
-            fs.appendFile(analysisFilePath, whitelistData, (err) => {
-              if (err) throw err;
-              console.log(' ** All data written to analysis file!');
-
-              // read analysisX
-              fs.readFile(analysisFilePath, function(err,data){
-                if (err) throw err;
-                //data will contain file content
-                allData = data;
-
-                //write to temp
-                fs.writeFile(tempPath, allData, (err) =>{
-                  if (err) throw err;
-                  console.log(' ** All data written to temp file!');
-                });
-
-                const insertIntoTest2 ={
-                  'test2Report': allData
-                };
-                connection.query('INSERT INTO test2 SET ?', insertIntoTest2, (err, res) => {
-                  if(err) throw err;
-                  console.log(' ** Last test2 insert ID:', res.insertId);
-                });
-
-                const insertIntoAnalysis ={
-                  'analysisReport': allData, 'analysisUploadID': foreignKey
-                };
-                connection.query('INSERT INTO analysis SET ?', insertIntoAnalysis, (err, res) => {
-                  if(err) throw err;
-                  console.log(' ** Last analysis insert ID:', res.insertId);
-                });
-              
-              });
-
-            });
-
+            console.log(' ** All data written to analysis file!');
           });
+              
+          const insertIntoTest2 ={
+            'test2Report': allData
+          };
+          connection.query('INSERT INTO test2 SET ?', insertIntoTest2, (err, res) => {
+            if(err) throw err;
+            console.log(' ** Last test2 insert ID:', res.insertId);
+          });
+
+          const insertIntoAnalysis ={
+            'analysisReport': allData, 'analysisUploadID': foreignKey
+          };
+          connection.query('INSERT INTO analysis SET ?', insertIntoAnalysis, (err, res) => {
+            if(err) throw err;
+            console.log(' ** Last analysis insert ID:', res.insertId);
+          });
+
         });
-    }
-  );
+
+      }
+    );
+
+  });
+  
 } 
 
 /*
