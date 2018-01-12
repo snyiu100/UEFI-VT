@@ -1,0 +1,71 @@
+/* change border radius for the tab , apply corners on top*/
+
+#exTab3 .nav-pills > li > a {
+  /*style before color/width*/
+  border-style: solid solid none solid;
+  border-width: 1px;
+  border-color: #4791D2;
+  border-radius: 4px 4px 0 0 ;
+  }
+  
+  #exTab3 .tab-content {
+    /*color : #4791D2;*/
+    background-color: white;
+    /*style before color/width*/
+    border-style: none solid solid solid;
+    border-width: 1px;
+    border-color: #4791D2;
+    padding : 20px;
+    height: 70%
+  }
+  
+  #exTab3 {
+    background-color: white;
+    margin: 0 auto;
+    width: 60%; 
+    height: 72%;
+    border-radius: 5px;
+    padding: 20px;
+    text-align: left;
+  }
+
+.nav {
+  /*style before color/width*/
+  border-style: none none solid none;
+  border-width: 1px;
+  border-bottom-color: #4791D2;
+}
+
+/* ================================================================ */
+
+#custom-search-input{
+  padding: 3px;
+  border: solid 1px #E4E4E4;
+  border-radius: 6px;
+  background-color: #fff;
+}
+
+#custom-search-input input{
+  border: 0;
+  box-shadow: none;
+}
+
+#custom-search-input button{
+  margin: 2px 0 0 0;
+  background: none;
+  box-shadow: none;
+  border: 0;
+  color: #666666;
+  padding: 0 8px 0 10px;
+  border-left: solid 1px #ccc;
+}
+
+#custom-search-input button:hover{
+  border: 0;
+  box-shadow: none;
+  border-left: solid 1px #ccc;
+}
+
+#custom-search-input .glyphicon-search{
+  font-size: 23px;
+}

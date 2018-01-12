@@ -172,14 +172,6 @@ function chipsecWhitelist(){
             console.log(' ** All data written to analysis file!');
           });
               
-          const insertIntoTest2 ={
-            'test2Report': allData
-          };
-          connection.query('INSERT INTO test2 SET ?', insertIntoTest2, (err, res) => {
-            if(err) throw err;
-            console.log(' ** Last test2 insert ID:', res.insertId);
-          });
-
           const insertIntoAnalysis ={
             'analysisReport': allData, 'analysisUploadID': foreignKey
           };
@@ -294,6 +286,40 @@ app.post('/print3', function (req, res){
     }
   });
 
+  
+});
+
+/*
+  DB SEARCH
+*/
+app.post('/search', function (req, res){
+
+  var searchStr = req.body.searchStr;
+  console.log(" ~~~ search string: "+searchStr);
+
+  //console.log('SELECT moduleName, moduleGUID, moduleMD5, moduleSHA1, moduleSHA256 FROM module WHERE moduleName =\'' +searchStr +'\'');
+
+  if (hasNumber(searchStr)==true){
+    console.log("has number");
+  }
+  else {
+    console.log("has no number");    
+  }
+
+  /* //gets previous instance of module names
+  connection.query('SELECT moduleName, moduleGUID, moduleMD5, moduleSHA1, moduleSHA256, moduleUploadID FROM module WHERE moduleName =\'' +searchStr +'\'', (err, rows, result)=> {
+    console.log(" ++ enter");
+    if (err) throw err;
+
+      res.writeHead(200, {'Content-Type': 'application/json'});
+      res.end(JSON.stringify(rows));
+  
+  }); */
+
+  function hasNumber(myString) {
+    return /\d/.test(myString);
+  }
+  res.sendStatus(200)
   
 });
 

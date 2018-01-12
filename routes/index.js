@@ -15,9 +15,9 @@ router.get('/index', function(req, res, next) {
   console.log(" ** Redirecting: " +titleText +" ** ");
 });
 
-router.get('/testDB', function(req, res, next) {
-  titleText = 'testing db';
-  res.render('testDB', { title: titleText });
+router.get('/tab', function(req, res, next) {
+  titleText = 'tab';
+  res.render('tab', { title: titleText });
   console.log(" ** Redirecting: " +titleText +" ** ");
 });
 
