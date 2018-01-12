@@ -173,7 +173,7 @@ function chipsecWhitelist(){
           });
               
           const insertIntoAnalysis ={
-            'analysisReport': allData, 'analysisUploadID': foreignKey
+            'analysisName': "analysis"+analysisID, 'analysisReport': allData, 'analysisUploadID': foreignKey
           };
           connection.query('INSERT INTO analysis SET ?', insertIntoAnalysis, (err, res) => {
             if(err) throw err;
@@ -296,15 +296,56 @@ app.post('/search', function (req, res){
 
   var searchStr = req.body.searchStr;
   console.log(" ~~~ search string: "+searchStr);
+  var sql = '';
 
   //console.log('SELECT moduleName, moduleGUID, moduleMD5, moduleSHA1, moduleSHA256 FROM module WHERE moduleName =\'' +searchStr +'\'');
 
   if (hasNumber(searchStr)==true){
     console.log("has number");
+    
+    if (onlyNumbers(searchStr==true)){
+      console.log("only numbers");
+    }
+    else {
+      console.log("has alpha");
+    }
   }
   else {
     console.log("has no number");    
   }
+
+  searchStr = searchStr.toLowerCase();
+
+  if (searchStr.includes("analysis")){
+    sql += 'select uploadname, uploaddate, analysisname, analysisreport ';
+    sql += 'from upload ';
+    sql += 'inner join analysis on uploadid = analysisid where analysisname like "%'+searchStr +'%"';
+    console.log("statement: "+sql);
+    
+    connection.query(sql, (err, rows, result)=> {
+      console.log(" ++ enter");
+      if (err) throw err;
+  
+        res.writeHead(200, {'Content-Type': 'application/json'});
+        res.end(JSON.stringify(rows));
+    
+    });
+  }
+  else if (searchStr.includes("rom")){
+    sql += 'select uploadname, uploaddate from upload where uploadname like "%'+searchStr +'%"';
+    console.log("statement: "+sql);
+    
+    connection.query(sql, (err, rows, result)=> {
+      console.log(" ++ enter");
+      if (err) throw err;
+  
+        res.writeHead(200, {'Content-Type': 'application/json'});
+        res.end(JSON.stringify(rows));
+    
+    });
+  }
+
+  var retrievedData;
 
   /* //gets previous instance of module names
   connection.query('SELECT moduleName, moduleGUID, moduleMD5, moduleSHA1, moduleSHA256, moduleUploadID FROM module WHERE moduleName =\'' +searchStr +'\'', (err, rows, result)=> {
@@ -319,7 +360,10 @@ app.post('/search', function (req, res){
   function hasNumber(myString) {
     return /\d/.test(myString);
   }
-  res.sendStatus(200)
+
+  function onlyNumbers(testString){
+    return /^\d+$/.test(testString);
+  }
   
 });
 

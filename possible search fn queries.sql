@@ -2,11 +2,13 @@ select * from upload where uploadName = 'searchStr';
 
 select * from upload where uploadDate like "%searchstr%";
 
+select * from analysis where analysisid like "%analysis4%";
+
 select * from analysis where analysisName = 'searchstr';
 
-select uploadid, uploadname, uploaddate, analysisreport
+select uploadname, uploaddate, analysisname, analysisreport
 from upload
-inner join analysis on uploadid = analysisid where uploadid = 15;
+inner join analysis on uploadid = analysisid where analysisname like "%analysis4%";
 
 select * from module where modulename = 'searchstr';
 

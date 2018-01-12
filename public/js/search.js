@@ -25,10 +25,27 @@ $('#searchBtn').click(function(){
 
                 var rows = data;
     
-                console.log(data);
-                for (i=0; i<rows.length; i++){
-                    console.log(rows[i].moduleName, rows[i].moduleGUID);
+                var newJson;
+                var columnCounter=0;
+                var resultCounter = 0;
+
+                for (var i=0; i<rows.length; i++){
+                    columnCounter =0;
+                    newJson = rows[i];
+                    console.log(newJson);
+
+                    for (var column in newJson) {
+                        console.log("columnName is: "+column);
+                        console.log("info is: "+newJson[column]);
+                        columnCounter++;
+                    }
+                    resultCounter++;
                 }
+
+                console.log("num of results: "+resultCounter);
+                console.log("num of columns: "+columnCounter);
+
+                
             } 
         });
     }
