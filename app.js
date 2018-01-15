@@ -316,8 +316,97 @@ app.post('/search', function (req, res){
 
   searchStr = searchStr.toLowerCase();
 
-  if (searchStr.includes("analysis")){
-    sql += 'select uploadname, uploaddate, analysisname, analysisreport ';
+  var tempJson;
+  var newJsonObj = [];
+  var columnCounter=0;
+  var resultCounter = 0;
+
+  sql = 'select uploadname, uploaddate ';
+  sql += 'from upload where ';
+  sql += 'uploadname like "%'+searchStr +'%" ';
+  sql += 'or uploaddate like "%'+searchStr +'%"';
+
+  connection.query(sql, (err, rows, result)=> {
+    console.log(" ++ enter upload");
+    if (err) {
+      console.log(" ++ nothing in upload");
+    }
+    else{
+      console.log(" ++ stuff in upload");
+      for (var i=0; i<rows.length; i++){
+        tempJson = rows[i];
+        for (var column in tempJson) {
+
+          var item ={};
+          item [column] = tempJson[column];
+          newJsonObj.push(item);
+        }
+      }
+    }
+
+    sql = 'select analysisname, analysisreport ';
+    sql+= 'from analysis where ';
+    sql+= 'or analysisname like "%'+searchStr +'%" ';
+    sql+= 'or analysisreport like "%'+searchStr +'%"';
+
+    connection.query(sql, (err, rows, result)=> {
+      console.log(" ++ enter analysis");
+      if (err){
+        console.log(" ++ nothing in analysis");
+      }
+      else{
+        console.log(" ++ stuff in analysis");
+        for (var i=0; i<rows.length; i++){
+          columnCounter =0;
+          tempJson = rows[i];
+          for (var column in tempJson) {
+
+            var item ={};
+            item [column] = tempJson[column];
+            newJsonObj.push(item);
+          }
+        }
+      }
+      
+
+      sql = 'select modulename, moduleguid, modulemd5, modulesha1, modulesha256 ';
+      sql+= 'from module where ';
+      sql+= 'modulename like "%'+searchStr +'%" ';
+      sql+= 'or moduleguid like "%'+searchStr +'%" ';
+      sql+= 'or modulemd5 like "%'+searchStr +'%" ';
+      sql+= 'or modulesha1 like "%'+searchStr +'%" ';
+      sql+= 'or modulesha256 like "%'+searchStr +'%"';
+
+      connection.query(sql, (err, rows, result)=> {
+        console.log(" ++ enter module");
+        if (err){
+          console.log(" ++ nothing in module");
+        }
+        else{
+          console.log(" ++ stuff in module");
+          for (var i=0; i<rows.length; i++){
+            tempJson = rows[i];
+            for (var column in tempJson) {
+
+              var item ={};
+              item [column] = tempJson[column];
+              newJsonObj.push(item);
+            }
+          }
+        }
+
+      
+        res.writeHead(200, {'Content-Type': 'application/json'});
+        res.end(JSON.stringify(newJsonObj));
+        
+      });
+        
+    });
+    
+  });
+
+  /* if (searchStr.includes("analysis")){
+    sql = 'select uploadname, uploaddate, analysisname, analysisreport ';
     sql += 'from upload ';
     sql += 'inner join analysis on uploadid = analysisid where analysisname like "%'+searchStr +'%"';
     console.log("statement: "+sql);
@@ -332,18 +421,20 @@ app.post('/search', function (req, res){
     });
   }
   else if (searchStr.includes("rom")){
-    sql += 'select uploadname, uploaddate from upload where uploadname like "%'+searchStr +'%"';
+    sql = 'select uploadname, uploaddate from upload where uploadname like "%'+searchStr +'%"';
     console.log("statement: "+sql);
     
     connection.query(sql, (err, rows, result)=> {
       console.log(" ++ enter");
+
       if (err) throw err;
   
         res.writeHead(200, {'Content-Type': 'application/json'});
         res.end(JSON.stringify(rows));
     
     });
-  }
+  } */
+  
 
   var retrievedData;
 

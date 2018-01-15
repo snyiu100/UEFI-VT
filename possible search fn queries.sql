@@ -19,6 +19,21 @@ order by modulename;
 
 SELECT * from upload where uploadName = 'searchStr';
 
+select uploadname, uploaddate from uefivt.upload where
+uploadname like "%searchStr%" or
+uploaddate like "%searchStr%";
+
+select analysisname, analysisreport from uefivt.analysis where
+analysisname like "%searchStr%" or
+analysisreport like "%searchStr%";
+
+select modulename, moduleguid, modulemd5, modulesha1, modulesha256 from uefivt.module where
+modulename like "%searchStr%" or
+moduleguid like"%searchStr%" or
+modulemd5 like "%searchStr%" or
+modulesha1 like "%searchStr%" or
+modulesha256 like "%searchStr%";
+
 /* Might need to change all statements to 'like' instead of 'where =' */
 /* Might need to change like to contains for certain statements */
 

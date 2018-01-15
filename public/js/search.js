@@ -32,7 +32,6 @@ $('#searchBtn').click(function(){
                 for (var i=0; i<rows.length; i++){
                     columnCounter =0;
                     newJson = rows[i];
-                    console.log(newJson);
 
                     for (var column in newJson) {
                         console.log("columnName is: "+column);
