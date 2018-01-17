@@ -112,7 +112,7 @@ function uploadToDatabase(){
 */
 function runChipsec(){
   console.log(" ** entered chipsec");
-  analysisFilePath = String((__dirname + '/public/analysis/results' + analysisID +'.txt').replace(/\\/g, "/"));
+  analysisFilePath = String((__dirname + '/public/analysis/analysis' + analysisID +'.txt').replace(/\\/g, "/"));
     uploadFilePath = String((uploadFilePath).replace(/\//g, "\\"));
     console.log(" ** filename "+analysisFilePath);
 
@@ -179,14 +179,10 @@ function chipsecWhitelist(){
             if(err) throw err;
             console.log(' ** Last analysis insert ID:', res.insertId);
           });
-
         });
-
       }
     );
-
   });
-  
 } 
 
 /*
@@ -194,7 +190,20 @@ function chipsecWhitelist(){
 */
 app.post('/download',function (req, res){
   console.log(" ** Downloading file...");
+  console.log(analysisFilePath);
   res.download(analysisFilePath);
+});
+
+app.post('/downloadFile',function (req, res){
+  var retrievedDownloadName = req.body.downloadName;
+  var downloadPath = String((__dirname + '/public/analysis/' + retrievedDownloadName +'.txt').replace(/\\/g, "/"));
+  console.log(downloadPath)
+  console.log(" ** Downloading file...");
+
+  res.writeHead(200, {'Content-Type': 'application/json'});
+  res.end(JSON.stringify({status: "success"}));
+
+  res.download(downloadPath);
 });
 
 /*
@@ -232,7 +241,7 @@ app.post('/print3', function (req, res){
     console.log(" ++ enter");
     if (err) throw err;
 
-    sql="SELECT uploadName, uploadDate FROM upload WHERE uploadID =";
+    sql="SELECT uploadName, analysisName, uploadDate FROM upload INNER JOIN analysis on uploadid=analysisuploadid WHERE uploadID =";
 
     console.log(" ++ length:"+rows.length);
 
@@ -300,7 +309,7 @@ app.post('/search', function (req, res){
 
   //console.log('SELECT moduleName, moduleGUID, moduleMD5, moduleSHA1, moduleSHA256 FROM module WHERE moduleName =\'' +searchStr +'\'');
 
-  if (hasNumber(searchStr)==true){
+  /* if (hasNumber(searchStr)==true){
     console.log("has number");
     
     if (onlyNumbers(searchStr==true)){
@@ -312,7 +321,7 @@ app.post('/search', function (req, res){
   }
   else {
     console.log("has no number");    
-  }
+  } */
 
   searchStr = searchStr.toLowerCase();
 
@@ -335,14 +344,14 @@ app.post('/search', function (req, res){
       console.log(" ++ stuff in upload");
       for (var i=0; i<rows.length; i++){
         tempJson = rows[i];
-        for (var column in tempJson) {
-
           var item ={};
-          item [column] = tempJson[column];
-          newJsonObj.push(item);
-        }
+          for (var column in tempJson) {
+            item [column] = tempJson[column];
+          }
+        newJsonObj.push(item);
       }
     }
+
 
     sql = 'select analysisname, analysisreport ';
     sql+= 'from analysis where ';
@@ -355,16 +364,14 @@ app.post('/search', function (req, res){
         console.log(" ++ nothing in analysis");
       }
       else{
-        console.log(" ++ stuff in analysis");
+        console.log(" ++ stuff in upload");
         for (var i=0; i<rows.length; i++){
-          columnCounter =0;
           tempJson = rows[i];
-          for (var column in tempJson) {
-
             var item ={};
-            item [column] = tempJson[column];
-            newJsonObj.push(item);
-          }
+            for (var column in tempJson) {
+              item [column] = tempJson[column];
+            }
+          newJsonObj.push(item);
         }
       }
       
@@ -383,19 +390,20 @@ app.post('/search', function (req, res){
           console.log(" ++ nothing in module");
         }
         else{
-          console.log(" ++ stuff in module");
+          console.log(" ++ stuff in upload");
           for (var i=0; i<rows.length; i++){
             tempJson = rows[i];
-            for (var column in tempJson) {
-
               var item ={};
-              item [column] = tempJson[column];
-              newJsonObj.push(item);
-            }
+              for (var column in tempJson) {
+                item [column] = tempJson[column];
+              }
+            newJsonObj.push(item);
           }
         }
 
-      
+        console.log("===============================================");
+        console.log(newJsonObj);
+
         res.writeHead(200, {'Content-Type': 'application/json'});
         res.end(JSON.stringify(newJsonObj));
         
@@ -435,9 +443,6 @@ app.post('/search', function (req, res){
     });
   } */
   
-
-  var retrievedData;
-
   /* //gets previous instance of module names
   connection.query('SELECT moduleName, moduleGUID, moduleMD5, moduleSHA1, moduleSHA256, moduleUploadID FROM module WHERE moduleName =\'' +searchStr +'\'', (err, rows, result)=> {
     console.log(" ++ enter");
@@ -480,3 +485,4 @@ module.exports = app;
 
 //http://shiya.io/simple-file-upload-with-express-js-and-formidable-in-node-js/
 //https://coligo.io/building-ajax-file-uploader-with-node/ 
+//https://stackoverflow.com/questions/15009448/creating-a-json-dynamically-with-each-input-value-using-jquery

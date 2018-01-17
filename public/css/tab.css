@@ -1,6 +1,6 @@
 /* change border radius for the tab , apply corners on top*/
 
-#exTab3 .nav-pills > li > a {
+#tab .nav-pills > li > a {
   /*style before color/width*/
   border-style: solid solid none solid;
   border-width: 1px;
@@ -8,7 +8,7 @@
   border-radius: 4px 4px 0 0 ;
   }
   
-  #exTab3 .tab-content {
+  #tab .tab-content {
     /*color : #4791D2;*/
     background-color: white;
     /*style before color/width*/
@@ -19,11 +19,10 @@
     height: 70%
   }
   
-  #exTab3 {
+  #tab {
     background-color: white;
     margin: 0 auto;
     width: 60%; 
-    height: 72%;
     border-radius: 5px;
     padding: 20px;
     text-align: left;
@@ -38,9 +37,13 @@
 
 /* ================================================================ */
 
+#search{
+  text-align: center;
+}
+
 #custom-search-input{
   padding: 3px;
-  border: solid 1px #E4E4E4;
+  border: solid 1px #c6c4c4;
   border-radius: 6px;
   background-color: #fff;
 }
@@ -68,4 +71,30 @@
 
 #custom-search-input .glyphicon-search{
   font-size: 23px;
+}
+
+/*---------------------------------------------------------------*/
+
+#searchTable{
+  table-layout: fixed;
+}
+
+#searchResultsDiv {
+  background-color: white;
+  margin: 0 auto;
+  width: 80%; 
+  border-radius: 5px;
+  padding: 10px 20px 10px 20px;
+  text-align: left;
+  border-style: solid;
+  border-width: 1px;
+  border-color: rgb(9, 47, 80);
+}
+
+#searchTable td {
+  word-break:break-all;
+}
+
+#preloadSearch {
+  margin-top: 100px;
 }

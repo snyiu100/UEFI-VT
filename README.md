@@ -23,6 +23,7 @@ Tasks Done (last updated 02/01/18):
 - Created App flow document (https://tinyurl.com/uefivtappflow) [W4]
 - Created Documentation (preliminary) (https://tinyurl.com/uefivtdoc) [W4]
 - Added download function [W5]
+- Created Future Work document (https://tinyurl.com/uefivtfuture) [W8]
 
 Future Tasks:
 - analyse chipsec results (found in /misc)

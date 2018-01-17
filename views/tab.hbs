@@ -1,8 +1,8 @@
-    <link rel='stylesheet' href='/css/tab.css' />
+<link rel='stylesheet' href='/css/tab.css' />
 
 <br><br>
 
-<div id="exTab3">
+<div id="tab">
     <ul class="nav nav-pills">
         <li class="active">
             <a href="#upload" data-toggle="tab">Upload</a>
@@ -17,11 +17,12 @@
             <h3>We tab</h3>
         </div>
 
-        <div class="tab-pane" id="search" style="text-align: center">
+        <div class="tab-pane" id="search">
             <span class="glyphicon glyphicon-search"></span>
-            <hr>
-
-            <div id="searchbar" style="text-align: center">
+            
+            <br><br>
+            
+            <div id="searchbar" class=" col-md-offset-1">
                 <div class="col-md-10">
                     <div id="custom-search-input">
                         <div class="input-group col-md-12">
@@ -35,7 +36,29 @@
                     </div>
                 </div>
             </div>
-            <hr>
+
+
+            <div id="preloadSearch" class="preload" hidden>
+                <div class="loader-frame">
+                    <div class="loader1"></div>
+                    <div class="loader2"></div>
+                    <div class="loader3"></div>
+                </div>
+                <h3>
+                    Searching...
+                </h3>
+            </div>
+                
+            <br><br><br><br>
+
+            <div id="searchResultsDiv" hidden>
+                <h3 id="numOfResults"></h3>
+                <table id="searchTable" class="table table-condensed">
+
+                </table>
+            </div>
+
+            
 
         </div>
     </div>

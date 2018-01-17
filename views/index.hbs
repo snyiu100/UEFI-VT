@@ -4,7 +4,7 @@
     <div id="uploadArea">
         <form action="/" enctype="multipart/form-data" method="post">
             <div class="container">
-                <div class="row">
+                <div class="row" id="uploadRow">
                     <div class="col-xs-12">
                         <div class="panel panel-default">
                             <div class="panel-body">
@@ -42,6 +42,7 @@
                             <thead>
                                 <tr>
                                     <th>Upload Name</th>
+                                    <th>Analysis Report</th>
                                     <th>Date Uploaded</th>
                                 </tr>
                             </thead>
@@ -62,7 +63,7 @@
    
     <button onClick="sendJSON()">Table format 2</button>
 
-    <div id="preload" hidden>
+    <div class="preload" id="preloadUpload" hidden>
 		<div class="loader-frame">
 			<div class="loader1"></div>
 			<div class="loader2"></div>

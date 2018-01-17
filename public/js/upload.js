@@ -4,7 +4,7 @@ var $resultsDiv = $('#resultsDiv');
 var $dbDiv = $('#dbDiv');
 var $printBtn = $('#printBtn');
 
-var $preload = $('#preload'); // loading symbol
+var $preload = $('#preloadUpload'); // loading symbol
 
 var analysisFP = '';
 var fileUrl ='';
@@ -167,7 +167,7 @@ function sendJSON(){
 
         output += '<tr>';
           output += '<td colspan="2" class="hiddenRow">'
-            output += '<div class="accordion-body collapse mod' +counter +'"> Exists in <a href="#" style="text-decoration:none; font-weight: bold;" data-toggle="modal" onClick="sendPrint3(\''+rows[i].moduleName+'\')" data-target="#myModal">xxx</a> other uploads:</div>';
+            output += '<div class="accordion-body collapse mod' +counter +'"><a href="#" style="text-decoration:none; font-weight: bold;" data-toggle="modal" onClick="sendPrint3(\''+rows[i].moduleName+'\')" data-target="#myModal">Click to see similar</a></div>';
           output += '</td>';
         output += '</tr>';
         output += '<input type="text" id="demo" name="'+rows[i].moduleName+'">';
@@ -325,13 +325,17 @@ function sendPrint3(modNameStr){
       $('.modal-title').append(modNameStr +" also exists in:");      
 
       for (i=0; i<rows.length; i++){
-        console.log(rows[i].uploadName, rows[i].uploadDate);
+        console.log(rows[i].uploadName, rows[i].analysisName, rows[i].uploadDate);
+        var analysisName = rows[i].analysisName;
         var print ='';
 
         print += '<tr>';
           print += '<td class="ucol1">';
           print += rows[i].uploadName;
           print += '</td>';
+          print += '<td class="ucol1"><a href="#" style="text-decoration:none" onClick="downloadFile(\''+analysisName+'\')">';
+          print += analysisName;
+          print += '</a></td>';
           print += '<td class="ucol2" style="word-wrap: break-word;">';
           print += new Date(rows[i].uploadDate);
           print += '</td>';
@@ -343,6 +347,25 @@ function sendPrint3(modNameStr){
     } 
   });
   $('#printUploadDiv').show('slow');
+}
+
+function downloadFile(analysisName){
+
+  console.log("check name: "+analysisName);
+  
+  var sendData = JSON.stringify({downloadName: analysisName});
+
+  $.ajax({                                      
+    url: '/downloadFile',
+    type: 'POST', 
+    dataType: 'json',
+    contentType: "application/json; charset=UTF-8",
+    data: sendData ,
+    success: function(data)
+    {
+      console.log("successful download");
+    } 
+  });
 }
 
 // https://stackoverflow.com/questions/40258816/js-nodejs-read-table-from-db-with-ajax-and-display-in-table
