@@ -59,55 +59,65 @@ function getSearch(){
             }
             else{
                 for (var i=0; i<rows.length; i++){
-                    console.log("enter for");
                     columnCounter =0;
                     newJson = rows[i];
 
                     for (var column in newJson) {
                         var searchData='';
-                        console.log("columnName is: "+column);
-                        console.log("info is: "+newJson[column]);
                         columnCounter++;
 
                         var colHeader = column;
                         var colData = newJson[column];
 
+                        //check if name is <no_name>
                         if (colData.includes("<") || colData.includes(">")) {
                             colData = colData.replace(/\</g, "&lt;");
                             colData = colData.replace(/\>/g, "&gt;");
                         }
 
-                        if (colData.toLowerCase().includes(searchStr.toLowerCase())){
-                            searchData += '<tr><td>';
-                            searchData += colHeader;
-                            searchData += '</td><td><b>';
-                            searchData += colData;
-                            searchData += '</b></td></tr>';
-                            console.log(searchData);
-                            $('#searchTable').append(searchData);
+                        if (colHeader =="uploaddate"){
+                            colData = String(new Date(colData));
                         }
+
+                        //check if includes the search string
+                        if (colData.toLowerCase().includes(searchStr.toLowerCase())){
+                            if (colHeader =="analysisreport"){
+                                searchData += '<tr><td>';
+                                searchData += colHeader;
+                                searchData += '</td><td><b>';
+                                searchData += 'Exists in the report';
+                                searchData += '</b></td></tr>';
+                                $('#searchTable').append(searchData);
+                            }
+                            else{
+                                searchData += '<tr><td>';
+                                searchData += colHeader;
+                                searchData += '</td><td><b>';
+                                searchData += colData;
+                                searchData += '</b></td></tr>';
+                                $('#searchTable').append(searchData);
+                            }
+                        }
+                        //does not have search string
                         else{
                             searchData += '<tr><td>';
                             searchData += colHeader;
                             searchData += '</td><td>';
                             searchData += colData;
                             searchData += '</td></tr>';
-                            console.log(searchData);
                             $('#searchTable').append(searchData);
                         }
                     }
-                    console.log("num of columns: "+columnCounter);
                     resultCounter++;
                     var searchAppend ='';
                     searchAppend += '<tr><td style="padding:15px;"></td><td style="padding:15px;"></td></tr>';
                     $('#searchTable').append(searchAppend);
                 }
             }
-            console.log("num of results: "+resultCounter);
             $('#numOfResults').append("Found "+resultCounter +" matches");
+            toggleView();
         } 
     });
-    toggleView();
 }
 
 function toggleView(){

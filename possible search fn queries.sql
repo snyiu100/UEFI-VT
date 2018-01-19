@@ -23,16 +23,36 @@ select uploadname, uploaddate from uefivt.upload where
 uploadname like "%searchStr%" or
 uploaddate like "%searchStr%";
 
-select analysisname, analysisreport from uefivt.analysis where
-analysisname like "%searchStr%" or
-analysisreport like "%searchStr%";
+SELECT uploadName, analysisname, uploadDate 
+FROM uefivt.upload 
+inner join uefivt.analysis on uploadid = analysisuploadid
+WHERE uploadID =3 or uploadID=5 or uploadID=7;
+          
 
-select modulename, moduleguid, modulemd5, modulesha1, modulesha256 from uefivt.module where
-modulename like "%searchStr%" or
-moduleguid like"%searchStr%" or
-modulemd5 like "%searchStr%" or
-modulesha1 like "%searchStr%" or
-modulesha256 like "%searchStr%";
+select analysisname, analysisreport from uefivt.analysis where
+analysisname like "%found%" or
+analysisreport like "%found%";
+
+select uploadname, uploaddate, analysisname, modulename, moduleguid, 
+	modulemd5, modulesha1, modulesha256 from uefivt.module
+inner join uefivt.upload on uploadid = moduleuploadid
+inner join uefivt.analysis on analysisuploadid = moduleuploadid
+where modulename like "%acpi%" or
+moduleguid like"%acpi%" or
+modulemd5 like "%acpi%" or
+modulesha1 like "%acpi%" or
+modulesha256 like "%acpi%";
+
+select uploadname, uploaddate, analysisname, analysisreport from analysis 
+inner join upload on uploadid = analysisuploadid where
+analysisname like "%'+searchStr +'%" 
+or analysisreport like "%'+searchStr +'%";
+
+
+select uploadname, uploaddate from upload 
+where uploadname like "%'+searchStr +'%"
+or uploaddate like "%'+searchStr +'%";
+
 
 /* Might need to change all statements to 'like' instead of 'where =' */
 /* Might need to change like to contains for certain statements */

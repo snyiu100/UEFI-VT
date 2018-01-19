@@ -110,7 +110,7 @@ $('#upload-input').on('change', function(){
 
           output += '<tr>';
             output += '<td colspan="2" class="hiddenRow">'
-              output += '<div class="accordion-body collapse mod' +counter +'"><a href="#" style="text-decoration:none; font-weight: bold;" data-toggle="modal" onClick="sendPrint3(\''+rows[i].moduleName+'\')" data-target="#myModal">Click to see similar</a></div>';
+              output += '<div class="accordion-body collapse mod' +counter +'"><a href="#" style="text-decoration:none; font-weight: bold;" data-toggle="modal" onClick="showLinked(\''+rows[i].moduleName+'\')" data-target="#myModal">Click to see similar</a></div>';
             output += '</td>';
           output += '</tr>';
           output += '<input type="text" id="demo" name="'+rows[i].moduleName+'">';
@@ -153,7 +153,7 @@ $('#upload-input').on('change', function(){
 });
 
 //dynamic modulename modal fn => anchorclick
-function sendPrint3(modNameStr){
+function showLinked(modNameStr){
   
   console.log("test3");
 
@@ -161,7 +161,7 @@ function sendPrint3(modNameStr){
   $('.modal-title').text('');    
 
   $.ajax({                                      
-    url: '/print3',
+    url: '/show',
     type: 'POST', 
     dataType: 'json',
     contentType: "application/json; charset=UTF-8",

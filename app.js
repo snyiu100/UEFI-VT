@@ -47,7 +47,7 @@ var uploadComplete;
 var moduleData;
 
 /*
-  DB CONNECTION
+  ===== DB CONNECTION =====
 */
 var connection = mysql.createConnection({
   host     : 'localhost',
@@ -66,7 +66,7 @@ connection.connect(function(err) {
 });
 
 /*
-  FILE UPLOAD
+  ===== FILE UPLOAD =====
 */
 app.post('/upload', function (req, res){
   var form = new formidable.IncomingForm();
@@ -77,7 +77,7 @@ app.post('/upload', function (req, res){
     file.path = __dirname + '/public/uploads/' + fileName;
     uploadFilePath = String((file.path).replace(/\\/g, "/"));
     console.log("check path: "+uploadFilePath);
-    uploadToDatabase();
+    insertUploadToDB();
   });
 
   form.on('error', function(err) {
@@ -120,9 +120,9 @@ app.post('/upload', function (req, res){
 });
 
 /*
-  UPLOAD PROCESS
+  ===== UPLOAD PROCESS =====
 */
-function uploadToDatabase(){
+function insertUploadToDB(){
   var date = new Date();
 
   const insertIntoUpload = {uploadName: fileName, uploadDate:  date};
@@ -136,8 +136,9 @@ function uploadToDatabase(){
 }
 
 /*
-  PYTHON PROCESS
+  ===== PYTHON PROCESS =====
 */
+//initiate chipsec process
 function runChipsec(){
   console.log(" ** entered chipsec");
   analysisFilePath = String((__dirname + '/public/analysis/analysis' + analysisID +'.txt').replace(/\\/g, "/"));
@@ -215,50 +216,28 @@ function chipsecWhitelist(){
 } 
 
 /*
-  DOWNLOAD PROCESS
+  ===== DOWNLOAD PROCESS =====
 */
 //download upload analysis file
 app.post('/download',function (req, res){
   console.log(" ** Downloading file...");
-  console.log(analysisFilePath);
   res.download(analysisFilePath);
 });
 
-//download previous analysis file
+//download linked analysis file in modal
 app.post('/downloadFile',function (req, res){
   var retrievedDownloadName = req.body.str;
   var downloadPath = String((__dirname + '/public/analysis/' + retrievedDownloadName +'.txt').replace(/\\/g, "/"));
-  console.log(downloadPath)
   console.log(" ** Downloading file...");
-
   res.download(downloadPath);
 });
 
 /*
-  DB DATA RETRIEVAL
-*/
-//print results table
-app.post('/print',function (req, res){
-  console.log(" ** Getting from DB...");
+  ===== DB DATA RETRIEVAL =====
+*/ 
 
-  var sql = 'SELECT moduleName, moduleGUID, moduleMD5, moduleSHA1, moduleSHA256 FROM module WHERE moduleUploadID = '+analysisID+' ORDER BY moduleName';
-
-  connection.query(sql , (err, rows, result)=> {
-    if (err) throw err;
-
-    res.writeHead(200, {'Content-Type': 'application/json'});
-    res.end(JSON.stringify(rows));
-
-  });
-
-}); 
-
-function getModuleData(){
-  
-}
-
-//anchor ID Similar
-app.post('/print3', function (req, res){
+// DB retrieval for linked uploads modal
+app.post('/show', function (req, res){
 
   var retrievedModuleName = req.body.modStr;
   console.log(" ~~~get name: "+retrievedModuleName);
@@ -327,7 +306,7 @@ app.post('/print3', function (req, res){
 });
 
 /*
-  DB SEARCH
+  ===== DB SEARCH =====
 */
 app.post('/search', function (req, res){
 
@@ -342,8 +321,8 @@ app.post('/search', function (req, res){
   var columnCounter=0;
   var resultCounter = 0;
 
-  sql = 'select uploadname, uploaddate ';
-  sql += 'from upload where ';
+  sql = 'select analysisname, uploadname, uploaddate ';
+  sql += 'from upload inner join analysis on analysisuploadid=uploadid where ';
   sql += 'uploadname like "%'+searchStr +'%" ';
   sql += 'or uploaddate like "%'+searchStr +'%"';
 
@@ -365,9 +344,9 @@ app.post('/search', function (req, res){
     }
 
 
-    sql = 'select analysisname, analysisreport ';
-    sql+= 'from analysis where ';
-    sql+= 'or analysisname like "%'+searchStr +'%" ';
+    sql = 'select analysisname, uploadname, uploaddate, analysisreport ';
+    sql+= 'from analysis inner join upload on uploadid = analysisuploadid where ';
+    sql+= 'analysisname like "%'+searchStr +'%" ';
     sql+= 'or analysisreport like "%'+searchStr +'%"';
 
     connection.query(sql, (err, rows, result)=> {
@@ -388,8 +367,9 @@ app.post('/search', function (req, res){
       }
       
 
-      sql = 'select modulename, moduleguid, modulemd5, modulesha1, modulesha256 ';
-      sql+= 'from module where ';
+      sql = 'select analysisname, uploadname, uploaddate, modulename, moduleguid, modulemd5, modulesha1, modulesha256 ';
+      sql+= 'from module inner join upload on uploadid = moduleuploadid ';
+      sql+= 'inner join analysis on analysisuploadid = moduleuploadid where ';
       sql+= 'modulename like "%'+searchStr +'%" ';
       sql+= 'or moduleguid like "%'+searchStr +'%" ';
       sql+= 'or modulemd5 like "%'+searchStr +'%" ';
