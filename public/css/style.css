@@ -23,10 +23,6 @@ body {
   font-size: 14px;
 }
 
-#main {
-  padding: 0px 0px 50px 0px;
-}
-
 #header, h1, h2 {
   background-color: #ffffff;
   width: 100%;
@@ -35,22 +31,19 @@ body {
 }
 
 #uploadArea {
-  width: 90%;
-  height: 50%;
   margin: 0 auto;
-  padding: 0px 0px 20px 0px;
+  text-align:center;
 }
 
 #resultsDiv {
   background-color: white;
   margin: 0 auto;
-  width: 60%; 
+  width: 80%; 
   border-radius: 5px;
-  padding: 10px 20px 20px 20px;
   text-align: left;
 }
 
-#demoTableDiv {
+#demoTableDiv { /*fileresutlsdiv*/
   background-color: white;
   margin: 0 auto;
   width: 60%; 
@@ -59,8 +52,12 @@ body {
   text-align: left;
 }
 
-#demoTable td {
+#resultsTable td {
   word-break:break-all;
+}
+
+#resultsTable{
+  table-layout: fixed;
 }
 
 #printUploadDiv {
@@ -91,28 +88,6 @@ body {
   width:70%;
 }
 
-#demoTable{
-  table-layout: fixed;
-}
-
-#dbDiv {
-  background-color: white;
-  margin: 0 auto;
-  width: 60%; 
-  border-radius: 5px;
-  padding: 10px 20px 20px 20px;
-  text-align: left;
-}
-
-#dbTable td, th {
-  width: 10%;
-  word-break:break-all;
-}
-
-#dbTable{
-  table-layout: fixed;
-}
-
 hr {
   border: none;
   height: 2px;
@@ -128,10 +103,6 @@ a {
   outline: 0 !important;
 }
 
-#uploadRow {
-  margin-top: 80px;
-}
-
 .upload-btn {
   color: #ffffff;
   background-color: #F89406;
@@ -145,11 +116,6 @@ a {
   color: #ffffff;
   background-color: #FA8900;
   border: none;
-}
-
-h4 {
-  padding-bottom: 30px;
-  color: #B8BDC1;
 }
 
 .glyphicon {
@@ -177,15 +143,14 @@ h1 {
 
 #downloadBtnDiv {
   float: right;
-  width: 50%;
+  width: 25%;
   text-align: right;
   margin: 10px 0px 0px 0px;
-  
 }
 
 #resultsTitle {
   float: left;
-  width: 50%;
+  width: 75%;
 }
 
 #downloadSpan{
@@ -201,7 +166,6 @@ h1 {
 
 #downloadLink{
   padding: 10px;
-  
 }
 
 #resultsHeader{
@@ -228,6 +192,10 @@ h1 {
 
 .modName{
   font-weight: bold;
+}
+
+.modal-title{
+  text-align: center;
 }
 
 /* General Uploader layout: https://coligo.io/building-ajax-file-uploader-with-node/ */

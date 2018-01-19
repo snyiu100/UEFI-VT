@@ -42,9 +42,6 @@ var tempWhitePath = __dirname + '/public/analysis/tempWhite.txt';
 var analysisID;
 var cmdStatement;
 var blacklistData;
-var chipsecComplete;
-var uploadComplete;
-var moduleData;
 
 /*
   DB CONNECTION
@@ -89,32 +86,7 @@ app.post('/upload', function (req, res){
   });
 
   form.on('end', function() {
-
-    chipsecComplete = false;
-    tryChipsec();
-
-    function tryChipsec(){
-      if (chipsecComplete == true){
-        console.log(" ** status compelte");
-
-        var sql = 'SELECT moduleName, moduleGUID, moduleMD5, moduleSHA1, moduleSHA256, moduleUploadID FROM module WHERE moduleUploadID = '+analysisID+' ORDER BY moduleName';
-        console.log("** get sttnmet:"+sql);
-
-        connection.query(sql , (err, rows, result)=> {
-          if (err) throw err;
-          console.log(" ** finish db call");
-          res.writeHead(200, {'Content-Type': 'application/json'});
-          res.end(JSON.stringify(rows));
-        });
-      }
-      else{
-        console.log(" ** status incompelte");
-        this.setTimeout(function() {
-          tryChipsec();
-      }, 5000);
-
-      }
-    }
+    res.end(analysisFilePath);
     console.log(" ** form end");
   });
 });
@@ -141,8 +113,8 @@ function uploadToDatabase(){
 function runChipsec(){
   console.log(" ** entered chipsec");
   analysisFilePath = String((__dirname + '/public/analysis/analysis' + analysisID +'.txt').replace(/\\/g, "/"));
-  uploadFilePath = String((uploadFilePath).replace(/\//g, "\\"));
-  console.log(" ** filename "+analysisFilePath);
+    uploadFilePath = String((uploadFilePath).replace(/\//g, "\\"));
+    console.log(" ** filename "+analysisFilePath);
 
   chipsecBlacklist();
 }
@@ -165,7 +137,7 @@ function chipsecBlacklist(){
           console.log(' ** Black data written to temp file!');
         });
 
-        chipsecWhitelist();   // to throw 2 lines above?     
+        chipsecWhitelist();        
 
     }
   );
@@ -205,8 +177,6 @@ function chipsecWhitelist(){
           connection.query('INSERT INTO analysis SET ?', insertIntoAnalysis, (err, res) => {
             if(err) throw err;
             console.log(' ** Last analysis insert ID:', res.insertId);
-            chipsecComplete = true;
-            console.log(" ** set chipseccomplete to true");
           });
         });
       }
@@ -217,14 +187,12 @@ function chipsecWhitelist(){
 /*
   DOWNLOAD PROCESS
 */
-//download upload analysis file
 app.post('/download',function (req, res){
   console.log(" ** Downloading file...");
   console.log(analysisFilePath);
   res.download(analysisFilePath);
 });
 
-//download previous analysis file
 app.post('/downloadFile',function (req, res){
   var retrievedDownloadName = req.body.str;
   var downloadPath = String((__dirname + '/public/analysis/' + retrievedDownloadName +'.txt').replace(/\\/g, "/"));
@@ -237,9 +205,16 @@ app.post('/downloadFile',function (req, res){
 /*
   DB DATA RETRIEVAL
 */
-//print results table
 app.post('/print',function (req, res){
   console.log(" ** Getting from DB...");
+  
+  connection.query('SELECT COUNT(moduleName) AS moduleCount FROM module WHERE moduleUploadID=3', (err,rows,result)=>{
+    if (err) throw err;
+    
+    console.log("rows:", rows);
+    console.log("print:", rows[0].moduleCount);
+    //data+= rows[0].moduleCount +"\r\n";
+  })
 
   var sql = 'SELECT moduleName, moduleGUID, moduleMD5, moduleSHA1, moduleSHA256 FROM module WHERE moduleUploadID = '+analysisID+' ORDER BY moduleName';
 
@@ -253,11 +228,6 @@ app.post('/print',function (req, res){
 
 }); 
 
-function getModuleData(){
-  
-}
-
-//anchor ID Similar
 app.post('/print3', function (req, res){
 
   var retrievedModuleName = req.body.modStr;
@@ -334,6 +304,22 @@ app.post('/search', function (req, res){
   var searchStr = req.body.searchStr;
   console.log(" ~~~ search string: "+searchStr);
   var sql = '';
+
+  //console.log('SELECT moduleName, moduleGUID, moduleMD5, moduleSHA1, moduleSHA256 FROM module WHERE moduleName =\'' +searchStr +'\'');
+
+  /* if (hasNumber(searchStr)==true){
+    console.log("has number");
+    
+    if (onlyNumbers(searchStr==true)){
+      console.log("only numbers");
+    }
+    else {
+      console.log("has alpha");
+    }
+  }
+  else {
+    console.log("has no number");    
+  } */
 
   searchStr = searchStr.toLowerCase();
 
@@ -425,6 +411,54 @@ app.post('/search', function (req, res){
     
   });
 
+  /* if (searchStr.includes("analysis")){
+    sql = 'select uploadname, uploaddate, analysisname, analysisreport ';
+    sql += 'from upload ';
+    sql += 'inner join analysis on uploadid = analysisid where analysisname like "%'+searchStr +'%"';
+    console.log("statement: "+sql);
+    
+    connection.query(sql, (err, rows, result)=> {
+      console.log(" ++ enter");
+      if (err) throw err;
+  
+        res.writeHead(200, {'Content-Type': 'application/json'});
+        res.end(JSON.stringify(rows));
+    
+    });
+  }
+  else if (searchStr.includes("rom")){
+    sql = 'select uploadname, uploaddate from upload where uploadname like "%'+searchStr +'%"';
+    console.log("statement: "+sql);
+    
+    connection.query(sql, (err, rows, result)=> {
+      console.log(" ++ enter");
+
+      if (err) throw err;
+  
+        res.writeHead(200, {'Content-Type': 'application/json'});
+        res.end(JSON.stringify(rows));
+    
+    });
+  } */
+  
+  /* //gets previous instance of module names
+  connection.query('SELECT moduleName, moduleGUID, moduleMD5, moduleSHA1, moduleSHA256, moduleUploadID FROM module WHERE moduleName =\'' +searchStr +'\'', (err, rows, result)=> {
+    console.log(" ++ enter");
+    if (err) throw err;
+
+      res.writeHead(200, {'Content-Type': 'application/json'});
+      res.end(JSON.stringify(rows));
+  
+  }); */
+
+  function hasNumber(myString) {
+    return /\d/.test(myString);
+  }
+
+  function onlyNumbers(testString){
+    return /^\d+$/.test(testString);
+  }
+  
 });
 
 // catch 404 and forward to error handler

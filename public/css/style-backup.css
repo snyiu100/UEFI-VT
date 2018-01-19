@@ -1,0 +1,233 @@
+@media (min-width: 768px) {
+    .main-container {
+      width: 100%;
+    }
+  }
+  
+  @media (min-width: 992px) {
+    .container {
+      width: 450px;
+    }
+  }
+  
+  html,
+  body {
+    height: 100%;
+    width: 100%;
+    background-color: #4791D2;
+  }
+  
+  body {
+    text-align: center;
+    font-family: 'Raleway', sans-serif;
+    font-size: 14px;
+  }
+  
+  #main {
+    padding: 0px 0px 50px 0px;
+  }
+  
+  #header, h1, h2 {
+    background-color: #ffffff;
+    width: 100%;
+    size: 100%;
+    padding: 2px;
+  }
+  
+  #uploadArea {
+    width: 90%;
+    height: 50%;
+    margin: 0 auto;
+    padding: 0px 0px 20px 0px;
+  }
+  
+  #resultsDiv {
+    background-color: white;
+    margin: 0 auto;
+    width: 60%; 
+    border-radius: 5px;
+    padding: 10px 20px 20px 20px;
+    text-align: left;
+  }
+  
+  #demoTableDiv {
+    background-color: white;
+    margin: 0 auto;
+    width: 60%; 
+    border-radius: 5px;
+    padding: 10px 20px 20px 20px;
+    text-align: left;
+  }
+  
+  #demoTable td {
+    word-break:break-all;
+  }
+  
+  #printUploadDiv {
+    background-color: white;
+    margin: 0 auto;
+    border-radius: 5px;
+    padding: 10px 20px 20px 20px;
+    text-align: left;
+  }
+  
+  #uploadTable td {
+    word-break:break-all;
+  }
+  
+  .col1 {
+    width:20%;
+  }
+  
+  .col2 {
+    width:80%;
+  }
+  
+  .ucol1 {
+    width:30%;
+  }
+  
+  .ucol2 {
+    width:70%;
+  }
+  
+  #demoTable{
+    table-layout: fixed;
+  }
+  
+  #dbDiv {
+    background-color: white;
+    margin: 0 auto;
+    width: 60%; 
+    border-radius: 5px;
+    padding: 10px 20px 20px 20px;
+    text-align: left;
+  }
+  
+  #dbTable td, th {
+    width: 10%;
+    word-break:break-all;
+  }
+  
+  #dbTable{
+    table-layout: fixed;
+  }
+  
+  hr {
+    border: none;
+    height: 2px;
+    background-color: #68757E; 
+    clear: both;
+  }
+  
+  a {
+    color: #00B7FF;
+  }
+  
+  .btn:focus, .upload-btn:focus{
+    outline: 0 !important;
+  }
+  
+  #uploadRow {
+    margin-top: 80px;
+  }
+  
+  .upload-btn {
+    color: #ffffff;
+    background-color: #F89406;
+    border: none;
+  }
+  
+  .upload-btn:hover,
+  .upload-btn:focus,
+  .upload-btn:active,
+  .upload-btn.active {
+    color: #ffffff;
+    background-color: #FA8900;
+    border: none;
+  }
+  
+  h4 {
+    padding-bottom: 30px;
+    color: #B8BDC1;
+  }
+  
+  .glyphicon {
+    font-size: 5em;
+    color: #9CA3A9;
+  }
+  
+  h2 {
+    margin-top: 15px;
+    color: #68757E;
+  }
+  
+  h1 {
+    color: #333333;
+  }
+  
+  .panel {
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
+  
+  #upload-input {
+    display: none;
+  }
+  
+  #downloadBtnDiv {
+    float: right;
+    width: 50%;
+    text-align: right;
+    margin: 10px 0px 0px 0px;
+    
+  }
+  
+  #resultsTitle {
+    float: left;
+    width: 50%;
+  }
+  
+  #downloadSpan{
+    font-size: 2em;
+    color: white;
+    float: left;
+  }
+  
+  #downloadText{
+    float: right;
+    margin: 5px 0px 0px 15px;
+  }
+  
+  #downloadLink{
+    padding: 10px;
+    
+  }
+  
+  #resultsHeader{
+    margin: 0 auto;
+    padding: 0px 0px 50px 0px;
+  }
+  
+  #headerLink{
+    color: none;
+    text-decoration:none;
+  }
+  
+  .moduleLink{
+    text-decoration:none;
+  }
+  
+  .hiddenRow {
+    padding: 0 !important;
+  }
+  
+  .clickable{
+    cursor: pointer;
+  }
+  
+  .modName{
+    font-weight: bold;
+  }
+  
+  /* General Uploader layout: https://coligo.io/building-ajax-file-uploader-with-node/ */

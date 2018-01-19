@@ -1,20 +1,5 @@
-<link rel='stylesheet' href='/css/tab.css' />
-
 <br><br>
-
-<div id="tab">
-    <ul class="nav nav-pills">
-        <li class="active">
-            <a href="#upload" data-toggle="tab">Upload</a>
-        </li>
-        <li>
-            <a href="#search" data-toggle="tab">Search</a>
-        </li>
-    </ul>
-
-    <div class="tab-content clearfix">
-        <div class="tab-pane active" id="upload">
-            <div id="main">
+<div id="main">
 
     <div id="uploadArea">
         <form action="/" enctype="multipart/form-data" method="post">
@@ -77,8 +62,7 @@
 <!-- END MODAL STUFF -->
    
     <button onClick="sendJSON()">Table format 2</button>
-    <button onClick="downloadFile('analysis1')">test download</button>
-    
+
     <div class="preload" id="preloadUpload" hidden>
 		<div class="loader-frame">
 			<div class="loader1"></div>
@@ -151,58 +135,15 @@
     </div>
 
 </div>
-        </div>
 
-        <div class="tab-pane" id="search">
-            <span class="glyphicon glyphicon-search"></span>
-            
-            <br><br>
-            
-            <div id="searchbar" class=" col-md-offset-1">
-                <div class="col-md-10">
-                    <div id="custom-search-input">
-                        <div class="input-group col-md-12">
-                            <input type="text" class="form-control input-lg" placeholder="Search" id="searchText" />
-                            <span class="input-group-btn">
-                                <button class="btn btn-info btn-lg" type="submit" id="searchBtn">
-                                    <i class="glyphicon glyphicon-search"></i>
-                                </button>
-                            </span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-
-            <div id="preloadSearch" class="preload" hidden>
-                <div class="loader-frame">
-                    <div class="loader1"></div>
-                    <div class="loader2"></div>
-                    <div class="loader3"></div>
-                </div>
-                <h3>
-                    Searching...
-                </h3>
-            </div>
-                
-            <br><br><br><br>
-
-            <div id="searchResultsDiv" hidden>
-                <h3 id="numOfResults"></h3>
-                <table id="searchTable" class="table table-condensed">
-
-                </table>
-            </div>
-
-            
-
-        </div>
-    </div>
-        
-</div>
-
-<br><br>
-
-<script src="js/search.js"></script>
 <script src="js/upload.js"></script>
+<script src="js/search.js"></script>
 
+<!--
+    http://shiya.io/simple-file-upload-with-express-js-and-formidable-in-node-js/
+    https://coligo.io/building-ajax-file-uploader-with-node/ 
+    http://jsfiddle.net/whytheday/2Dj7Y/11/
+    http://jsfiddle.net/QLfMU/1564/
+    https://codepen.io/wizly/pen/BlKxo
+    https://www.bootply.com/gjjXWz6eOZ
+-->

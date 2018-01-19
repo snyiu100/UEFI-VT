@@ -138,14 +138,14 @@ class whitelist(BaseModule):
             moduleGUID = efi_module.parentGuid
             moduleName = efi_module.ui_string
 
-            self.save_to_database(moduleGUID, moduleMD5, moduleName, moduleSHA1, moduleSHA256, foreignKey)
+            self.save_to_database(moduleGUID, moduleMD5, moduleName, moduleSHA1, moduleSHA256, analysisID)
         else: pass
 
     
-    def save_to_database(self, moduleGUID, moduleMD5, moduleName, moduleSHA1, moduleSHA256, foreignKey):
+    def save_to_database(self, moduleGUID, moduleMD5, moduleName, moduleSHA1, moduleSHA256, analysisID):
 
-        #cursor.execute("""INSERT INTO module(moduleName,moduleGUID,moduleMD5,moduleSHA1,moduleSHA256,moduleUploadID) VALUES(%s, %s, %s, %s, %s, %s)""",(moduleName,moduleGUID,moduleMD5,moduleSHA1,moduleSHA256,foreignKey))
-        cursor.execute("""INSERT IGNORE INTO module SET moduleName = %s,moduleGUID = %s,moduleMD5 = %s,moduleSHA1 = %s,moduleSHA256 = %s,moduleUploadID = %s""",(moduleName,moduleGUID,moduleMD5,moduleSHA1,moduleSHA256,foreignKey))
+        #cursor.execute("""INSERT INTO module(moduleName,moduleGUID,moduleMD5,moduleSHA1,moduleSHA256,moduleUploadID) VALUES(%s, %s, %s, %s, %s, %s)""",(moduleName,moduleGUID,moduleMD5,moduleSHA1,moduleSHA256,analysisID))
+        cursor.execute("""INSERT IGNORE INTO module SET moduleName = %s,moduleGUID = %s,moduleMD5 = %s,moduleSHA1 = %s,moduleSHA256 = %s,moduleUploadID = %s""",(moduleName,moduleGUID,moduleMD5,moduleSHA1,moduleSHA256,analysisID))
         db.commit()
 
         return None
@@ -153,7 +153,7 @@ class whitelist(BaseModule):
     #
     # Generates new white-list of EFI executable binaries
     #
-    def generate_efilist( self, json_pth ,foreignKey):
+    def generate_efilist( self, json_pth ,analysisID):
         self.efi_list = {}
         #self.logger.log( "[*] generating a list of EFI executables from firmware image..." )
         efi_tree = spi_uefi.build_efi_model(self.uefi, self.image, None)
@@ -232,8 +232,8 @@ class whitelist(BaseModule):
                 json_file  = module_argv[1]
                 image_file = module_argv[2]
 
-                global foreignKey
-                foreignKey = module_argv[3]
+                global analysisID
+                analysisID = module_argv[3]
                 #self.logger.log("[*] reading firmware from '%s'..." % image_file)
             else:
                 image_file = DEF_FWIMAGE_FILE
@@ -253,7 +253,7 @@ class whitelist(BaseModule):
                     self.logger.error("JSON file '%s' already exists. Exiting..." % json_file)
                     self.res = ModuleResult.ERROR
                 else:
-                    self.res = self.generate_efilist(json_pth, foreignKey)
+                    self.res = self.generate_efilist(json_pth, analysisID)
             elif op == 'check':
                 if not os.path.exists(json_pth):
                     self.logger.error("JSON file '%s' doesn't exists. Exiting..." % json_file)

@@ -113,6 +113,10 @@ function getSearch(){
 function toggleView(){
     $('#preloadSearch').hide('slow');
     $('#searchResultsDiv').show('slow');
+
+    /* $('#preloadSearch').hide('slow', function(){
+        $('#searchResultsDiv').show('slow');
+    }); */
 }
 
 //https://stackoverflow.com/questions/17524290/how-to-check-for-string-having-only-spaces-in-javascript
