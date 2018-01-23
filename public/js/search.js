@@ -61,6 +61,7 @@ function getSearch(){
                 for (var i=0; i<rows.length; i++){
                     columnCounter =0;
                     newJson = rows[i];
+                    resultCounter++;
 
                     for (var column in newJson) {
                         var searchData='';
@@ -75,42 +76,83 @@ function getSearch(){
                             colData = colData.replace(/\>/g, "&gt;");
                         }
 
-                        if (colHeader =="uploaddate"){
+                        if (colHeader =="Upload Date"){
                             colData = String(new Date(colData));
                         }
 
                         //check if includes the search string
                         if (colData.toLowerCase().includes(searchStr.toLowerCase())){
-                            if (colHeader =="analysisreport"){
-                                searchData += '<tr><td>';
+                            if(colHeader =="Analysis Name"){
+                                searchData += '<tr data-toggle="collapse" data-target=".search' +resultCounter +'" class="accordion-toggle clickable"><td class="scol1">';
                                 searchData += colHeader;
-                                searchData += '</td><td><b>';
-                                searchData += 'Exists in the report';
+                                searchData += '</td><td class="scol2"><b>';
+                                searchData += colData;
                                 searchData += '</b></td></tr>';
                                 $('#searchTable').append(searchData);
                             }
-                            else{
-                                searchData += '<tr><td>';
+                            else if (colHeader =="Analysis Report"){
+                                searchData += '<tr><td class="scol1 hiddenRow"><div class="accordion-body collapse search' +resultCounter +'" >';
                                 searchData += colHeader;
-                                searchData += '</td><td><b>';
+                                searchData += '</div></td><td class="scol2 hiddenRow"><div class="accordion-body collapse search' +resultCounter +'" ><b>';
+                                searchData += 'Exists in the report';
+                                searchData += '</div></b></td></tr>';
+                                $('#searchTable').append(searchData);
+                            }
+                            else if (colHeader == "Upload Date"){
+                                searchData += '<tr><td class="scol1 hiddenRow"><div class="accordion-body collapse search' +resultCounter +'" >';
+                                searchData += colHeader;
+                                searchData += '</div></td><td class="dateCol hiddenRow"><div class="accordion-body collapse search' +resultCounter +'" ><b>';
                                 searchData += colData;
-                                searchData += '</b></td></tr>';
+                                searchData += '</b></div></td></tr>';
+                                $('#searchTable').append(searchData);
+                            }
+                            else{
+                                searchData += '<tr><td class="scol1 hiddenRow"><div class="accordion-body collapse search' +resultCounter +'" >';
+                                searchData += colHeader;
+                                searchData += '</div></td><td class="scol2 hiddenRow"><div class="accordion-body collapse search' +resultCounter +'" ><b>';
+                                searchData += colData;
+                                searchData += '</div></b></td></tr>';
                                 $('#searchTable').append(searchData);
                             }
                         }
                         //does not have search string
                         else{
-                            searchData += '<tr><td>';
-                            searchData += colHeader;
-                            searchData += '</td><td>';
-                            searchData += colData;
-                            searchData += '</td></tr>';
-                            $('#searchTable').append(searchData);
+                            if(colHeader =="Analysis Name"){
+                                searchData += '<tr data-toggle="collapse" data-target=".search' +resultCounter +'" class="accordion-toggle clickable"><td class="scol1">';
+                                searchData += colHeader;
+                                searchData += '</td><td class="scol2">';
+                                searchData += colData;
+                                searchData += '</td></tr>';
+                                $('#searchTable').append(searchData);
+                            }
+                            else if (colHeader == "Upload Date"){
+                                searchData += '<tr><td class="scol1 hiddenRow"><div class="accordion-body collapse search' +resultCounter +'" >';
+                                searchData += colHeader;
+                                searchData += '</div></td><td class="dateCol hiddenRow"><div class="accordion-body collapse search' +resultCounter +'" >';
+                                searchData += colData;
+                                searchData += '</div></td></tr>';
+                                $('#searchTable').append(searchData);
+                            }
+                            else if (colHeader =="Analysis Report"){
+                                searchData += '<tr><td class="scol1 hiddenRow"><div class="accordion-body collapse search' +resultCounter +'" >';
+                                searchData += colHeader;
+                                searchData += '</div></td><td class="scol2 hiddenRow"><div class="accordion-body collapse search' +resultCounter +'" >';
+                                searchData += 'Exists in the report';
+                                searchData += '</div></td></tr>';
+                                $('#searchTable').append(searchData);
+                            }
+                            else{
+                                searchData += '<tr><td class="scol1 hiddenRow"><div class="accordion-body collapse search' +resultCounter +'" >';
+                                searchData += colHeader;
+                                searchData += '</div></td><td class="scol2 hiddenRow"><div class="accordion-body collapse search' +resultCounter +'" >';
+                                searchData += colData;
+                                searchData += '</div></td></tr>';
+                                $('#searchTable').append(searchData);
+                            }
                         }
                     }
-                    resultCounter++;
                     var searchAppend ='';
-                    searchAppend += '<tr><td style="padding:15px;"></td><td style="padding:15px;"></td></tr>';
+                    searchAppend += '<tr><td style="padding:15px;" colspan="2"></td></tr>';
                     $('#searchTable').append(searchAppend);
                 }
             }

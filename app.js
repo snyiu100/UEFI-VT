@@ -337,7 +337,7 @@ app.post('/search', function (req, res){
   var columnCounter=0;
   var resultCounter = 0;
 
-  sql = 'select analysisname, uploadname, uploaddate ';
+  sql = 'select analysisname as \'Analysis Name\', uploadname as \'Upload Name\', uploaddate as \'Upload Date\' ';
   sql += 'from upload inner join analysis on analysisuploadid=uploadid where ';
   sql += 'uploadname like "%'+searchStr +'%" ';
   sql += 'or uploaddate like "%'+searchStr +'%"';
@@ -360,7 +360,7 @@ app.post('/search', function (req, res){
     }
 
 
-    sql = 'select analysisname, uploadname, uploaddate, analysisreport ';
+    sql = 'select analysisname as \'Analysis Name\', uploadname as \'Upload Name\', uploaddate as \'Upload Date\', analysisreport as \'Analysis Report\' ';
     sql+= 'from analysis inner join upload on uploadid = analysisuploadid where ';
     sql+= 'analysisname like "%'+searchStr +'%" ';
     sql+= 'or analysisreport like "%'+searchStr +'%"';
@@ -383,7 +383,7 @@ app.post('/search', function (req, res){
       }
       
 
-      sql = 'select analysisname, uploadname, uploaddate, modulename, moduleguid, modulemd5, modulesha1, modulesha256 ';
+      sql = 'select analysisname as \'Analysis Name\', uploadname as \'Upload Name\', uploaddate as \'Upload Date\', modulename as \'Module Name\', moduleguid as \'Module GUID\', modulemd5 as \'Module MD5\', modulesha1 as \'Module SHA1\', modulesha256 as \'Module SHA256\' ';
       sql+= 'from module inner join upload on uploadid = moduleuploadid ';
       sql+= 'inner join analysis on analysisuploadid = moduleuploadid where ';
       sql+= 'modulename like "%'+searchStr +'%" ';

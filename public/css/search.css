@@ -91,10 +91,21 @@
   border-color: rgb(9, 47, 80);
 }
 
-#searchTable td {
+#preloadSearch {
+  margin-top: 100px;
+}
+
+.scol1 {
+  width:30%;
   word-break:break-all;
 }
 
-#preloadSearch {
-  margin-top: 100px;
+.scol2 {
+  width:70%;
+  word-break:break-all;
+}
+
+.dateCol {
+  overflow-wrap: break-word;
+  width: 70%
 }

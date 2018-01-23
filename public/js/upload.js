@@ -16,6 +16,7 @@ $('.upload-btn').on('click', function (){
     $("#fileResultsDiv h4").text('');  
     $("#analysisTitle").text('Analysis Report');  
     $resultsDiv.hide('slow');
+    $('#errorDiv').hide('slow');
     
 });
 
@@ -50,9 +51,21 @@ $('#upload-input').on('change', function(){
         var printRow='';
         var counter=0;
 
-        var rows = data;
-        var analysisID =rows[0].moduleUploadID;
+        console.log(data);
 
+        var rows = data;
+
+        try{
+          var analysisID =rows[0].moduleUploadID;
+        }
+        catch (err){
+          $('#errorTitle').text("Analysis failed. Please try again.");
+          $preload.hide('slow');
+          $("#upload-input").val('');  
+          $('#errorDiv').show('slow');
+          return;
+        }
+          
         for (i=0; i<rows.length; i++){
           printRow+=rows[i].moduleName+ rows[i].moduleGUID +"\r\n\r\n";
           

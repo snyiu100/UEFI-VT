@@ -43,6 +43,14 @@ body {
   text-align: left;
 }
 
+#errorDiv {
+  background-color: white;
+  margin: 0 auto;
+  width: 80%; 
+  border-radius: 5px;
+  text-align: center;
+}
+
 #demoTableDiv { /*fileresutlsdiv*/
   background-color: white;
   margin: 0 auto;
