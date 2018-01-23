@@ -13,6 +13,8 @@ $('.upload-btn').on('click', function (){
     $('.progress-bar').text('0%');
     $('.progress-bar').width('0%');
     $("#resultsTable tr").remove();  
+    $("#fileResultsDiv h4").text('');  
+    $("#analysisTitle").text('Analysis Report');  
     $resultsDiv.hide('slow');
     
 });
@@ -120,6 +122,9 @@ $('#upload-input').on('change', function(){
         }
         $('#analysisTitle').append(" - Analysis"+analysisID);
         $('#fileResultsDiv h4').append("Total Modules: "+counter);
+        $("#upload-input").val('');  
+        
+        
         $preload.hide('slow');
         $('#resultsDiv').show('slow');
       },

@@ -9,6 +9,7 @@ var fs = require('fs');
 var formidable = require('formidable');
 var mysql = require('mysql');
 var cmd = require('node-cmd');
+var crypto = require('crypto');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
@@ -38,13 +39,20 @@ var analysisFilePath = "";
 var allData;
 var whitelistHeader;
 var tempPath = __dirname + '/public/analysis/temp.txt';
-var tempWhitePath = __dirname + '/public/analysis/tempWhite.txt';
 var analysisID;
 var cmdStatement;
 var blacklistData;
 var chipsecComplete;
 var uploadComplete;
 var moduleData;
+var checksumVal;
+
+function checksum (str, algorithm, encoding) {
+  return crypto
+      .createHash(algorithm || 'md5')
+      .update(str, 'utf8')
+      .digest(encoding || 'hex')
+}
 
 /*
   ===== DB CONNECTION =====
@@ -106,6 +114,7 @@ app.post('/upload', function (req, res){
           res.writeHead(200, {'Content-Type': 'application/json'});
           res.end(JSON.stringify(rows));
         });
+        return;
       }
       else{
         console.log(" ** status incompelte");
@@ -125,12 +134,19 @@ app.post('/upload', function (req, res){
 function insertUploadToDB(){
   var date = new Date();
 
-  const insertIntoUpload = {uploadName: fileName, uploadDate:  date};
-  connection.query('INSERT INTO upload SET ?', insertIntoUpload, (err, res) => {
-    if(err) throw err;
-    analysisID = res.insertId;
-    console.log(" ** analysisID: "+analysisID);
-    runChipsec();
+  fs.readFile(uploadFilePath, function (err, data) {
+    checksumVal = checksum(data);
+    console.log("check md5: "+fileName +" ++ "+checksumVal);
+
+    if (err) console.log("encounter error");
+
+    const insertIntoUpload = {uploadName: fileName, uploadDate:  date, uploadChecksum: checksumVal};
+      connection.query('INSERT INTO upload SET ?', insertIntoUpload, (err, res) => {
+      if(err) throw err;
+      analysisID = res.insertId;
+      console.log(" ** analysisID: "+analysisID);
+      runChipsec();
+    });
   });
   
 }
@@ -430,3 +446,4 @@ module.exports = app;
 //http://shiya.io/simple-file-upload-with-express-js-and-formidable-in-node-js/
 //https://coligo.io/building-ajax-file-uploader-with-node/ 
 //https://stackoverflow.com/questions/15009448/creating-a-json-dynamically-with-each-input-value-using-jquery
+//https://blog.tompawlak.org/calculate-checksum-hash-nodejs-javascript
