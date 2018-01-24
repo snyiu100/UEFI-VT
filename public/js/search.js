@@ -85,9 +85,9 @@ function getSearch(){
                             if(colHeader =="Analysis Name"){
                                 searchData += '<tr data-toggle="collapse" data-target=".search' +resultCounter +'" class="accordion-toggle clickable"><td class="scol1">';
                                 searchData += colHeader;
-                                searchData += '</td><td class="scol2"><b>';
+                                searchData += '</td><td class="scol2"><b><a style="text-decoration:none" onClick="downloadFile(\''+colData+'\')">';
                                 searchData += colData;
-                                searchData += '</b></td></tr>';
+                                searchData += '</a></b></td></tr>';
                                 $('#searchTable').append(searchData);
                             }
                             else if (colHeader =="Analysis Report"){
@@ -120,9 +120,9 @@ function getSearch(){
                             if(colHeader =="Analysis Name"){
                                 searchData += '<tr data-toggle="collapse" data-target=".search' +resultCounter +'" class="accordion-toggle clickable"><td class="scol1">';
                                 searchData += colHeader;
-                                searchData += '</td><td class="scol2">';
+                                searchData += '</td><td class="scol2"><a style="text-decoration:none" onClick="downloadFile(\''+colData+'\')">';
                                 searchData += colData;
-                                searchData += '</td></tr>';
+                                searchData += '</a></td></tr>';
                                 $('#searchTable').append(searchData);
                             }
                             else if (colHeader == "Upload Date"){

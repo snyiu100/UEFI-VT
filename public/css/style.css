@@ -35,6 +35,10 @@ body {
   text-align:center;
 }
 
+a {
+  cursor: pointer;
+}
+
 #resultsDiv {
   background-color: white;
   margin: 0 auto;
@@ -51,19 +55,6 @@ body {
   text-align: center;
 }
 
-#demoTableDiv { /*fileresutlsdiv*/
-  background-color: white;
-  margin: 0 auto;
-  width: 60%; 
-  border-radius: 5px;
-  padding: 10px 20px 20px 20px;
-  text-align: left;
-}
-
-#resultsTable td {
-  word-break:break-all;
-}
-
 #resultsTable{
   table-layout: fixed;
 }
@@ -76,24 +67,24 @@ body {
   text-align: left;
 }
 
-#uploadTable td {
-  word-break:break-all;
-}
-
 .col1 {
   width:20%;
+  word-break: break-all; 
 }
 
 .col2 {
   width:80%;
+  word-break: break-all; 
 }
 
 .ucol1 {
   width:30%;
+  word-break: break-all; 
 }
 
 .ucol2 {
   width:70%;
+  overflow-wrap: break-word;
 }
 
 hr {

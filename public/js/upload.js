@@ -17,7 +17,7 @@ $('.upload-btn').on('click', function (){
     $("#analysisTitle").text('Analysis Report');  
     $resultsDiv.hide('slow');
     $('#errorDiv').hide('slow');
-    
+    $preload.hide('slow');
 });
 
 //Upload file function
@@ -125,7 +125,7 @@ $('#upload-input').on('change', function(){
 
           output += '<tr>';
             output += '<td colspan="2" class="hiddenRow">'
-              output += '<div class="accordion-body collapse mod' +counter +'"><a href="#" style="text-decoration:none; font-weight: bold;" data-toggle="modal" onClick="showLinked(\''+rows[i].moduleName+'\')" data-target="#myModal">Click to see similar</a></div>';
+              output += '<div class="accordion-body collapse mod' +counter +'"><a style="text-decoration:none; font-weight: bold;" data-toggle="modal" onClick="showLinked(\''+rows[i].moduleName+'\')" data-target="#myModal">Click to see similar</a></div>';
             output += '</td>';
           output += '</tr>';
           output += '<input type="text" id="demo" name="'+rows[i].moduleName+'">';
@@ -189,6 +189,11 @@ function showLinked(modNameStr){
       console.log("checking string: "+modNameStr);
       var rows = data;
 
+      if (modNameStr.includes("<") || modNameStr.includes(">")) {
+        modNameStr = modNameStr.replace(/\</g, "&lt;");
+        modNameStr = modNameStr.replace(/\>/g, "&gt;");
+      }
+
       $('.modal-title').append(modNameStr +" also exists in:");
       
       for (i=0; i<rows.length; i++){
@@ -199,10 +204,10 @@ function showLinked(modNameStr){
           print += '<td class="ucol1">';
           print += rows[i].uploadName;
           print += '</td>';
-          print += '<td class="ucol1"><a href="#" style="text-decoration:none" onClick="downloadFile(\''+rows[i].analysisName+'\')">';
+          print += '<td class="ucol1"><a style="text-decoration:none" onClick="downloadFile(\''+rows[i].analysisName+'\')">';
           print += rows[i].analysisName;
           print += '</a></td>';
-          print += '<td class="ucol2" style="word-wrap: break-word;">';
+          print += '<td class="ucol2">';
           print += new Date(rows[i].uploadDate);
           print += '</td>';
         print += '</tr>';
