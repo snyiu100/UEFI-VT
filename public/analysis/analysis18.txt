@@ -1,3 +1,8 @@
+******************** Analysing modules ******************** 
+
+Checking EFI binaries...
+[+] PASSED: Didn't find any black-listed EFI binary
+
 ******************** Retrieving module information ********************
 
 Found 172 EFI executables 

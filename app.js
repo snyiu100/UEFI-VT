@@ -161,31 +161,7 @@ function runChipsec(){
   uploadFilePath = String((uploadFilePath).replace(/\//g, "\\"));
   console.log(" ** filename "+analysisFilePath);
 
-  chipsecBlacklist();
-}
-
-//parsing blacklist results
-function chipsecBlacklist(){
-  blacklistData = "******************** Analysing modules ********************";
-  cmdStatement = 'python chipsec/chipsec_main.py -i -m tools.uefi.blacklist -a ' + uploadFilePath;
-
-  var pyProcess = cmd.get(cmdStatement,
-  //to save blacklist output to file
-    function(data, err, stderr) {
-      console.log(" ** enter blacklist");
-        if (err) {
-          blacklistData += err;
-        }
-
-        fs.writeFile(tempPath, blacklistData, (err) => {
-          if (err) throw err;
-          console.log(' ** Black data written to temp file!');
-        });
-
-        chipsecWhitelist();   // to throw 2 lines above?     
-
-    }
-  );
+  chipsecWhitelist();
 }
 
 //parsing whitelist results
@@ -194,7 +170,7 @@ function chipsecWhitelist(){
   whitelistHeader = "******************** Retrieving module information ********************\r\n\r\n";
   cmdStatement = 'python chipsec/chipsec_main.py -i -m tools.uefi.whitelist -a generate,efilist.json,' + uploadFilePath +','+analysisID;
 
-  fs.appendFile(tempPath, whitelistHeader, (err) => {
+  fs.writeFile(tempPath, whitelistHeader, (err) => {
     if (err) throw err;
     console.log(' ** white header written to temp file!');
 
@@ -258,21 +234,11 @@ app.post('/show', function (req, res){
   var retrievedModuleName = req.body.modStr;
   console.log(" ~~~get name: "+retrievedModuleName);
 
-  console.log('SELECT moduleUploadID FROM module WHERE moduleName =\''+retrievedModuleName +'\'');
-  
   connection.query('SELECT moduleUploadID FROM module WHERE moduleName =\'' +retrievedModuleName +'\'', (err, rows, result)=> {
     console.log(" ++ enter");
     if (err) throw err;
 
     sql="SELECT uploadName, analysisName, uploadDate FROM upload INNER JOIN analysis on uploadid=analysisuploadid WHERE uploadID =";
-
-    console.log(" ++ length:"+rows.length);
-
-    console.log(" ++ check json:" +JSON.stringify(rows));
-
-    console.log(" ++ name:"+rows[2].moduleUploadID);
-
-    console.log(" ++ typw:"+typeof(rows[2].moduleUploadID));
 
     doDBCall();
 
@@ -337,10 +303,11 @@ app.post('/search', function (req, res){
   var columnCounter=0;
   var resultCounter = 0;
 
-  sql = 'select analysisname as \'Analysis Name\', uploadname as \'Upload Name\', uploaddate as \'Upload Date\' ';
+  sql = 'select analysisname as \'Analysis Name\', uploadname as \'Upload Name\', uploaddate as \'Upload Date\', uploadchecksum as \'Upload Checksum\' ';
   sql += 'from upload inner join analysis on analysisuploadid=uploadid where ';
   sql += 'uploadname like "%'+searchStr +'%" ';
-  sql += 'or uploaddate like "%'+searchStr +'%"';
+  sql += 'or uploaddate like "%'+searchStr +'%" ';
+  sql += 'or uploadchecksum like "%'+searchStr +'%"';
 
   connection.query(sql, (err, rows, result)=> {
     console.log(" ++ enter upload");
