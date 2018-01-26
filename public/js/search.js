@@ -58,17 +58,20 @@ function getSearch(){
                 $('#searchTable').append(searchData);
             }
             else{
+                //all entries
                 for (var i=0; i<rows.length; i++){
                     columnCounter =0;
                     newJson = rows[i];
                     resultCounter++;
-
+                    
+                    //single entry
                     for (var column in newJson) {
                         var searchData='';
                         columnCounter++;
 
                         var colHeader = column;
                         var colData = newJson[column];
+                        
 
                         //check if name is <no_name>
                         if (colData.includes("<") || colData.includes(">")) {
@@ -83,7 +86,7 @@ function getSearch(){
                         //check if includes the search string
                         if (colData.toLowerCase().includes(searchStr.toLowerCase())){
                             if(colHeader =="Analysis Name"){
-                                searchData += '<tr data-toggle="collapse" data-target=".search' +resultCounter +'" class="accordion-toggle clickable"><td class="scol1">';
+                                searchData += '<tr data-toggle="collapse" data-target=".search' +resultCounter +'" class="accordion-toggle clickable searchHeader"><td class="scol1">';
                                 searchData += colHeader;
                                 searchData += '</td><td class="scol2"><b><a style="text-decoration:none" onClick="downloadFile(\''+colData+'\')">';
                                 searchData += colData;
@@ -149,13 +152,47 @@ function getSearch(){
                                 searchData += '</div></td></tr>';
                                 $('#searchTable').append(searchData);
                             }
+                            
                         }
+                        
                     }
                     var searchAppend ='';
-                    searchAppend += '<tr><td style="padding:15px;" colspan="2"></td></tr>';
+                    searchAppend += '<tr><td class="endRow" style="padding:15px;" colspan="2"></td></tr>';
                     $('#searchTable').append(searchAppend);
                 }
             }
+
+            $('#searchTable').each(function() {
+                var currentPage = 0;
+                var numPerPage = 50;
+                var $table = $(this);
+                var rowCounter =0;
+
+                console.log($table.find('.endRow').length); //64
+
+                $table.on('repaginate', function() {
+                    $table.find('.tr').hide().slice(currentPage * numPerPage, (currentPage + 1) * numPerPage).show();
+                    //$table.find('.tr').hide().slice(currentPage * numPerPage, (currentPage + 1) * numPerPage).show();
+                    //.slice(0*50, 1*50).show
+                    //.slice(0, 50).show
+                });
+
+                $table.trigger('repaginate');
+                var numRows = resultCounter;
+                var numPages = Math.ceil(numRows / numPerPage);
+                var $pager = $('<div class="pager"></div>');
+                for (var page = 0; page < numPages; page++) {
+                    $('<span class="page-number"></span>').text(page + 1).on('click', {
+                        newPage: page}, function(event) {
+                            currentPage = event.data['newPage'];
+                            
+                            $table.trigger('repaginate');
+                            $(this).addClass('active').siblings().removeClass('active');
+                        }).appendTo($pager).addClass('clickable');
+                }
+                $pager.insertBefore($table).find('span.page-number:first').addClass('active');
+            });
+
             $('#numOfResults').append("Found "+resultCounter +" matches");
             toggleView();
         } 

@@ -132,6 +132,15 @@ $('#upload-input').on('change', function(){
           
           $('#resultsTable').append(output)
 
+          $('td', 'table').each(function(i) {
+            $(this).text(i + 1);
+          });
+          
+          
+          
+          
+          
+
         }
         $('#analysisTitle').append(" - Analysis"+analysisID);
         $('#fileResultsDiv h4').append("Total Modules: "+counter);
