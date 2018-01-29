@@ -23,6 +23,8 @@ $('.upload-btn').on('click', function (){
 //Upload file function
 $('#upload-input').on('change', function(){
 
+  $('.upload-btn').prop('disabled', true);
+  
   var files = $(this).get(0).files;
 
   if (files.length > 0){
@@ -63,6 +65,8 @@ $('#upload-input').on('change', function(){
           $preload.hide('slow');
           $("#upload-input").val('');  
           $('#errorDiv').show('slow');
+          $('.upload-btn').prop('disabled', false);
+          
           return;
         }
           
@@ -132,20 +136,17 @@ $('#upload-input').on('change', function(){
           
           $('#resultsTable').append(output)
 
-          $('td', 'table').each(function(i) {
+         /*  $('td', 'table').each(function(i) {
             $(this).text(i + 1);
-          });
+          }); */
           
           
-          
-          
-          
-
         }
         $('#analysisTitle').append(" - Analysis"+analysisID);
         $('#fileResultsDiv h4').append("Total Modules: "+counter);
         $("#upload-input").val('');  
         
+        $('.upload-btn').prop('disabled', false);
         
         $preload.hide('slow');
         $('#resultsDiv').show('slow');

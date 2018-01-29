@@ -121,7 +121,7 @@ function getSearch(){
                         //does not have search string
                         else{
                             if(colHeader =="Analysis Name"){
-                                searchData += '<tr data-toggle="collapse" data-target=".search' +resultCounter +'" class="accordion-toggle clickable"><td class="scol1">';
+                                searchData += '<tr data-toggle="collapse" data-target=".search' +resultCounter +'" class="accordion-toggle clickable searchHeader"><td class="scol1">';
                                 searchData += colHeader;
                                 searchData += '</td><td class="scol2"><a style="text-decoration:none" onClick="downloadFile(\''+colData+'\')">';
                                 searchData += colData;
@@ -157,12 +157,61 @@ function getSearch(){
                         
                     }
                     var searchAppend ='';
-                    searchAppend += '<tr><td class="endRow" style="padding:15px;" colspan="2"></td></tr>';
+                    searchAppend += '<tr class="endRow"><td style="padding:15px;" colspan="2"></td></tr>';
                     $('#searchTable').append(searchAppend);
                 }
             }
 
-            $('#searchTable').each(function() {
+
+            function createVariables(){
+                var accounts = [];
+              
+                for (var i = 0; i <= 20; ++i) {
+                    accounts[i] = "whatever";
+                }
+              
+                return accounts;
+              }
+
+            var pageContentSelector = new Array;
+
+            var startTR = 0;
+            for (var i =0; i < resultCounter; i++){
+                var numVar = 5;
+                if (i % numVar === 0){
+
+                    var pageContent = $(".searchHeader:eq("+i+")").nextUntil( ".endRow:eq("+(i+(numVar))+")" ).addBack().css("color","red");
+
+                    var totalTR = pageContent.length;
+
+                    var lastTR = startTR + totalTR;
+
+                    startTR = lastTR + 1;
+                        var startSelection = i;
+                        //var testSelection = $(".searchHeader:eq("+i+")").nextUntil( ".searchHeader:eq("+(i+(numVar-1))+")" );
+                        var testSelection = $(".searchHeader:eq("+i+")").nextUntil( ".endRow:eq("+(i+(numVar))+")" ).addBack().css("color","red");
+                        var endSelection = testSelection.length; 
+
+                        console.log("end:"+testSelection.length);
+                        console.log("start:"+(startSelection));
+                        console.log("$(.searchHeader:eq("+i+")).nextUntil( .endRow:eq("+(i+(numVar))+") ).addBack().css(\"color\",\"red\")");
+                }
+            }
+
+            //$('#searchTable').find('.tr').hide().slice(startSelection,testSelection.length ).show();
+            //console.log("$('#searchTable').find('.tr').hide().slice("+startSelection+","+testSelection.length+").show();");
+            //slice() extracts up to but not including endIndex. str.slice(1, 4) extracts the second character through the fourth character (characters indexed 1, 2, and 3).
+            var currentPage = 0;
+                var numPerPage = 50;
+                console.log(currentPage * numPerPage, (currentPage + 1) * numPerPage);
+                
+                $('#searchTable').find('.tr').hide().slice(currentPage * numPerPage, (currentPage + 1) * numPerPage).show();
+
+                console.log("$('#searchTable').find('.tr').hide().slice("+(currentPage * numPerPage)+","+ ((currentPage + 1) * numPerPage)+".show();");
+            
+            //$(".searchHeader:eq(0)").nextUntil( ".endRow:eq(0)" ).css( "color", "red" );
+
+            /* $('#searchTable').each(function() {
                 var currentPage = 0;
                 var numPerPage = 50;
                 var $table = $(this);
@@ -185,13 +234,13 @@ function getSearch(){
                     $('<span class="page-number"></span>').text(page + 1).on('click', {
                         newPage: page}, function(event) {
                             currentPage = event.data['newPage'];
-                            
+
                             $table.trigger('repaginate');
                             $(this).addClass('active').siblings().removeClass('active');
                         }).appendTo($pager).addClass('clickable');
                 }
                 $pager.insertBefore($table).find('span.page-number:first').addClass('active');
-            });
+            }); */
 
             $('#numOfResults').append("Found "+resultCounter +" matches");
             toggleView();
