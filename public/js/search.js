@@ -39,7 +39,6 @@ function getSearch(){
         dataType: 'json',
         contentType: "application/json; charset=UTF-8",
         data: sendData ,
-        async: false,
         success: function(data)
         {
             console.log("success");
@@ -210,7 +209,7 @@ function getSearch(){
 
             $('#numOfResults').append("Found "+resultCounter +" matches");
             toggleView();
-        } 
+        }
     });
 }
 
@@ -220,3 +219,4 @@ function toggleView(){
 }
 
 //https://stackoverflow.com/questions/17524290/how-to-check-for-string-having-only-spaces-in-javascript
+//http://jsfiddle.net/LiquidSky/djav37tg/

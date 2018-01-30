@@ -84,8 +84,7 @@ app.post('/upload', function (req, res){
     fileName = file.name;
     file.path = __dirname + '/public/uploads/' + fileName;
     uploadFilePath = String((file.path).replace(/\\/g, "/"));
-    console.log("check path: "+uploadFilePath);
-    insertUploadToDB();
+    console.log(" * Uploading file");
   });
 
   form.on('error', function(err) {
@@ -93,6 +92,7 @@ app.post('/upload', function (req, res){
   });
 
   form.on('file', function (name, file){
+    insertUploadToDB();
     console.log(' ** Uploaded ' + fileName);
   });
 
@@ -114,10 +114,9 @@ app.post('/upload', function (req, res){
           res.writeHead(200, {'Content-Type': 'application/json'});
           res.end(JSON.stringify(rows));
         });
-        return;
       }
       else{
-        console.log(" ** status incompelte");
+        console.log(" ** status incomplete");
         this.setTimeout(function() {
           tryChipsec();
       }, 5000);
