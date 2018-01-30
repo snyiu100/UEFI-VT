@@ -18,6 +18,7 @@ $('.upload-btn').on('click', function (){
     $resultsDiv.hide('slow');
     $('#errorDiv').hide('slow');
     $preload.hide('slow');
+    $('.pager').remove();
 });
 
 //Upload file function
@@ -82,7 +83,7 @@ $('#upload-input').on('change', function(){
 
           var output = '';
 
-          output += '<tr data-toggle="collapse" data-target=".mod' +counter +'" class="accordion-toggle clickable modName">';
+          output += '<tr data-toggle="collapse" data-target=".mod' +counter +'" class="accordion-toggle clickable modName uploadHeader">';
             output += '<td class="col1">Name</td>';
             output += '<td class="col2">' + rows[i].moduleName + '</td>';
           output += '</tr>';
@@ -134,14 +135,58 @@ $('#upload-input').on('change', function(){
           output += '</tr>';
           output += '<input type="text" id="demo" name="'+rows[i].moduleName+'">';
           
-          $('#resultsTable').append(output)
-
-         /*  $('td', 'table').each(function(i) {
-            $(this).text(i + 1);
-          }); */
-          
+                    output += '<tr class="endRow"><td style="padding:15px;" colspan="2"></td></tr>';
+          $('#resultsTable').append(output);
           
         }
+
+        var pageContent = [];
+        var startRow = [];
+        var totalRows = [];
+        var lastRow = [];
+        var pageContentCounter=0;
+        startRow[0] = -1;
+        lastRow[0] = -1;
+        var numVar = 10; //number of results per page
+
+        for (var i =0; i < counter; i++){
+          if (i % numVar === 0){
+            pageContentCounter++; // paging counter
+
+            startRow[pageContentCounter] = lastRow[pageContentCounter-1] + 1; //get first row num of page content
+
+            pageContent[pageContentCounter] = $(".uploadHeader:eq("+i+")").nextUntil( ".endRow:eq("+(i+(numVar)-1)+")" ).addBack(); //object: select 1st AnalysisName to last endRow
+
+            totalRows[pageContentCounter] = pageContent[pageContentCounter].length; //get total number of rows of content
+
+            lastRow[pageContentCounter] = startRow[pageContentCounter] + totalRows[pageContentCounter]; //get num of last row content
+            console.log(pageContentCounter+"sheck: startNum"+startRow[pageContentCounter]+",totalLen"+totalRows[pageContentCounter]+",lastNum"+lastRow[pageContentCounter]);
+          }
+        }
+            
+        $('#resultsTable').each(function() {
+          var currentPage = 1;
+          var $table = $(this);
+                    
+          $table.on('repaginate', function() {
+            $table.find('tr').hide().slice(startRow[currentPage], lastRow[currentPage]).show();
+          });
+
+          $table.trigger('repaginate');
+          var numPages = pageContentCounter;
+          var $pager = $('<div class="pager"></div>');
+          for (var page = 1; page <= numPages; page++) {
+            $('<span class="page-number"></span>').text(page).on('click', {
+              newPage: page}, function(event) {
+                currentPage = event.data['newPage'];
+
+                $table.trigger('repaginate');
+                $(this).addClass('active').siblings().removeClass('active');
+              }).appendTo($pager).addClass('clickable');
+            }
+          $pager.insertBefore($table).find('span.page-number:first').addClass('active');
+          });
+            
         $('#analysisTitle').append(" - Analysis"+analysisID);
         $('#fileResultsDiv h4').append("Total Modules: "+counter);
         $("#upload-input").val('');  
@@ -233,11 +278,12 @@ function showLinked(modNameStr){
 function downloadFile(analysisName){
   var form = '<form action="downloadFile" method="post" id="testDLForm" hidden><input type="submit" name="str" id="testValue" value="'+analysisName+'"/></form>';
   $('body').append(form);
-  console.log("appended");
+  console.log("appended "+analysisName);
   clickFn();
 }
 function clickFn(){
   $( "#testValue" ).trigger( "click" );
+  $('#testDLForm').remove();
 }
 
 // https://stackoverflow.com/questions/40258816/js-nodejs-read-table-from-db-with-ajax-and-display-in-table

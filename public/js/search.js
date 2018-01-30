@@ -5,10 +5,11 @@ $('#searchBtn').click(function(){
     $('#searchResultsDiv').hide('slow');
     $("#searchTable tr").remove();
     $('#numOfResults').text('');
+    $('.pager').remove();
 
     searchStr = $('#searchText').val();
-    console.log("check string: "+searchStr +"=");    
 
+    //check for whitespace
     if (searchStr == ""){
         console.log("string not defined");
         return;
@@ -38,6 +39,7 @@ function getSearch(){
         dataType: 'json',
         contentType: "application/json; charset=UTF-8",
         data: sendData ,
+        async: false,
         success: function(data)
         {
             console.log("success");
@@ -71,7 +73,6 @@ function getSearch(){
 
                         var colHeader = column;
                         var colData = newJson[column];
-                        
 
                         //check if name is <no_name>
                         if (colData.includes("<") || colData.includes(">")) {
@@ -152,9 +153,7 @@ function getSearch(){
                                 searchData += '</div></td></tr>';
                                 $('#searchTable').append(searchData);
                             }
-                            
                         }
-                        
                     }
                     var searchAppend ='';
                     searchAppend += '<tr class="endRow"><td style="padding:15px;" colspan="2"></td></tr>';
@@ -162,76 +161,43 @@ function getSearch(){
                 }
             }
 
+            var pageContent = [];
+            var startRow = [];
+            var totalRows = [];
+            var lastRow = [];
+            var pageContentCounter=0;
+            startRow[0] = -1;
+            lastRow[0] = -1;
+            var numVar = 10; //number of results per page
 
-            function createVariables(){
-                var accounts = [];
-              
-                for (var i = 0; i <= 20; ++i) {
-                    accounts[i] = "whatever";
-                }
-              
-                return accounts;
-              }
-
-            var pageContentSelector = new Array;
-
-            var startTR = 0;
             for (var i =0; i < resultCounter; i++){
-                var numVar = 5;
                 if (i % numVar === 0){
+                    pageContentCounter++; // paging counter
 
-                    var pageContent = $(".searchHeader:eq("+i+")").nextUntil( ".endRow:eq("+(i+(numVar))+")" ).addBack().css("color","red");
+                    startRow[pageContentCounter] = lastRow[pageContentCounter-1] + 1; //get first row num of page content
 
-                    var totalTR = pageContent.length;
+                    pageContent[pageContentCounter] = $(".searchHeader:eq("+i+")").nextUntil( ".endRow:eq("+(i+(numVar)-1)+")" ).addBack(); //object: select 1st AnalysisName to last endRow
 
-                    var lastTR = startTR + totalTR;
+                    totalRows[pageContentCounter] = pageContent[pageContentCounter].length; //get total number of rows of content
 
-                    startTR = lastTR + 1;
-                        var startSelection = i;
-                        //var testSelection = $(".searchHeader:eq("+i+")").nextUntil( ".searchHeader:eq("+(i+(numVar-1))+")" );
-                        var testSelection = $(".searchHeader:eq("+i+")").nextUntil( ".endRow:eq("+(i+(numVar))+")" ).addBack().css("color","red");
-                        var endSelection = testSelection.length; 
-
-                        console.log("end:"+testSelection.length);
-                        console.log("start:"+(startSelection));
-                        console.log("$(.searchHeader:eq("+i+")).nextUntil( .endRow:eq("+(i+(numVar))+") ).addBack().css(\"color\",\"red\")");
+                    lastRow[pageContentCounter] = startRow[pageContentCounter] + totalRows[pageContentCounter]; //get num of last row content
+                    console.log(pageContentCounter+"sheck: startNum"+startRow[pageContentCounter]+",totalLen"+totalRows[pageContentCounter]+",lastNum"+lastRow[pageContentCounter]);
                 }
             }
-
-            //$('#searchTable').find('.tr').hide().slice(startSelection,testSelection.length ).show();
-            //console.log("$('#searchTable').find('.tr').hide().slice("+startSelection+","+testSelection.length+").show();");
-            //slice() extracts up to but not including endIndex. str.slice(1, 4) extracts the second character through the fourth character (characters indexed 1, 2, and 3).
-            var currentPage = 0;
-                var numPerPage = 50;
-                console.log(currentPage * numPerPage, (currentPage + 1) * numPerPage);
-                
-                $('#searchTable').find('.tr').hide().slice(currentPage * numPerPage, (currentPage + 1) * numPerPage).show();
-
-                console.log("$('#searchTable').find('.tr').hide().slice("+(currentPage * numPerPage)+","+ ((currentPage + 1) * numPerPage)+".show();");
             
-            //$(".searchHeader:eq(0)").nextUntil( ".endRow:eq(0)" ).css( "color", "red" );
-
-            /* $('#searchTable').each(function() {
-                var currentPage = 0;
-                var numPerPage = 50;
+            $('#searchTable').each(function() {
+                var currentPage = 1;
                 var $table = $(this);
-                var rowCounter =0;
-
-                console.log($table.find('.endRow').length); //64
-
+                    
                 $table.on('repaginate', function() {
-                    $table.find('.tr').hide().slice(currentPage * numPerPage, (currentPage + 1) * numPerPage).show();
-                    //$table.find('.tr').hide().slice(currentPage * numPerPage, (currentPage + 1) * numPerPage).show();
-                    //.slice(0*50, 1*50).show
-                    //.slice(0, 50).show
+                    $table.find('tr').hide().slice(startRow[currentPage], lastRow[currentPage]).show();
                 });
 
                 $table.trigger('repaginate');
-                var numRows = resultCounter;
-                var numPages = Math.ceil(numRows / numPerPage);
+                var numPages = pageContentCounter;
                 var $pager = $('<div class="pager"></div>');
-                for (var page = 0; page < numPages; page++) {
-                    $('<span class="page-number"></span>').text(page + 1).on('click', {
+                for (var page = 1; page <= numPages; page++) {
+                    $('<span class="page-number"></span>').text(page).on('click', {
                         newPage: page}, function(event) {
                             currentPage = event.data['newPage'];
 
@@ -240,7 +206,7 @@ function getSearch(){
                         }).appendTo($pager).addClass('clickable');
                 }
                 $pager.insertBefore($table).find('span.page-number:first').addClass('active');
-            }); */
+            });
 
             $('#numOfResults').append("Found "+resultCounter +" matches");
             toggleView();
