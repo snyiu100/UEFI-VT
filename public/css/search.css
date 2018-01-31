@@ -109,3 +109,8 @@
   overflow-wrap: break-word;
   width: 70%
 }
+
+#disclaimer {
+  font-size: 12px;
+  margin-top: 5px;
+}

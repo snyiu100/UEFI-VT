@@ -3,7 +3,7 @@ var searchStr ='';
 $('#searchBtn').click(function(){
 
     $('#searchResultsDiv').hide('slow');
-    $("#searchTable tr").remove();
+    $("#searchTableBody tr").remove();
     $('#numOfResults').text('');
     $('.pager').remove();
 
@@ -48,6 +48,9 @@ function getSearch(){
             var newJson;
             var columnCounter=0;
             var resultCounter = 0;
+            var searchTableBody = document.getElementById('searchTableBody');
+            var searchTable = document.getElementById('searchTable');
+            var numOfResults = document.getElementById('numOfResults');
 
             console.log(rows);
 
@@ -56,7 +59,8 @@ function getSearch(){
 
                 searchData += '<tr><td colspan="2" style="padding:5px"></td></tr>';
                 console.log(searchData);
-                $('#searchTable').append(searchData);
+                //$('#searchTableBody').append(searchData);
+                searchTableBody.insertAdjacentHTML('beforeend', searchData);
             }
             else{
                 //all entries
@@ -79,7 +83,7 @@ function getSearch(){
                             colData = colData.replace(/\>/g, "&gt;");
                         }
 
-                        if (colHeader =="Upload Date"){
+                        if (colHeader === "Upload Date"){
                             colData = String(new Date(colData));
                         }
 
@@ -91,7 +95,8 @@ function getSearch(){
                                 searchData += '</td><td class="scol2"><b><a style="text-decoration:none" onClick="downloadFile(\''+colData+'\')">';
                                 searchData += colData;
                                 searchData += '</a></b></td></tr>';
-                                $('#searchTable').append(searchData);
+                                //$('#searchTableBody').append(searchData);
+                                searchTableBody.insertAdjacentHTML('beforeend', searchData);
                             }
                             else if (colHeader =="Analysis Report"){
                                 searchData += '<tr><td class="scol1 hiddenRow"><div class="accordion-body collapse search' +resultCounter +'" >';
@@ -99,7 +104,8 @@ function getSearch(){
                                 searchData += '</div></td><td class="scol2 hiddenRow"><div class="accordion-body collapse search' +resultCounter +'" ><b>';
                                 searchData += 'Exists in the report';
                                 searchData += '</div></b></td></tr>';
-                                $('#searchTable').append(searchData);
+                                //$('#searchTableBody').append(searchData);
+                                searchTableBody.insertAdjacentHTML('beforeend', searchData);
                             }
                             else if (colHeader == "Upload Date"){
                                 searchData += '<tr><td class="scol1 hiddenRow"><div class="accordion-body collapse search' +resultCounter +'" >';
@@ -107,7 +113,8 @@ function getSearch(){
                                 searchData += '</div></td><td class="dateCol hiddenRow"><div class="accordion-body collapse search' +resultCounter +'" ><b>';
                                 searchData += colData;
                                 searchData += '</b></div></td></tr>';
-                                $('#searchTable').append(searchData);
+                                //$('#searchTableBody').append(searchData);
+                                searchTableBody.insertAdjacentHTML('beforeend', searchData);
                             }
                             else{
                                 searchData += '<tr><td class="scol1 hiddenRow"><div class="accordion-body collapse search' +resultCounter +'" >';
@@ -115,7 +122,8 @@ function getSearch(){
                                 searchData += '</div></td><td class="scol2 hiddenRow"><div class="accordion-body collapse search' +resultCounter +'" ><b>';
                                 searchData += colData;
                                 searchData += '</div></b></td></tr>';
-                                $('#searchTable').append(searchData);
+                                //$('#searchTableBody').append(searchData);
+                                searchTableBody.insertAdjacentHTML('beforeend', searchData);
                             }
                         }
                         //does not have search string
@@ -126,7 +134,8 @@ function getSearch(){
                                 searchData += '</td><td class="scol2"><a style="text-decoration:none" onClick="downloadFile(\''+colData+'\')">';
                                 searchData += colData;
                                 searchData += '</a></td></tr>';
-                                $('#searchTable').append(searchData);
+                                //$('#searchTableBody').append(searchData);
+                                searchTableBody.insertAdjacentHTML('beforeend', searchData);
                             }
                             else if (colHeader == "Upload Date"){
                                 searchData += '<tr><td class="scol1 hiddenRow"><div class="accordion-body collapse search' +resultCounter +'" >';
@@ -134,15 +143,13 @@ function getSearch(){
                                 searchData += '</div></td><td class="dateCol hiddenRow"><div class="accordion-body collapse search' +resultCounter +'" >';
                                 searchData += colData;
                                 searchData += '</div></td></tr>';
-                                $('#searchTable').append(searchData);
+                                //$('#searchTableBody').append(searchData);
+                                searchTableBody.insertAdjacentHTML('beforeend', searchData);
                             }
                             else if (colHeader =="Analysis Report"){
-                                searchData += '<tr><td class="scol1 hiddenRow"><div class="accordion-body collapse search' +resultCounter +'" >';
-                                searchData += colHeader;
-                                searchData += '</div></td><td class="scol2 hiddenRow"><div class="accordion-body collapse search' +resultCounter +'" >';
-                                searchData += 'Exists in the report';
-                                searchData += '</div></td></tr>';
-                                $('#searchTable').append(searchData);
+                                searchData = '<tr><td class="scol1 hiddenRow"><div class="accordion-body collapse search' +resultCounter +'" >' +colHeader +'</div></td><td class="scol2 hiddenRow"><div class="accordion-body collapse search'  +resultCounter +'" > Not in the report </div></td></tr>';
+                                //$('#searchTableBody').append(searchData);
+                                searchTableBody.insertAdjacentHTML('beforeend', searchData);
                             }
                             else{
                                 searchData += '<tr><td class="scol1 hiddenRow"><div class="accordion-body collapse search' +resultCounter +'" >';
@@ -150,13 +157,14 @@ function getSearch(){
                                 searchData += '</div></td><td class="scol2 hiddenRow"><div class="accordion-body collapse search' +resultCounter +'" >';
                                 searchData += colData;
                                 searchData += '</div></td></tr>';
-                                $('#searchTable').append(searchData);
+                                //$('#searchTableBody').append(searchData);
+                                searchTableBody.insertAdjacentHTML('beforeend', searchData);
                             }
                         }
                     }
-                    var searchAppend ='';
-                    searchAppend += '<tr class="endRow"><td style="padding:15px;" colspan="2"></td></tr>';
-                    $('#searchTable').append(searchAppend);
+                    var searchAppend = '<tr class="endRow"><td style="padding:15px;" colspan="2"></td></tr>';
+                    //$('#searchTableBody').append(searchAppend);
+                    searchTableBody.insertAdjacentHTML('beforeend', searchAppend);
                 }
             }
 
@@ -184,7 +192,7 @@ function getSearch(){
                 }
             }
             
-            $('#searchTable').each(function() {
+            $('#searchTableBody').each(function() {
                 var currentPage = 1;
                 var $table = $(this);
                     
@@ -204,10 +212,11 @@ function getSearch(){
                             $(this).addClass('active').siblings().removeClass('active');
                         }).appendTo($pager).addClass('clickable');
                 }
-                $pager.insertBefore($table).find('span.page-number:first').addClass('active');
+                $pager.insertBefore(searchTable).find('span.page-number:first').addClass('active');
             });
 
-            $('#numOfResults').append("Found "+resultCounter +" matches");
+            numOfResults.insertAdjacentHTML('beforeend',"Found "+resultCounter +" matches");
+            //$('#numOfResults').append("Found "+resultCounter +" matches");
             toggleView();
         }
     });
