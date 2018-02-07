@@ -1,17 +1,3 @@
-******************** Analysing modules ******************** 
-
-Checking EFI binaries...
-[!] match 'ThinkPwn.SmmRuntime'
-    GUID  : {A56897A1-A77F-4600-84DB-22B0A801FA9A}
-    regexp: bytes 'bytes 'a19768a57fa7004684db22b0a801fa9a'' at offset 1244h
-[!] found EFI binary matching 'ThinkPwn'
-    ThinkPwn: SystemSmmRuntimeRt SMM vulnerability (http://blog.cr4.sh/2016/06/exploring-and-exploiting-lenovo.html)
-+00000000h S_PE32 section of binary {A56897A1-A77F-4600-84DB-22B0A801FA9A} SmmRuntime: Type 10h
-    MD5   : 78c4a97cd46caf1e338d6dacc7a2ef66
-    SHA1  : 07e0850657e5df0bb9593d1b5903607ee825af9d
-    SHA256: 10fd1a02d13bef0c3a295d076a633b1771255d16ed6375a14bd198ea23137bac
-[!] WARNING: Black-listed EFI binary found in the UEFI firmware image
-
 ******************** Retrieving module information ********************
 
 Found 172 EFI executables 
