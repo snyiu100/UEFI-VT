@@ -1,0 +1,278 @@
+<style>
+    body {
+        padding-top: 50px;
+    }
+    .dropdown.dropdown-lg .dropdown-menu {
+        margin-top: -1px;
+        padding: 6px 20px;
+    }
+    .input-group-btn .btn-group {
+        display: flex !important;
+    }
+    .btn-group .btn {
+        border-radius: 0;
+        margin-left: -1px;
+    }
+    .btn-group .btn:last-child {
+        border-top-right-radius: 4px;
+        border-bottom-right-radius: 4px;
+    }
+    .btn-group .form-horizontal .btn[type="submit"] {
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+    }
+    .form-horizontal .form-group {
+        margin-left: 0;
+        margin-right: 0;
+    }
+    .form-group .form-control:last-child {
+        border-top-left-radius: 4px;
+        border-bottom-left-radius: 4px;
+    }
+
+    @media screen and (min-width: 768px) {
+        #adv-search {
+            width: 500px;
+            margin: 0 auto;
+        }
+        .dropdown.dropdown-lg {
+            position: static !important;
+        }
+        .dropdown.dropdown-lg .dropdown-menu {
+            min-width: 500px;
+        }
+    }
+    
+</style>
+
+<br><br>
+
+<div id="tab">
+    <ul class="nav nav-pills">
+        <li class="active">
+            <a href="#upload" data-toggle="tab">Upload</a>
+        </li>
+        <li>
+            <a href="#search" data-toggle="tab">Search</a>
+        </li>
+    </ul>
+
+    <div class="tab-content clearfix">
+        <div class="tab-pane active" id="upload">
+
+            <div id="uploadArea">
+                <form action="/" enctype="multipart/form-data" method="post">
+                    <div class="container">
+                        <div class="row" id="uploadRow">
+                            <div class="col-xs-12">
+                                <div class="panel panel-default">
+                                    <div class="panel-body">
+                                        <span class="glyphicon glyphicon-cloud-upload"></span>
+                                        <h2>Upload a UEFI (.rom) File</h2>
+                                        <div class="progress">
+                                            <div class="progress-bar" role="progressbar"></div>
+                                        </div>
+                                        <input class="btn btn-lg upload-btn" type="button" value="Upload File">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <input id="upload-input" type="file" name="upload" accept=".rom">
+                </form>
+
+            </div>
+ 
+<!-- ALL MODAL STUFF -->
+            <div>
+                <!-- Modal -->
+                <div class="modal fade" id="myModal" role="dialog">
+                    <div class="modal-dialog">
+                    
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h3 class="modal-title"></h3>
+                        </div>
+                        <div class="modal-body">
+                            <div id = "printUploadDiv" hidden>
+                                <table class="table" id = "uploadTable">
+                                    <thead>
+                                        <tr>
+                                            <th>Upload Name</th>
+                                            <th>Analysis Report</th>
+                                            <th>Date Uploaded</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                    
+                    </div>
+                </div>
+            </div>
+<!-- END MODAL STUFF -->
+   
+            <div class="preload" id="preloadUpload" hidden>
+                <div class="loader-frame">
+                    <div class="loader1"></div>
+                    <div class="loader2"></div>
+                    <div class="loader3"></div>
+                </div>
+                <h3>
+                    Analysing...
+                </h3>
+            </div>
+
+            <div id="errorDiv" hidden>
+                <h3 id="errorTitle"></h3>
+            </div>
+
+            <div id = "resultsDiv" hidden>
+                <br><br>
+                <div id = "resultsHeader">
+                    <div id = "resultsTitle">
+                        <h3 id="analysisTitle">Analysis Report</h3>
+                        <h4 id="checksumTitle">Checksum: </h4>
+                    </div>
+
+                    <form method="post">
+                        <div id="downloadBtnDiv">
+                            <button type="submit" id="downloadLink" class="btn btn-info btn-sm" formaction="/download">
+                                <span id="downloadSpan" class="glyphicon glyphicon-download-alt"></span>
+                                <p id="downloadText">Download</p>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                <hr>
+                <div id="fileResultsDiv">
+                    <h4></h4>
+                    <table id="resultsTable" class="table table-condensed" style="border-collapse:collapse;">
+
+                    </table>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="tab-pane" id="search">
+            <span class="glyphicon glyphicon-search"></span>
+            
+            <br><br>
+            
+            <div id="searchbar">
+                <div class="col-md-10 col-md-offset-1">
+                    <div id="custom-search-input">
+                        <div class="input-group col-md-12">
+                            <input type="text" class="form-control input-lg" placeholder="Search" id="searchText" />
+                            <div class="input-group-btn">
+                                <div class="btn-group" role="group">
+                                    <div class="dropdown dropdown-lg">
+                                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span class="caret"></span></button>
+                                        <div class="dropdown-menu dropdown-menu-right" role="menu">
+                                            <div class="form-group">
+                                                <h3>Filter by:</h3>
+                                                <hr>
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="checkbox" id="checkAll" value="all" name="searchFilter" checked>
+                                                    <label class="form-check-label" for="checkAll">All</label>
+                                                </div>
+                                                <!-- Upload -->
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="checkbox"id="checkUploadName" value="uploadName" name="searchFilter">
+                                                    <label class="form-check-label" for="checkUploadName">Upload Name</label>
+                                                        
+                                                    <input class="form-check-input" type="checkbox" id="checkUploadChecksum" value="uploadChecksum" name="searchFilter">
+                                                    <label class="form-check-label" for="checkUploadChecksum">Upload Checksum</label>
+                                                </div>
+                                                <!-- Analysis -->
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="checkbox" id="checkAnalysisName" value="analysisName" name="searchFilter">
+                                                    <label class="form-check-label" for="checkAnalysisName">Analysis Name</label>
+                                                        
+                                                    <input class="form-check-input" type="checkbox" id="checkAnalysisReport" value="analysisReport" name="searchFilter">
+                                                    <label class="form-check-label" for="checkAnalysisReport">Analysis Report</label>
+                                                </div>
+                                                <!-- Module -->
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="checkbox" id="checkModuleName" value="moduleName" name="searchFilter">
+                                                    <label class="form-check-label" for="checkModuleName">Module Name</label>
+
+                                                    <input class="form-check-input" type="checkbox" id="checkModuleGUID" value="moduleGUID" name="searchFilter">
+                                                    <label class="form-check-label" for="checkModuleGUID">Module GUID</label>
+
+                                                    <input class="form-check-input" type="checkbox" id="checkModuleMD5" value="moduleMD5" name="searchFilter">
+                                                    <label class="form-check-label" for="checkModuleMD5">Module MD5</label>
+
+                                                    <input class="form-check-input" type="checkbox" id="checkModuleSHA1" value="moduleSHA1" name="searchFilter">
+                                                    <label class="form-check-label" for="checkModuleSHA1">Module SHA1</label>
+
+                                                    <input class="form-check-input" type="checkbox" id="checkModuleSHA256" value="moduleSHA256" name="searchFilter">
+                                                    <label class="form-check-label" for="checkModuleSHA256">Module SHA256</label>
+                                                </div>
+                                            </div>
+                                        <button type="button"  id="resetBtn" class="btn btn-lg">Reset</button>
+                                            
+                                        </div>
+                                    </div>
+                                    <button type="submit"  id="searchBtn" class="btn btn-info btn-lg"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div id="disclaimer">
+                        Please do not search for ambiguous terms such as '1', 'a', as these will return a large result.
+                    </div>
+                </div>
+            </div>
+
+            <br>
+
+            <div id="preloadSearch" class="preload" hidden>
+                <div class="loader-frame">
+                    <div class="loader1"></div>
+                    <div class="loader2"></div>
+                    <div class="loader3"></div>
+                </div>
+                <h3>
+                    Searching...
+                </h3>
+            </div>
+                
+            <br><br><br><br>
+
+            <div id="searchResultsDiv" hidden>
+                <h3 id="numOfResults"></h3>
+                <table id="searchTable" class="table table-condensed">
+                    <tbody id="searchTableBody"></tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+        
+</div>
+
+<br><br>
+
+<script src="js/tab.js"></script>
+<script src="js/upload.js"></script>
+
+
+<!--
+    http://shiya.io/simple-file-upload-with-express-js-and-formidable-in-node-js/
+    https://coligo.io/building-ajax-file-uploader-with-node/ 
+    http://jsfiddle.net/whytheday/2Dj7Y/11/
+    http://jsfiddle.net/QLfMU/1564/
+    https://codepen.io/wizly/pen/BlKxo
+    https://www.bootply.com/gjjXWz6eOZ
+-->

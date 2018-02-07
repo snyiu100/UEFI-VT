@@ -1,4 +1,14 @@
 var searchStr ='';
+var filterAll = false;
+var filterUploadName = false;
+var filterUploadChecksum = false;
+var filterAnalysisName = false;
+var filterAnalysisReport = false;
+var filterModuleName = false;
+var filterModuleGUID = false;
+var filterModuleMD5 = false;
+var filterModuleSHA1 = false;
+var filterModuleSHA256 = false;
 
 $('#searchBtn').click(function(){
 
@@ -8,6 +18,41 @@ $('#searchBtn').click(function(){
     $('.pager').remove();
 
     searchStr = $('#searchText').val();
+
+    $('input[name="searchFilter"]:checked').each(function() {
+        console.log(this.value);
+    });
+
+    if ($('#checkAll').is(':checked')){
+        filterAll = true;
+    }
+    else if ($('#checkUploadName').is(':checked')){
+        filterUploadName = true;
+    }
+    else if ($('#checkUploadChecksum').is(':checked')){
+        filterUploadChecksum = true;
+    }
+    else if ($('#checkAnalysisName').is(':checked')){
+        filterAnalysisName = true;
+    }
+    else if ($('#checkAnalysisReport').is(':checked')){
+        filterAnalysisReport = true;
+    }
+    else if ($('#checkModuleName').is(':checked')){
+        filterModuleName = true;
+    }
+    else if ($('#checkModuleGUID').is(':checked')){
+        filterModuleGUID = true;
+    }
+    else if ($('#checkModuleMD5').is(':checked')){
+        filterModuleMD5 = true;
+    }
+    else if ($('#checkModuleSHA1').is(':checked')){
+        filterModuleSHA1 = true;
+    }
+    else if ($('#checkModuleSHA256').is(':checked')){
+        filterModuleSHA256 = true;
+    }
 
     //check for whitespace
     if (searchStr == ""){
@@ -24,6 +69,23 @@ $('#searchBtn').click(function(){
     }
 });
 
+$('#resetBtn').click(function(){
+    //resets checkbox status
+    $(':checkbox').each(function(i,item){ 
+        this.checked = item.defaultChecked; 
+    });
+});
+
+
+/* this $('#checkboxId').is(':checked') for verify if is checked
+
+& this  $("#checkboxId").prop('checked', true) to check
+
+& this  $("#checkboxId").prop('checked', false) to uncheck
+if ($('input.checkbox_check').prop('checked')) {
+    //blah blah
+} */
+
 $('#searchText').keypress(function(e){
     if(e.which == 13){//Enter key pressed
         $('#searchBtn').click();//Trigger search button click event
@@ -31,7 +93,18 @@ $('#searchText').keypress(function(e){
 });
 
 function getSearch(){
-    var sendData = JSON.stringify({searchStr: searchStr});
+    var sendData = JSON.stringify({searchStr: searchStr,
+                                   searchAll: filterAll,
+                                   searchUploadName: filterUploadName,
+                                   searchUploadChecksum: filterUploadChecksum,
+                                   searchAnalysisName: filterAnalysisName,
+                                   searchAnalysisReport: filterAnalysisReport,
+                                   searchModuleName: filterModuleName,
+                                   searchModuleGUID: filterModuleGUID,
+                                   searchModuleMD5: filterModuleMD5,
+                                   searchModuleSHA1: filterModuleSHA1,
+                                   searchModuleSHA256: filterModuleSHA256
+                                });
     
     $.ajax({
         url: '/search',
