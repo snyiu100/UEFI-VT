@@ -15,6 +15,7 @@ $('.upload-btn').on('click', function(){
     $("#resultsTable tr").remove();  
     $("#fileResultsDiv h4").text('');  
     $("#analysisTitle").text('Analysis Report');  
+    $("#checksumTitle").text('Checksum: ');  
     $resultsDiv.hide('slow');
     $('#errorDiv').hide('slow');
     $preload.hide('slow');
@@ -185,6 +186,7 @@ $('#upload-input').on('change', function(){
                 });
 
                 $('#analysisTitle').append(" - Analysis"+analysisID);
+                $('#checksumTitle').append("\r\n"+rows[0].uploadChecksum);
                 $('#fileResultsDiv h4').append("Total Modules: "+counter);
                 $("#upload-input").val('');  
                 

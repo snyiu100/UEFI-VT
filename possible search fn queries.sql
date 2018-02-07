@@ -34,7 +34,8 @@ analysisname like "%found%" or
 analysisreport like "%found%";
 
 select uploadname as 'Upload Name', uploaddate as 'Upload Date', 
-	analysisname as 'Analysis Name', modulename as 'Module Name', 
+	analysisname as 'Analysis Name', analysisreport as 'Analysis Report', 
+    modulename as 'Module Name', 
     moduleguid as 'Module GUID', modulemd5 as 'Module MD5', 
     modulesha1 as 'Module SHA1', modulesha256 as 'Module SHA256'
     from uefivt.module
@@ -44,7 +45,9 @@ where modulename like "%acpi%" or
 moduleguid like"%acpi%" or
 modulemd5 like "%acpi%" or
 modulesha1 like "%acpi%" or
-modulesha256 like "%acpi%";
+modulesha256 like "%acpi%" or
+uploadname like "%acpi%" or 
+analysisreport like "%acpi%";
 
 select uploadname, uploaddate, analysisname, analysisreport from analysis 
 inner join upload on uploadid = analysisuploadid where

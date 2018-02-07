@@ -105,7 +105,7 @@ app.post('/upload', function (req, res){
       if (chipsecComplete == true){
         console.log(" ** status compelte");
 
-        var sql = 'SELECT moduleName, moduleGUID, moduleMD5, moduleSHA1, moduleSHA256, moduleUploadID FROM module WHERE moduleUploadID = '+analysisID+' ORDER BY moduleName';
+        var sql = 'SELECT uploadChecksum, moduleName, moduleGUID, moduleMD5, moduleSHA1, moduleSHA256, moduleUploadID FROM module inner join upload on moduleuploadid=uploadid WHERE moduleUploadID = '+analysisID+' ORDER BY moduleName';
         console.log("** get sttnmet:"+sql);
 
         connection.query(sql , (err, rows, result)=> {
