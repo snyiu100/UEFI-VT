@@ -474,11 +474,7 @@ app.post('/search2', function (req, res){
         }
       }
 
-      console.log("===============================================");
-      console.log(newJsonObj);
-
-      res.writeHead(200, {'Content-Type': 'application/json'});
-      res.end(JSON.stringify(newJsonObj));
+      doReturn();
         
     });
   }
