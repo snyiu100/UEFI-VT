@@ -204,7 +204,7 @@ function getSearch(){
                                    searchModuleSHA256: filterModuleSHA256});
     
     $.ajax({
-        url: '/search',
+        url: '/search2',
         type: 'POST', 
         dataType: 'json',
         contentType: "application/json; charset=UTF-8",

@@ -1,10 +1,131 @@
 var searchStr ='';
+var filterAll = true;
+var filterUploadName = false;
+var filterUploadChecksum = false;
+var filterAnalysisName = false;
+var filterAnalysisReport = false;
+var filterModuleName = false;
+var filterModuleGUID = false;
+var filterModuleMD5 = false;
+var filterModuleSHA1 = false;
+var filterModuleSHA256 = false;
+
+var filterLabel = document.getElementById('filterLabel');
+
+console.log("filterAll:"+filterAll+"\r\nfilterUploadName:"+filterUploadName+"\r\nfilterUploadChecksum:"+filterUploadChecksum
+                +"\r\nfilterAnalysisName:"+filterAnalysisName+"\r\nfilterAnalysisReport:"+filterAnalysisReport
+                +"\r\nfilterModuleName:"+filterModuleName+"\r\nfilterModuleGUID:"+filterModuleGUID
+                +"\r\nfilterModuleMD5:"+filterModuleMD5+"\r\nfilterModuleSHA1:"+filterModuleSHA1+"\r\nfilterModuleSHA256:"+filterModuleSHA256);
+
+$('#checkAll').on('click', function(){
+    filterAll = true;
+    filterUploadName = false;
+    filterUploadChecksum = false;
+    filterAnalysisName = false;
+    filterAnalysisReport = false;
+    filterModuleName = false;
+    filterModuleGUID = false;
+    filterModuleMD5 = false;
+    filterModuleSHA1 = false;
+    filterModuleSHA256 = false;
+    $('#checkUploadName').prop('checked', false);
+    $('#checkUploadChecksum').prop('checked', false);
+    $('#checkAnalysisName').prop('checked', false);
+    $('#checkAnalysisReport').prop('checked', false);
+    $('#checkModuleName').prop('checked', false);
+    $('#checkModuleGUID').prop('checked', false);
+    $('#checkModuleMD5').prop('checked', false);
+    $('#checkModuleSHA1').prop('checked', false);
+    $('#checkModuleSHA256').prop('checked', false);
+});
+
+$('.filterCheck').on('click', function(){
+    if ($('#checkUploadName').is(':checked')){
+        filterUploadName = true;
+        filterAll = false;
+        $('#checkAll').prop('checked', false);
+    }
+    if ($('#checkUploadChecksum').is(':checked')){
+        filterAll = false;
+        filterUploadChecksum = true;
+        $('#checkAll').prop('checked', false);
+    }
+    if ($('#checkAnalysisName').is(':checked')){
+        filterAll = false;
+        filterAnalysisName = true;
+        $('#checkAll').prop('checked', false);
+    }
+    if ($('#checkAnalysisReport').is(':checked')){
+        filterAll = false;
+        filterAnalysisReport = true;
+        $('#checkAll').prop('checked', false);
+    }
+    if ($('#checkModuleName').is(':checked')){
+        filterAll = false;
+        filterModuleName = true;
+        $('#checkAll').prop('checked', false);
+    }
+    if ($('#checkModuleGUID').is(':checked')){
+        filterAll = false;
+        filterModuleGUID = true;
+        $('#checkAll').prop('checked', false);
+    }
+    if ($('#checkModuleMD5').is(':checked')){
+        filterAll = false;
+        filterModuleMD5 = true;
+        $('#checkAll').prop('checked', false);
+    }
+    if ($('#checkModuleSHA1').is(':checked')){
+        filterAll = false;
+        filterModuleSHA1 = true;
+        $('#checkAll').prop('checked', false);
+    }
+    if ($('#checkModuleSHA256').is(':checked')){
+        filterAll = false;
+        filterModuleSHA256 = true;
+        $('#checkAll').prop('checked', false);
+    }
+
+    if (!$('#checkUploadName').is(':checked')){
+        filterUploadName = false;
+    }
+    if (!$('#checkUploadChecksum').is(':checked')){
+        filterUploadChecksum = false;
+    }
+    if (!$('#checkAnalysisName').is(':checked')){
+        filterAnalysisName = false;
+    }
+    if (!$('#checkAnalysisReport').is(':checked')){
+        filterAnalysisReport = false;
+    }
+    if (!$('#checkModuleName').is(':checked')){
+        filterModuleName = false;
+    }
+    if (!$('#checkModuleGUID').is(':checked')){
+        filterModuleGUID = false;
+    }
+    if (!$('#checkModuleMD5').is(':checked')){
+        filterModuleMD5 = false;
+    }
+    if (!$('#checkModuleSHA1').is(':checked')){
+        filterModuleSHA1 = false;
+    }
+    if (!$('#checkModuleSHA256').is(':checked')){
+        filterModuleSHA256 = false;
+    }
+
+    console.log("filterAll:"+filterAll+"\r\nfilterUploadName:"+filterUploadName+"\r\nfilterUploadChecksum:"+filterUploadChecksum
+                +"\r\nfilterAnalysisName:"+filterAnalysisName+"\r\nfilterAnalysisReport:"+filterAnalysisReport
+                +"\r\nfilterModuleName:"+filterModuleName+"\r\nfilterModuleGUID:"+filterModuleGUID
+                +"\r\nfilterModuleMD5:"+filterModuleMD5+"\r\nfilterModuleSHA1:"+filterModuleSHA1+"\r\nfilterModuleSHA256:"+filterModuleSHA256);
+});
 
 $('#searchBtn').click(function(){
 
     $('#searchResultsDiv').hide('slow');
     $("#searchTableBody tr").remove();
     $('#numOfResults').text('');
+    $('#filterLabel').text('');
     $('.pager').remove();
 
     searchStr = $('#searchText').val();
@@ -31,10 +152,77 @@ $('#searchText').keypress(function(e){
 });
 
 function getSearch(){
-    var sendData = JSON.stringify({searchStr: searchStr});
+    $('#filterLabel').text('Filtering by: ');
+
+    if (filterAll==false && filterUploadName==false && filterUploadChecksum==false && filterAnalysisName==false
+        && filterAnalysisReport==false && filterModuleName==false && filterModuleGUID==false
+        && filterModuleMD5==false && filterModuleSHA1==false && filterModuleSHA256==false){
+            filterAll = true;
+    }
+
+    if (searchStr.length==1){
+        filterAll = false;
+        filterUploadName = false;
+        filterUploadChecksum = false;
+        filterAnalysisName = false;
+        filterAnalysisReport = false;
+        filterModuleName = true;
+        filterModuleGUID = false;
+        filterModuleMD5 = false;
+        filterModuleSHA1 = false;
+        filterModuleSHA256 = false;
+    }
+
+    if (filterAll==true){
+        filterLabel.insertAdjacentHTML('beforeend'," - All");        
+    }
+    if (filterUploadName==true){
+        filterLabel.insertAdjacentHTML('beforeend'," - Upload Name");        
+    }
+    if (filterUploadChecksum == true){
+        filterLabel.insertAdjacentHTML('beforeend'," - Upload Checksum");        
+    }
+    if (filterAnalysisName == true){
+        filterLabel.insertAdjacentHTML('beforeend'," - Analysis Name");        
+    }
+    if (filterAnalysisReport == true){
+        filterLabel.insertAdjacentHTML('beforeend'," - Analysis Report");        
+    }
+    if (filterModuleName == true){
+        if (searchStr.length==1){
+            filterLabel.insertAdjacentHTML('beforeend'," - Module Name (When search length is 1, search defaults to Module Name only)");        
+        }
+        else{
+            filterLabel.insertAdjacentHTML('beforeend'," - Module Name");        
+        }
+    }
+    if (filterModuleGUID == true){
+        filterLabel.insertAdjacentHTML('beforeend'," - Module GUID");        
+    }
+    if (filterModuleMD5 == true){
+        filterLabel.insertAdjacentHTML('beforeend'," - Module MD5");        
+    }
+    if (filterModuleSHA1 == true){
+        filterLabel.insertAdjacentHTML('beforeend'," - Module SHA1");        
+    }
+    if (filterModuleSHA256 == true){
+        filterLabel.insertAdjacentHTML('beforeend'," - Module SHA256");        
+    }
+
+    var sendData = JSON.stringify({searchStr: searchStr,
+                                   searchAll: filterAll,
+                                   searchUploadName: filterUploadName,
+                                   searchUploadChecksum: filterUploadChecksum,
+                                   searchAnalysisName: filterAnalysisName,
+                                   searchAnalysisReport: filterAnalysisReport,
+                                   searchModuleName: filterModuleName,
+                                   searchModuleGUID: filterModuleGUID,
+                                   searchModuleMD5: filterModuleMD5,
+                                   searchModuleSHA1: filterModuleSHA1,
+                                   searchModuleSHA256: filterModuleSHA256});
     
     $.ajax({
-        url: '/search',
+        url: '/search2',
         type: 'POST', 
         dataType: 'json',
         contentType: "application/json; charset=UTF-8",

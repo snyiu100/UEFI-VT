@@ -449,16 +449,18 @@ app.post('/search2', function (req, res){
   var columnCounter=0;
   var resultCounter = 0;
 
-  if(searchAll==true) {
-    sql = 'select analysisname as \'Analysis Name\', uploadname as \'Upload Name\', uploaddate as \'Upload Date\', uploadchecksum as \'Upload Checksum\' ';
-    sql += 'from upload inner join analysis on analysisuploadid=uploadid where ';
-    sql += 'uploadname like "%'+searchStr +'%" ';
-    sql += 'or uploadchecksum like "%'+searchStr +'%"';
+  if (searchStr.length==1){
+    console.log("length is one");
+
+    sql = 'select analysisname as \'Analysis Name\', uploadname as \'Upload Name\', uploaddate as \'Upload Date\', modulename as \'Module Name\', moduleguid as \'Module GUID\', modulemd5 as \'Module MD5\', modulesha1 as \'Module SHA1\', modulesha256 as \'Module SHA256\' ';
+    sql+= 'from module inner join upload on uploadid = moduleuploadid ';
+    sql+= 'inner join analysis on analysisuploadid = moduleuploadid where ';
+    sql+= 'modulename like "%'+searchStr +'%"';
 
     connection.query(sql, (err, rows, result)=> {
-      console.log(" ++ enter upload");
-      if (err) {
-        console.log(" ++ nothing in upload");
+      console.log(" ++ enter module");
+      if (err){
+        console.log(" ++ nothing in module");
       }
       else{
         console.log(" ++ stuff in upload");
@@ -472,16 +474,28 @@ app.post('/search2', function (req, res){
         }
       }
 
+      console.log("===============================================");
+      console.log(newJsonObj);
 
-      sql = 'select analysisname as \'Analysis Name\', uploadname as \'Upload Name\', uploaddate as \'Upload Date\', analysisreport as \'Analysis Report\' ';
-      sql+= 'from analysis inner join upload on uploadid = analysisuploadid where ';
-      sql+= 'analysisname like "%'+searchStr +'%" ';
-      sql+= 'or analysisreport like "%'+searchStr +'%"';
+      res.writeHead(200, {'Content-Type': 'application/json'});
+      res.end(JSON.stringify(newJsonObj));
+        
+    });
+  }
 
+  doAll();
+
+  function doAll(){
+    if(searchAll==true) {
+      sql = 'select analysisname as \'Analysis Name\', uploadname as \'Upload Name\', uploaddate as \'Upload Date\', uploadchecksum as \'Upload Checksum\' ';
+      sql += 'from upload inner join analysis on analysisuploadid=uploadid where ';
+      sql += 'uploadname like "%'+searchStr +'%" ';
+      sql += 'or uploadchecksum like "%'+searchStr +'%"';
+  
       connection.query(sql, (err, rows, result)=> {
-        console.log(" ++ enter analysis");
-        if (err){
-          console.log(" ++ nothing in analysis");
+        console.log(" ++ enter upload");
+        if (err) {
+          console.log(" ++ nothing in upload");
         }
         else{
           console.log(" ++ stuff in upload");
@@ -494,21 +508,17 @@ app.post('/search2', function (req, res){
             newJsonObj.push(item);
           }
         }
-        
-
-        sql = 'select analysisname as \'Analysis Name\', uploadname as \'Upload Name\', uploaddate as \'Upload Date\', modulename as \'Module Name\', moduleguid as \'Module GUID\', modulemd5 as \'Module MD5\', modulesha1 as \'Module SHA1\', modulesha256 as \'Module SHA256\' ';
-        sql+= 'from module inner join upload on uploadid = moduleuploadid ';
-        sql+= 'inner join analysis on analysisuploadid = moduleuploadid where ';
-        sql+= 'modulename like "%'+searchStr +'%" ';
-        sql+= 'or moduleguid like "%'+searchStr +'%" ';
-        sql+= 'or modulemd5 like "%'+searchStr +'%" ';
-        sql+= 'or modulesha1 like "%'+searchStr +'%" ';
-        sql+= 'or modulesha256 like "%'+searchStr +'%"';
-
+  
+  
+        sql = 'select analysisname as \'Analysis Name\', uploadname as \'Upload Name\', uploaddate as \'Upload Date\', analysisreport as \'Analysis Report\' ';
+        sql+= 'from analysis inner join upload on uploadid = analysisuploadid where ';
+        sql+= 'analysisname like "%'+searchStr +'%" ';
+        sql+= 'or analysisreport like "%'+searchStr +'%"';
+  
         connection.query(sql, (err, rows, result)=> {
-          console.log(" ++ enter module");
+          console.log(" ++ enter analysis");
           if (err){
-            console.log(" ++ nothing in module");
+            console.log(" ++ nothing in analysis");
           }
           else{
             console.log(" ++ stuff in upload");
@@ -521,231 +531,311 @@ app.post('/search2', function (req, res){
               newJsonObj.push(item);
             }
           }
-
           
+  
+          sql = 'select analysisname as \'Analysis Name\', uploadname as \'Upload Name\', uploaddate as \'Upload Date\', modulename as \'Module Name\', moduleguid as \'Module GUID\', modulemd5 as \'Module MD5\', modulesha1 as \'Module SHA1\', modulesha256 as \'Module SHA256\' ';
+          sql+= 'from module inner join upload on uploadid = moduleuploadid ';
+          sql+= 'inner join analysis on analysisuploadid = moduleuploadid where ';
+          sql+= 'modulename like "%'+searchStr +'%" ';
+          sql+= 'or moduleguid like "%'+searchStr +'%" ';
+          sql+= 'or modulemd5 like "%'+searchStr +'%" ';
+          sql+= 'or modulesha1 like "%'+searchStr +'%" ';
+          sql+= 'or modulesha256 like "%'+searchStr +'%"';
+  
+          connection.query(sql, (err, rows, result)=> {
+            console.log(" ++ enter module");
+            if (err){
+              console.log(" ++ nothing in module");
+            }
+            else{
+              console.log(" ++ stuff in upload");
+              for (var i=0; i<rows.length; i++){
+                tempJson = rows[i];
+                  var item ={};
+                  for (var column in tempJson) {
+                    item [column] = tempJson[column];
+                  }
+                newJsonObj.push(item);
+              }
+            }
+            
+            doUploadName();
+            
+          });
           
         });
         
       });
-      
-    });
+    }
+    else doUploadName();
   }
-  else if (searchUploadName==true){
-    sql = 'select analysisname as \'Analysis Name\', uploadname as \'Upload Name\', uploaddate as \'Upload Date\', uploadchecksum as \'Upload Checksum\' ';
-    sql += 'from upload inner join analysis on analysisuploadid=uploadid where ';
-    sql += 'uploadname like "%'+searchStr +'%" ';
 
-    connection.query(sql, (err, rows, result)=> {
-      console.log(" ++ enter uploadname");
-      if (err){
-        console.log(" ++ nothing in uploadname");
-      }
-      else{
-        console.log(" ++ stuff in uploadname");
-        for (var i=0; i<rows.length; i++){
-          tempJson = rows[i];
-            var item ={};
-            for (var column in tempJson) {
-              item [column] = tempJson[column];
-            }
-          newJsonObj.push(item);
+  function doUploadName(){
+    if (searchUploadName==true){
+      sql = 'select analysisname as \'Analysis Name\', uploadname as \'Upload Name\', uploaddate as \'Upload Date\', uploadchecksum as \'Upload Checksum\' ';
+      sql += 'from upload inner join analysis on analysisuploadid=uploadid where ';
+      sql += 'uploadname like "%'+searchStr +'%" ';
+
+      connection.query(sql, (err, rows, result)=> {
+        console.log(" ++ enter uploadname");
+        if (err){
+          console.log(" ++ nothing in uploadname");
         }
-      }
-    });
-  }
-  else if (searchUploadChecksum==true){
-    sql = 'select analysisname as \'Analysis Name\', uploadname as \'Upload Name\', uploaddate as \'Upload Date\', uploadchecksum as \'Upload Checksum\' ';
-    sql += 'from upload inner join analysis on analysisuploadid=uploadid where ';
-    sql += 'uploadchecksum like "%'+searchStr +'%" ';
-
-    connection.query(sql, (err, rows, result)=> {
-      console.log(" ++ enter uploadchecksum");
-      if (err){
-        console.log(" ++ nothing in uploadchecksum");
-      }
-      else{
-        console.log(" ++ stuff in uploadchecksum");
-        for (var i=0; i<rows.length; i++){
-          tempJson = rows[i];
-            var item ={};
-            for (var column in tempJson) {
-              item [column] = tempJson[column];
-            }
-          newJsonObj.push(item);
+        else{
+          console.log(" ++ stuff in uploadname");
+          for (var i=0; i<rows.length; i++){
+            tempJson = rows[i];
+              var item ={};
+              for (var column in tempJson) {
+                item [column] = tempJson[column];
+              }
+            newJsonObj.push(item);
+          }
         }
-      }
-    });
+        doUploadChecksum();
+      });
+    }
+    else doUploadChecksum();
   }
-  else if (searchAnalysisName==true){
-    sql = 'select analysisname as \'Analysis Name\', uploadname as \'Upload Name\', uploaddate as \'Upload Date\', analysisreport as \'Analysis Report\' ';
-    sql+= 'from analysis inner join upload on uploadid = analysisuploadid where ';
-    sql+= 'analysisname like "%'+searchStr +'%"';
 
+  function doUploadChecksum(){
+    if (searchUploadChecksum==true){
+      sql = 'select analysisname as \'Analysis Name\', uploadname as \'Upload Name\', uploaddate as \'Upload Date\', uploadchecksum as \'Upload Checksum\' ';
+      sql += 'from upload inner join analysis on analysisuploadid=uploadid where ';
+      sql += 'uploadchecksum like "%'+searchStr +'%" ';
 
-    connection.query(sql, (err, rows, result)=> {
-      console.log(" ++ enter analysisName");
-      if (err){
-        console.log(" ++ nothing in analysisName");
-      }
-      else{
-        console.log(" ++ stuff in analysisName");
-        for (var i=0; i<rows.length; i++){
-          tempJson = rows[i];
-            var item ={};
-            for (var column in tempJson) {
-              item [column] = tempJson[column];
-            }
-          newJsonObj.push(item);
+      connection.query(sql, (err, rows, result)=> {
+        console.log(" ++ enter uploadchecksum");
+        if (err){
+          console.log(" ++ nothing in uploadchecksum");
         }
-      }
-    });
-  }
-  else if (searchAnalysisReport==true){
-    sql = 'select analysisname as \'Analysis Name\', uploadname as \'Upload Name\', uploaddate as \'Upload Date\', analysisreport as \'Analysis Report\' ';
-    sql+= 'from analysis inner join upload on uploadid = analysisuploadid where ';
-    sql+= 'analysisreport like "%'+searchStr +'%"';
-
-    connection.query(sql, (err, rows, result)=> {
-      console.log(" ++ enter analysisName");
-      if (err){
-        console.log(" ++ nothing in analysisName");
-      }
-      else{
-        console.log(" ++ stuff in analysisName");
-        for (var i=0; i<rows.length; i++){
-          tempJson = rows[i];
-            var item ={};
-            for (var column in tempJson) {
-              item [column] = tempJson[column];
-            }
-          newJsonObj.push(item);
+        else{
+          console.log(" ++ stuff in uploadchecksum");
+          for (var i=0; i<rows.length; i++){
+            tempJson = rows[i];
+              var item ={};
+              for (var column in tempJson) {
+                item [column] = tempJson[column];
+              }
+            newJsonObj.push(item);
+          }
         }
-      }
-    });
+        doAnalysisName();
+      });
+    }
+    else doAnalysisName();
   }
-  else if (searchModuleName==true){
-    sql = 'select analysisname as \'Analysis Name\', uploadname as \'Upload Name\', uploaddate as \'Upload Date\', modulename as \'Module Name\', moduleguid as \'Module GUID\', modulemd5 as \'Module MD5\', modulesha1 as \'Module SHA1\', modulesha256 as \'Module SHA256\' ';
-    sql+= 'from module inner join upload on uploadid = moduleuploadid ';
-    sql+= 'inner join analysis on analysisuploadid = moduleuploadid where ';
-    sql+= 'modulename like "%'+searchStr +'%"';
 
-    connection.query(sql, (err, rows, result)=> {
-      console.log(" ++ enter analysisName");
-      if (err){
-        console.log(" ++ nothing in analysisName");
-      }
-      else{
-        console.log(" ++ stuff in analysisName");
-        for (var i=0; i<rows.length; i++){
-          tempJson = rows[i];
-            var item ={};
-            for (var column in tempJson) {
-              item [column] = tempJson[column];
-            }
-          newJsonObj.push(item);
+  function doAnalysisName(){
+    if (searchAnalysisName==true){
+      sql = 'select analysisname as \'Analysis Name\', uploadname as \'Upload Name\', uploaddate as \'Upload Date\', analysisreport as \'Analysis Report\' ';
+      sql+= 'from analysis inner join upload on uploadid = analysisuploadid where ';
+      sql+= 'analysisname like "%'+searchStr +'%"';
+
+
+      connection.query(sql, (err, rows, result)=> {
+        console.log(" ++ enter analysisName");
+        if (err){
+          console.log(" ++ nothing in analysisName");
         }
-      }
-    });
-  }
-  else if (searchModuleGUID==true){
-    sql = 'select analysisname as \'Analysis Name\', uploadname as \'Upload Name\', uploaddate as \'Upload Date\', modulename as \'Module Name\', moduleguid as \'Module GUID\', modulemd5 as \'Module MD5\', modulesha1 as \'Module SHA1\', modulesha256 as \'Module SHA256\' ';
-    sql+= 'from module inner join upload on uploadid = moduleuploadid ';
-    sql+= 'inner join analysis on analysisuploadid = moduleuploadid where ';
-    sql+= 'moduelguid like "%'+searchStr +'%"';
-
-    connection.query(sql, (err, rows, result)=> {
-      console.log(" ++ enter analysisName");
-      if (err){
-        console.log(" ++ nothing in analysisName");
-      }
-      else{
-        console.log(" ++ stuff in analysisName");
-        for (var i=0; i<rows.length; i++){
-          tempJson = rows[i];
-            var item ={};
-            for (var column in tempJson) {
-              item [column] = tempJson[column];
-            }
-          newJsonObj.push(item);
+        else{
+          console.log(" ++ stuff in analysisName");
+          for (var i=0; i<rows.length; i++){
+            tempJson = rows[i];
+              var item ={};
+              for (var column in tempJson) {
+                item [column] = tempJson[column];
+              }
+            newJsonObj.push(item);
+          }
         }
-      }
-    });
+        doAnalysisReport();
+      });
+    }
+    else doAnalysisReport();
   }
-  else if (searchModuleMD5==true){
-    sql = 'select analysisname as \'Analysis Name\', uploadname as \'Upload Name\', uploaddate as \'Upload Date\', modulename as \'Module Name\', moduleguid as \'Module GUID\', modulemd5 as \'Module MD5\', modulesha1 as \'Module SHA1\', modulesha256 as \'Module SHA256\' ';
-    sql+= 'from module inner join upload on uploadid = moduleuploadid ';
-    sql+= 'inner join analysis on analysisuploadid = moduleuploadid where ';
-    sql+= 'modulemd5 like "%'+searchStr +'%"';
 
-    connection.query(sql, (err, rows, result)=> {
-      console.log(" ++ enter analysisName");
-      if (err){
-        console.log(" ++ nothing in analysisName");
-      }
-      else{
-        console.log(" ++ stuff in analysisName");
-        for (var i=0; i<rows.length; i++){
-          tempJson = rows[i];
-            var item ={};
-            for (var column in tempJson) {
-              item [column] = tempJson[column];
-            }
-          newJsonObj.push(item);
+  function doAnalysisReport(){
+    if (searchAnalysisReport==true){
+      sql = 'select analysisname as \'Analysis Name\', uploadname as \'Upload Name\', uploaddate as \'Upload Date\', analysisreport as \'Analysis Report\' ';
+      sql+= 'from analysis inner join upload on uploadid = analysisuploadid where ';
+      sql+= 'analysisreport like "%'+searchStr +'%"';
+
+      connection.query(sql, (err, rows, result)=> {
+        console.log(" ++ enter analysisName");
+        if (err){
+          console.log(" ++ nothing in analysisName");
         }
-      }
-    });
-  }
-  else if (searchModuleSHA1==true){
-    sql = 'select analysisname as \'Analysis Name\', uploadname as \'Upload Name\', uploaddate as \'Upload Date\', modulename as \'Module Name\', moduleguid as \'Module GUID\', modulemd5 as \'Module MD5\', modulesha1 as \'Module SHA1\', modulesha256 as \'Module SHA256\' ';
-    sql+= 'from module inner join upload on uploadid = moduleuploadid ';
-    sql+= 'inner join analysis on analysisuploadid = moduleuploadid where ';
-    sql+= 'modulesha1 like "%'+searchStr +'%"';
-
-    connection.query(sql, (err, rows, result)=> {
-      console.log(" ++ enter analysisName");
-      if (err){
-        console.log(" ++ nothing in analysisName");
-      }
-      else{
-        console.log(" ++ stuff in analysisName");
-        for (var i=0; i<rows.length; i++){
-          tempJson = rows[i];
-            var item ={};
-            for (var column in tempJson) {
-              item [column] = tempJson[column];
-            }
-          newJsonObj.push(item);
+        else{
+          console.log(" ++ stuff in analysisName");
+          for (var i=0; i<rows.length; i++){
+            tempJson = rows[i];
+              var item ={};
+              for (var column in tempJson) {
+                item [column] = tempJson[column];
+              }
+            newJsonObj.push(item);
+          }
         }
-      }
-    });
+        doModuleName();
+      });
+    }
+    else doModuleName();
   }
-  else if (searchModuleSHA256==true){
-    sql = 'select analysisname as \'Analysis Name\', uploadname as \'Upload Name\', uploaddate as \'Upload Date\', modulename as \'Module Name\', moduleguid as \'Module GUID\', modulemd5 as \'Module MD5\', modulesha1 as \'Module SHA1\', modulesha256 as \'Module SHA256\' ';
-    sql+= 'from module inner join upload on uploadid = moduleuploadid ';
-    sql+= 'inner join analysis on analysisuploadid = moduleuploadid where ';
-    sql+= 'modulesha256 like "%'+searchStr +'%"';
 
-    connection.query(sql, (err, rows, result)=> {
-      console.log(" ++ enter analysisName");
-      if (err){
-        console.log(" ++ nothing in analysisName");
-      }
-      else{
-        console.log(" ++ stuff in analysisName");
-        for (var i=0; i<rows.length; i++){
-          tempJson = rows[i];
-            var item ={};
-            for (var column in tempJson) {
-              item [column] = tempJson[column];
-            }
-          newJsonObj.push(item);
+  function doModuleName(){
+    if (searchModuleName==true){
+      sql = 'select analysisname as \'Analysis Name\', uploadname as \'Upload Name\', uploaddate as \'Upload Date\', modulename as \'Module Name\', moduleguid as \'Module GUID\', modulemd5 as \'Module MD5\', modulesha1 as \'Module SHA1\', modulesha256 as \'Module SHA256\' ';
+      sql+= 'from module inner join upload on uploadid = moduleuploadid ';
+      sql+= 'inner join analysis on analysisuploadid = moduleuploadid where ';
+      sql+= 'modulename like "%'+searchStr +'%"';
+
+      connection.query(sql, (err, rows, result)=> {
+        console.log(" ++ enter analysisName");
+        if (err){
+          console.log(" ++ nothing in analysisName");
         }
-      }
-    });
+        else{
+          console.log(" ++ stuff in analysisName");
+          for (var i=0; i<rows.length; i++){
+            tempJson = rows[i];
+              var item ={};
+              for (var column in tempJson) {
+                item [column] = tempJson[column];
+              }
+            newJsonObj.push(item);
+          }
+        }
+        doModuleGUID();
+      });
+    }
+    else doModuleGUID();
   }
 
-  res.writeHead(200, {'Content-Type': 'application/json'});
-  res.end(JSON.stringify(newJsonObj));
+  function doModuleGUID(){
+    if (searchModuleGUID==true){
+      sql = 'select analysisname as \'Analysis Name\', uploadname as \'Upload Name\', uploaddate as \'Upload Date\', modulename as \'Module Name\', moduleguid as \'Module GUID\', modulemd5 as \'Module MD5\', modulesha1 as \'Module SHA1\', modulesha256 as \'Module SHA256\' ';
+      sql+= 'from module inner join upload on uploadid = moduleuploadid ';
+      sql+= 'inner join analysis on analysisuploadid = moduleuploadid where ';
+      sql+= 'moduelguid like "%'+searchStr +'%"';
+
+      connection.query(sql, (err, rows, result)=> {
+        console.log(" ++ enter analysisName");
+        if (err){
+          console.log(" ++ nothing in analysisName");
+        }
+        else{
+          console.log(" ++ stuff in analysisName");
+          for (var i=0; i<rows.length; i++){
+            tempJson = rows[i];
+              var item ={};
+              for (var column in tempJson) {
+                item [column] = tempJson[column];
+              }
+            newJsonObj.push(item);
+          }
+        }
+        doModuleMD5();
+      });
+    }
+    else doModuleMD5();
+  }
+
+  function doModuleMD5(){
+    if (searchModuleMD5==true){
+      sql = 'select analysisname as \'Analysis Name\', uploadname as \'Upload Name\', uploaddate as \'Upload Date\', modulename as \'Module Name\', moduleguid as \'Module GUID\', modulemd5 as \'Module MD5\', modulesha1 as \'Module SHA1\', modulesha256 as \'Module SHA256\' ';
+      sql+= 'from module inner join upload on uploadid = moduleuploadid ';
+      sql+= 'inner join analysis on analysisuploadid = moduleuploadid where ';
+      sql+= 'modulemd5 like "%'+searchStr +'%"';
+
+      connection.query(sql, (err, rows, result)=> {
+        console.log(" ++ enter analysisName");
+        if (err){
+          console.log(" ++ nothing in analysisName");
+        }
+        else{
+          console.log(" ++ stuff in analysisName");
+          for (var i=0; i<rows.length; i++){
+            tempJson = rows[i];
+              var item ={};
+              for (var column in tempJson) {
+                item [column] = tempJson[column];
+              }
+            newJsonObj.push(item);
+          }
+        }
+        doModuleSHA1();
+      });
+    }
+    else doModuleSHA1();
+  }
+
+  function doModuleSHA1(){
+    if (searchModuleSHA1==true){
+      sql = 'select analysisname as \'Analysis Name\', uploadname as \'Upload Name\', uploaddate as \'Upload Date\', modulename as \'Module Name\', moduleguid as \'Module GUID\', modulemd5 as \'Module MD5\', modulesha1 as \'Module SHA1\', modulesha256 as \'Module SHA256\' ';
+      sql+= 'from module inner join upload on uploadid = moduleuploadid ';
+      sql+= 'inner join analysis on analysisuploadid = moduleuploadid where ';
+      sql+= 'modulesha1 like "%'+searchStr +'%"';
+
+      connection.query(sql, (err, rows, result)=> {
+        console.log(" ++ enter analysisName");
+        if (err){
+          console.log(" ++ nothing in analysisName");
+        }
+        else{
+          console.log(" ++ stuff in analysisName");
+          for (var i=0; i<rows.length; i++){
+            tempJson = rows[i];
+              var item ={};
+              for (var column in tempJson) {
+                item [column] = tempJson[column];
+              }
+            newJsonObj.push(item);
+          }
+        }
+        doModuleSHA256();
+      });
+    }
+    else doModuleSHA256();
+  }
+  function doModuleSHA256(){
+    if (searchModuleSHA256==true){
+      sql = 'select analysisname as \'Analysis Name\', uploadname as \'Upload Name\', uploaddate as \'Upload Date\', modulename as \'Module Name\', moduleguid as \'Module GUID\', modulemd5 as \'Module MD5\', modulesha1 as \'Module SHA1\', modulesha256 as \'Module SHA256\' ';
+      sql+= 'from module inner join upload on uploadid = moduleuploadid ';
+      sql+= 'inner join analysis on analysisuploadid = moduleuploadid where ';
+      sql+= 'modulesha256 like "%'+searchStr +'%"';
+
+      connection.query(sql, (err, rows, result)=> {
+        console.log(" ++ enter analysisName");
+        if (err){
+          console.log(" ++ nothing in analysisName");
+        }
+        else{
+          console.log(" ++ stuff in analysisName");
+          for (var i=0; i<rows.length; i++){
+            tempJson = rows[i];
+              var item ={};
+              for (var column in tempJson) {
+                item [column] = tempJson[column];
+              }
+            newJsonObj.push(item);
+          }
+        }
+        doReturn();
+      });
+    }
+    else doReturn();
+  }
+
+  function doReturn(){
+    console.log("===============================================");
+          console.log(newJsonObj);
+
+          res.writeHead(200, {'Content-Type': 'application/json'});
+          res.end(JSON.stringify(newJsonObj));
+  }
+
+
 });
 
 // catch 404 and forward to error handler
