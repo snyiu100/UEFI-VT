@@ -222,7 +222,7 @@ function getSearch(){
                                    searchModuleSHA256: filterModuleSHA256});
     
     $.ajax({
-        url: '/search2',
+        url: '/search',
         type: 'POST', 
         dataType: 'json',
         contentType: "application/json; charset=UTF-8",
