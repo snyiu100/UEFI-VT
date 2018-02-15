@@ -46,6 +46,7 @@ var chipsecComplete;
 var uploadComplete;
 var moduleData;
 var checksumVal;
+var date;
 
 function checksum (str, algorithm, encoding) {
   return crypto
@@ -84,7 +85,7 @@ app.post('/upload', function (req, res){
     fileName = file.name;
     file.path = __dirname + '/public/uploads/' + fileName;
     uploadFilePath = String((file.path).replace(/\\/g, "/"));
-    console.log(" * Uploading file");
+    console.log(" ** Uploading file");
   });
 
   form.on('error', function(err) {
@@ -103,14 +104,13 @@ app.post('/upload', function (req, res){
 
     function tryChipsec(){
       if (chipsecComplete == true){
-        console.log(" ** status compelte");
+        console.log(" ** status complete");
 
         var sql = 'SELECT uploadChecksum, moduleName, moduleGUID, moduleMD5, moduleSHA1, moduleSHA256, moduleUploadID FROM module inner join upload on moduleuploadid=uploadid WHERE moduleUploadID = '+analysisID+' ORDER BY moduleName';
-        console.log("** get sttnmet:"+sql);
 
         connection.query(sql , (err, rows, result)=> {
           if (err) throw err;
-          console.log(" ** finish db call");
+          console.log(" ** finish db retrieval");
           res.writeHead(200, {'Content-Type': 'application/json'});
           res.end(JSON.stringify(rows));
         });
@@ -123,7 +123,6 @@ app.post('/upload', function (req, res){
 
       }
     }
-    console.log(" ** form end");
   });
 });
 
@@ -131,11 +130,11 @@ app.post('/upload', function (req, res){
   ===== UPLOAD PROCESS =====
 */
 function insertUploadToDB(){
-  var date = new Date();
+  date = new Date();
 
   fs.readFile(uploadFilePath, function (err, data) {
     checksumVal = checksum(data);
-    console.log("check md5: "+fileName +" ++ "+checksumVal);
+    console.log(" ** Getting checksum");
 
     if (err) console.log("encounter error");
 
@@ -143,7 +142,6 @@ function insertUploadToDB(){
       connection.query('INSERT INTO upload SET ?', insertIntoUpload, (err, res) => {
       if(err) throw err;
       analysisID = res.insertId;
-      console.log(" ** analysisID: "+analysisID);
       runChipsec();
     });
   });
@@ -155,7 +153,7 @@ function insertUploadToDB(){
 */
 //initiate chipsec process
 function runChipsec(){
-  console.log(" ** entered chipsec");
+  console.log(" ** Started chipsec");
   analysisFilePath = String((__dirname + '/public/analysis/analysis' + analysisID +'.txt').replace(/\\/g, "/"));
   uploadFilePath = String((uploadFilePath).replace(/\//g, "\\"));
   console.log(" ** filename "+analysisFilePath);
@@ -166,24 +164,27 @@ function runChipsec(){
 //parsing whitelist results
 function chipsecWhitelist(){
   var allData;
-  whitelistHeader = "******************** Retrieving module information ********************\r\n\r\n";
+
+  whitelistHeader = "Uploaded File: "+fileName;
+  whitelistHeader += "\r\nUpload Checksum: "+checksumVal;
+  whitelistHeader += "\r\nDate Uploaded: " +date;
+  whitelistHeader += "\r\n\r\n******************** Retrieving module information ********************\r\n\r\n";
+  
   cmdStatement = 'python chipsec/chipsec_main.py -i -m tools.uefi.whitelist -a generate,efilist.json,' + uploadFilePath +','+analysisID;
 
   fs.writeFile(tempPath, whitelistHeader, (err) => {
     if (err) throw err;
-    console.log(' ** white header written to temp file!');
 
     var pyProcess2 = cmd.get(cmdStatement,
       //to save whitelist cmd output to file
       function(data, err, stderr) {
-        console.log(" ** enter whitelist");
         
         //read tempWhite
         fs.readFile(tempPath, function(err,data){
           if (err) throw err;
           //data will contain file content
           allData = data;
-          console.log(" **  data retrieved");
+          console.log(" ** data retrieved");
 
           // append to analysisX
           fs.writeFile(analysisFilePath, allData, (err) => {
@@ -196,9 +197,7 @@ function chipsecWhitelist(){
           };
           connection.query('INSERT INTO analysis SET ?', insertIntoAnalysis, (err, res) => {
             if(err) throw err;
-            console.log(' ** Last analysis insert ID:', res.insertId);
             chipsecComplete = true;
-            console.log(" ** set chipseccomplete to true");
           });
         });
       }
